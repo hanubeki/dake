@@ -25,10 +25,10 @@ ret.RedirTable =
 	["HandDown"]      =                                "HandDown",  -- -3-
 	["HandLeft"]      =                                "HandLeft",  -- -3-
 	["HandRight"]     =                                "HandRight", -- -3-
-	["HandUpLeft"]    = game == "maniax" and "Ring" or "Circle",    -- -2M
-	["HandUpRight"]   = game == "maniax" and "Ring" or "Circle",    -- -2M
-	["HandLrLeft"]    = game == "maniax" and "Ring" or "Circle",    -- -2M
-	["HandLrRight"]   = game == "maniax" and "Ring" or "Circle",    -- -2M
+	["HandUpLeft"]    = game == "maniax" and "Ring" or "Circle",    -- 2-M
+	["HandUpRight"]   = game == "maniax" and "Ring" or "Circle",    -- 2-M
+	["HandLrLeft"]    = game == "maniax" and "Ring" or "Circle",    -- 2-M
+	["HandLrRight"]   = game == "maniax" and "Ring" or "Circle",    -- 2-M
 	-- kb7, beat
 	["Key1"]         = game == "kb7" and "Circle" or "Key",
 	["Key2"]         = game == "kb7" and "Circle" or "Key",
