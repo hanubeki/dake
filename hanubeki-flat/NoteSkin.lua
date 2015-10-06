@@ -5,15 +5,15 @@ local game = GAMESTATE:GetCurrentGame():GetName();
 -- [ja] 各ボタンのリダイレクトテーブル
 ret.RedirTable =
 {
-	-- Dance (incl. octo), Pump, pAra, Techno
+	-- Dance, Pump, pAra, Techno
 	["Up"]        = game == "para"   and "ParaUp"      or     "Up",     -- D-AT
 	["Down"]      =                                           "Down",   -- D--T
 	["Left"]      = game == "para"   and "ParaLeft"    or     "Left",   -- D-AT
 	["Right"]     = game == "para"   and "ParaRight"   or     "Right",  -- D-AT
 	["UpLeft"]    = game == "para"   and "ParaUpLeft"  or   "UpLeft",   -- DPAT
 	["UpRight"]   = game == "para"   and "ParaUpRight" or   "UpRight",  -- DPAT
-	["DownLeft"]  =                                       "DownLeft",   -- oP-T
-	["DownRight"] =                                       "DownRight",  -- oP-T
+	["DownLeft"]  =                                       "DownLeft",   -- -P-T
+	["DownRight"] =                                       "DownRight",  -- -P-T
 	["Center"]    = game == "techno" and "Circle"      or     "Center", -- -P-T
 	-- ez2, ds3ddx, Maniax
 	["FootDown"]      =                                    "Down",  -- 2--
@@ -567,20 +567,13 @@ local function func()
 			local rotY = TapRotateY[sButtonToLoad];
 			local rotZ = TapRotateZ[sButtonToLoad];
 
-			if stt ~= "StepsType_Dance_Octo" or (
-				sButton ~= "UpLeft" and
-				sButton ~= "UpRight" and
-				sButton ~= "DownLeft" and
-				sButton ~= "DownRight"
-			) then
-				t[#t+1] = Def.Sprite {
-					Texture=NOTESKIN:GetPath(TapRedir[sButtonToLoad], "receptor");
-					Frame0000=0;
-					Delay0000=1;
-					InitCommand=cmd(rotationy,rotY;rotationz,rotZ;effectclock,"beat";diffuseramp;effectcolor1,color(".8,.8,.8,1");effectcolor2,color("1,1,1,1");effecttiming,.2,0,.8,0;effectoffset,.05);
-					NoneCommand=NOTESKIN:GetMetricA("ReceptorArrow", "NoneCommand");
-				};
-			end;
+			t[#t+1] = Def.Sprite {
+				Texture=NOTESKIN:GetPath(TapRedir[sButtonToLoad], "receptor");
+				Frame0000=0;
+				Delay0000=1;
+				InitCommand=cmd(rotationy,rotY;rotationz,rotZ;effectclock,"beat";diffuseramp;effectcolor1,color(".8,.8,.8,1");effectcolor2,color("1,1,1,1");effecttiming,.2,0,.8,0;effectoffset,.05);
+				NoneCommand=NOTESKIN:GetMetricA("ReceptorArrow", "NoneCommand");
+			};
 
 			t[#t+1] = Def.Sprite {
 				Texture=NOTESKIN:GetPath(TapRedir[sButtonToLoad], "rflash");
