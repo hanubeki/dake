@@ -16,6 +16,13 @@ return {
 
 		"DownLeftFoot", "LeftFoot", "UpLeftFoot", "UpLeftFist", "LeftFist", "DownLeftFist", "DownRightFist", "RightFist", "UpRightFist", "UpRightFoot", "RightFoot", "DownRightFoot",
 	},
+	fallback = "",
+	player_colors = {
+		{1, 0, 0, 1},
+		{0, 0.5, 1, 1},
+		{1, 1, 0, 1},
+		{0, 1, 0, 1},
+	},
 	skin_parameters = {
 		note_type = "Normal",
 		color_type = "Quantize",
@@ -48,5 +55,4 @@ return {
 			choices = {"Quantize", "Column", "Split", "Alternate", "Symmetric"},
 		},
 	},
-	fallback = "",
 };
