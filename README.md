@@ -26,10 +26,10 @@ In routine, holds are not fully colored by player,
 ##NoteSkin Parameters##
 
 ###Color Type###
-* Quantize, Column, Split, Alternate, Symmetry
+* Quantize, Column, Split, Alternate, Symmetric
     * [en] Choose coloring method of note.
     * [ja] ノートの色付け方法を選択します。
-    * Alternate and Symmetry are same way if column number is odd.
+    * Alternate and Symmetric are same way if column number is odd.
 
 ###Note Type###
 * Normal, Bar (Narrow), Bar (Wide), Circle
@@ -46,9 +46,7 @@ In routine, holds are not fully colored by player,
 * Receptor outline does not animate
 
 Fllowing problems are not confirmed in alpha 2:
-* Mine does not spin
 * Crash while playing Springtime pump-single Expert (bundled with SM5)
-* Crash while playing stepchart with autokeysounds
 
 ##Topic at StepMania forum##
 [NoteSkin hanubeki](http://www.stepmania.com/forums/themes/show/4557)
