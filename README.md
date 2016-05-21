@@ -30,6 +30,7 @@ In routine, holds are not fully colored by player,
     * [en] Choose coloring method of note.
     * [ja] ノートの色付け方法を選択します。
     * Alternate and Symmetry are same way if column number is odd.
+
 ###Note Type###
 * Normal, Bar (Narrow), Bar (Wide), Circle
     * [en] Choose shape of note.
