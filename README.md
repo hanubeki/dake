@@ -1,10 +1,9 @@
 NoteSkin hanubeki
 =================
 
-A simple flat -- but huge -- NoteSkin for StepMania 5.0.
+A simple flat -- but huge -- NoteSkin for StepMania 5.1.
 
 ##Supported gametypes##
-
 * beat
 * dance
 * ds3ddx
@@ -15,29 +14,40 @@ A simple flat -- but huge -- NoteSkin for StepMania 5.0.
 * popn
 * pump
 * techno
-* kickbox (5.0.5 or above)
+* kickbox
 
-If used in unsupported gametype, some (or all) notes will be shown as X.
+##Limitation of this NoteSkin##
+Not supported: lights
+Not tested: popn
 
-##Types of NoteSkin##
+No routine masks (only quanta mode supported).
+In routine, holds are not fully colored by player,
 
-###hanubeki###
-Colored like 5.0 dance-default.
+##NoteSkin Parameters##
 
-###hanubeki-edit###
-Mines are colored by beat, others are same as hanubeki.
+###Color Type###
+* Quantize, Column, Split, Alternate, Symmetry
+    * [en] Choose coloring method of note.
+    * [ja] ノートの色付け方法を選択します。
+    * Alternate and Symmetry are same way if column number is odd.
+###Note Type###
+* Normal, Bar (Narrow), Bar (Wide), Circle
+    * [en] Choose shape of note.
+    * [ja] ノートの形状を選択します。
 
-###hanubeki-flat###
-Colored by column. (Always red in dance, magenta in para)
-Recommended for beat, ez2 (Real), kb7, maniax, popn, and kickbox.
+###(unimplemented) Lift Type###
+* Octagon, Arrow
+    * [en] Choose shape of lift.
+    * [ja] リフトの形状を選択します。
 
-###hanubeki-solo###
-Colored like DDR's solo/rainbow noteskin.
-This NoteSkin requires 5.0.5 or above.
+##Known problems##
+* Pressing hold head offset if Visual Delay is set
+* Receptor outline does not animate
 
-###hanubeki-routine###
-Colored by player number; intent for use in Routine mode.
-This NoteSkin requires 5.0.5 or above.
+Fllowing problems are not confirmed in alpha 2:
+* Mine does not spin
+* Crash while playing Springtime pump-single Expert (bundled with SM5)
+* Crash while playing stepchart with autokeysounds
 
 ##Topic at StepMania forum##
 [NoteSkin hanubeki](http://www.stepmania.com/forums/themes/show/4557)
