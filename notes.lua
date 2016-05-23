@@ -1,5 +1,6 @@
 local skin_name = Var("skin_name");
 return function(button_list, stepstype, skin_parameters)
+	-- Image and rotation list for Tap Note
 	local tapList = {
 		-- Dance, Pump, Techno
 		["Up"]        = {image = "down", rotZ = 180, rotY = 0},
@@ -73,6 +74,7 @@ return function(button_list, stepstype, skin_parameters)
 		end
 	});
 
+	-- Image and flip list for Hold Body
 	local holdList = {
 		-- Dance, Pump, Techno
 		["Up"]        = {image = "down", flip = "TexCoordFlipMode_Y"},
@@ -146,6 +148,7 @@ return function(button_list, stepstype, skin_parameters)
 		end
 	});
 
+	-- Image and flip list for Hold Body (reverse)
 	local reverseHoldList = {
 		-- Dance, Pump, Techno
 		["Up"]        = {image = "down", flip = "TexCoordFlipMode_None"},
@@ -219,6 +222,7 @@ return function(button_list, stepstype, skin_parameters)
 		end
 	});
 
+	-- Image and flip list for Roll Body
 	local rollList = {
 		-- Dance, Pump, Techno
 		["Up"]        = {image = "up", flip = "TexCoordFlipMode_None"},
@@ -292,6 +296,7 @@ return function(button_list, stepstype, skin_parameters)
 		end
 	});
 
+	-- Image and flip list for Roll Body (reverse)
 	local reverseRollList = {
 		-- Dance, Pump, Techno
 		["Up"]        = {image = "down", flip = "TexCoordFlipMode_None"},
@@ -365,6 +370,7 @@ return function(button_list, stepstype, skin_parameters)
 		end
 	});
 
+	-- Column width list
 	local columnWidth = {
 		-- dance: 64 per column
 		StepsType_Dance_Single = {64, 64, 64, 64},
@@ -447,6 +453,7 @@ return function(button_list, stepstype, skin_parameters)
 		end
 	});
 
+	-- Column padding list
 	local columnPadding = {
 		-- ez2: inaccurate
 		StepsType_Ez2_Real = {0, -24, 0, 0, 0, -24, 0},
@@ -455,6 +462,7 @@ return function(button_list, stepstype, skin_parameters)
 		StepsType_Kb7_Single = {0, 0, 0, 32, 0, 0, 0},
 
 		-- ds3ddx: overlap HandUp/HandDown
+		-- TODO: remove this after 5.1 alpha 3
 		StepsType_Ds3ddx_Single = {40, -40, 40, -40, -40, 40, -40, 40},
 
 		-- popn
@@ -472,8 +480,14 @@ return function(button_list, stepstype, skin_parameters)
 		end
 	});
 
+	-- Column position list (currently only for ds3ddx)
+	local columnPosition = {
+		-- ds3ddx: overlap HandUp/HandDown
+		StepsType_Ds3ddx_Single = {-126, -86, -42, 0, 0, 42, 86, 126},
+	};
+
 --[[
-Column Color List:
+Column Color Reference:
 	 1: Red
 	 3: Blue
 	 5: Green
@@ -491,6 +505,7 @@ Column Color List:
 	29: Reserved
 	31: Reserved
 ]]
+	-- Column color list for StepsTypes
 	local columnColorList = {
 		-- dance: always red
 		StepsType_Dance_Single = {1, 1, 1, 1},
@@ -573,6 +588,7 @@ Column Color List:
 		end
 	});
 
+	-- Mine zoom list for StepsTypes
 	local mineZoomList = {
 		-- beat: *0.5
 		StepsType_Beat_Single5 = 0.5,
@@ -609,6 +625,7 @@ Column Color List:
 		end
 	});
 
+	-- State for Tap Note (quantized)
 	local tapState = {
 		parts_per_beat = 48,
 		quanta = {
@@ -624,6 +641,7 @@ Column Color List:
 	};
 
 	if GAMEMAN:stepstype_is_multiplayer(stepstype) then
+		-- State for Tap Note (playerized)
 		tapState = {
 			parts_per_beat = 48,
 			quanta = {
@@ -635,10 +653,12 @@ Column Color List:
 		};
 	end
 
+	-- State for Tap Lift
 	local liftState = {
 		parts_per_beat = 1, quanta = {{per_beat = 1, states = {17}}}
 	};
 
+	-- State for single image (such as mine, octagon lift)
 	local singleState = {
 		parts_per_beat = 1, quanta = {{per_beat = 1, states = {1}}}
 	};
@@ -647,6 +667,7 @@ Column Color List:
 		parts_per_beat = 1, quanta = {{per_beat = 1, states = {1}}}
 	};
 
+	-- State for inactive Hold Body
 	local inactiveState = {
 		parts_per_beat = 1, quanta = {{per_beat = 1, states = {3}}}
 	};
@@ -664,6 +685,7 @@ Column Color List:
 		local reverseRoll = reverseRollList[button];
 		local mineZoom = mineZoomList[stepstype];
 
+		-- Use image for maniax-*
 		if stepstype == "StepsType_Maniax_Single" or stepstype == "StepsType_Maniax_Double" then
 			tap = {image = "ring", rotZ = 0, rotY = 0};
 			hold = {image = "ring", flip = "TexCoordFlipMode_None"};
@@ -672,6 +694,7 @@ Column Color List:
 			reverseRoll = {image = "ring", flip = "TexCoordFlipMode_None"};
 		end
 
+		-- Use image for kb7-single
 		if stepstype == "StepsType_Kb7_Single" then
 			tap = {image = "circle", rotZ = 0, rotY = 0};
 			hold = {image = "circle", flip = "TexCoordFlipMode_None"};
@@ -680,6 +703,7 @@ Column Color List:
 			reverseRoll = {image = "circle", flip = "TexCoordFlipMode_None"};
 		end
 
+		-- Use image for Center in techno-single5
 		if (stepstype == "StepsType_Techno_Single5" or stepstype == "StepsType_Techno_Double5") and button == "Center" then
 			tap = {image = "circle", rotZ = 0, rotY = 0};
 			hold = {image = "circle", flip = "TexCoordFlipMode_None"};
@@ -688,9 +712,11 @@ Column Color List:
 			reverseRoll = {image = "circle", flip = "TexCoordFlipMode_None"};
 		end
 
+		-- Compute column width
 		local baseWidth = (button == "Scratch" or button == "Scratch up" or button == "Scratch down") and 128 or 64;
 		local computedPadding = (columnWidth[stepstype][i] or 64) + (columnPadding[stepstype][i] or 0) - baseWidth;
 
+		-- Use image and width for note type variants
 		if noteType == "Bar32" then
 			tap = {image = "key", rotZ = 0, rotY = 0};
 			hold = {image = "key", flip = "TexCoordFlipMode_None"};
@@ -723,6 +749,7 @@ Column Color List:
 			computedPadding = -8; -- 56 per column
 		end
 
+		-- Column color
 		local columnColor = columnColorList[stepstype][i] or 1;
 
 		if colorType == "Split" then
@@ -737,6 +764,7 @@ Column Color List:
 			columnColor = math.min(i, #button_list - i + 1) % 2 == 1 and 17 or 3; -- odd or even
 		end
 
+		-- State for column color
 		local columnState = {
 			parts_per_beat = 1, quanta = {{per_beat = 1, states = {columnColor}}}
 		}
@@ -747,8 +775,11 @@ Column Color List:
 			-- XXX: "Holds in this column will be stretched to this width."
 			width = baseWidth,
 			padding = computedPadding,
+			custom_x = columnPosition[stepstype] and columnPosition[stepstype][i],
+			hold_gray_percent = 0.5,
+			use_hold_heads_for_taps_on_row = false,
 			anim_time = 1,
-			quantum_time= 1,
+			quantum_time = 1,
 			anim_uses_beats = true,
 			taps = {
 				NewSkinTapPart_Tap = {
