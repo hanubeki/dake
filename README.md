@@ -36,9 +36,9 @@ In routine, holds are not fully colored by player,
     * [en] Choose shape of note.
     * [ja] ノートの形状を選択します。
 
-###(unimplemented) Lift Type###
+###Lift Type###
 * Octagon, Arrow
-    * [en] Choose shape of lift.
+    * [en] Choose shape of lifts.
     * [ja] リフトの形状を選択します。
 
 ##Known problems##
