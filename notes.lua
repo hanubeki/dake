@@ -635,11 +635,11 @@ Column Color List:
 		};
 	end
 
-	local mineState = {
-		parts_per_beat = 1, quanta = {{per_beat = 1, states = {1}}}
+	local liftState = {
+		parts_per_beat = 1, quanta = {{per_beat = 1, states = {17}}}
 	};
 
-	local liftState = {
+	local singleState = {
 		parts_per_beat = 1, quanta = {{per_beat = 1, states = {1}}}
 	};
 
@@ -654,6 +654,7 @@ Column Color List:
 	local columns = {};
 	for i, button in ipairs(button_list) do
 		local noteType = skin_parameters and skin_parameters.note_type or "Normal";
+		local liftType = skin_parameters and skin_parameters.lift_type or "Octagon";
 		local colorType = skin_parameters and skin_parameters.color_type or "Quantize";
 
 		local tap = tapList[button];
@@ -758,7 +759,7 @@ Column Color List:
 					}
 				},
 				NewSkinTapPart_Mine = {
-					state_map = mineState,
+					state_map = singleState,
 					actor = Def.ActorFrame {
 						InitCommand = cmd(zoom,mineZoom),
 						Def.Sprite {
@@ -779,10 +780,11 @@ Column Color List:
 					}
 				},
 				NewSkinTapPart_Lift = {
-					state_map = liftState,
+					state_map = liftType == "Arrow" and liftState or singleState,
 					actor = Def.Sprite {
-						Texture = NEWSKIN:get_path(skin_name, "_fallback tap lift 2x1 (doubleres).png"),
-						InitCommand = cmd(zoom,mineZoom),
+						Texture = liftType == "Arrow" and NEWSKIN:get_path(skin_name, "_" .. tap.image .. " tap note 2x16 (doubleres).png")
+							or NEWSKIN:get_path(skin_name, "_fallback tap lift 2x1 (doubleres).png"),
+						InitCommand = liftType == "Arrow" and cmd(rotationz,tap.rotZ;rotationy,tap.rotY) or cmd(zoom,mineZoom),
 					}
 				},
 			},

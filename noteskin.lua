@@ -25,6 +25,7 @@ return {
 	},
 	skin_parameters = {
 		note_type = "Normal",
+		lift_type = "Octagon",
 		color_type = "Quantize",
 	},
 	skin_parameter_info = {
@@ -40,6 +41,19 @@ return {
 				},
 			},
 			choices = {"Normal", "Bar32", "Bar64", "Circle"},
+		},
+		lift_type = {
+			translation = {
+				en = {
+					title = "Lift Type", explanation = "Choose shape of lifts.",
+					choices = {"Octagon", "Arrow"},
+				},
+				ja = {
+					title = "リフトタイプ", explanation = "リフトの形状を選択します。",
+					choices = {"八角形", "矢印"},
+				},
+			},
+			choices = {"Octagon", "Arrow"},
 		},
 		color_type = {
 			translation = {
