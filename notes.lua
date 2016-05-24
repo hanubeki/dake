@@ -655,7 +655,7 @@ Column Color Reference:
 
 	-- State for Tap Lift
 	local liftState = {
-		parts_per_beat = 1, quanta = {{per_beat = 1, states = {17}}}
+		parts_per_beat = 1, quanta = {{per_beat = 1, states = {18}}}
 	};
 
 	-- State for single image (such as mine, octagon lift)

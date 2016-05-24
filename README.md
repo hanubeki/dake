@@ -40,7 +40,7 @@ In routine, holds are not fully colored by player,
 * Octagon, Arrow
     * [en] Choose shape of lifts.
     * [ja] リフトの形状を選択します。
-    * Using "Arrow" with Split/Alternate/Symmetric colouring is not recommended.
+    * Using "Arrow" with Split/Alternate/Symmetric coloring is not recommended.
 
 ##Known problems##
 * Pressing hold head offset if Visual Delay is set
