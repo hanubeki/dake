@@ -11,7 +11,7 @@ return {
 
 		"ParaLeft", "ParaUpLeft", "ParaUp", "ParaUpRight", "ParaRight",
 
-		"Scratch", "Scratch up", "Scratch down", "Key1", "Key2", "Key3", "Key4", "Key5", "Key6", "Key7",
+		"scratch", "Key1", "Key2", "Key3", "Key4", "Key5", "Key6", "Key7",
 		"Left White", "Left Yellow", "Left Green", "Left Blue", "Red", "Right Blue", "Right Green", "Right Yellow", "Right White",
 
 		"DownLeftFoot", "LeftFoot", "UpLeftFoot", "UpLeftFist", "LeftFist", "DownLeftFist", "DownRightFist", "RightFist", "UpRightFist", "UpRightFoot", "RightFoot", "DownRightFoot",

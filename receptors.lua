@@ -2,102 +2,483 @@ local skin_name = Var("skin_name");
 return function(button_list, stepstype, skin_parameters)
 	local ret = {};
 
-	local tapList = {
-		-- Dance, Pump, Techno
-		["Up"]        = {image = "down", rotZ = 180, rotY = 0},
-		["Down"]      = {image = "down", rotZ = 0, rotY = 0},
-		["Left"]      = {image = "down", rotZ = 90, rotY = 0},
-		["Right"]     = {image = "down", rotZ = 270, rotY = 0},
-		["UpLeft"]    = {image = "upleft", rotZ = 0, rotY = 0},
-		["UpRight"]   = {image = "upleft", rotZ = 90, rotY = 0},
-		["DownLeft"]  = {image = "upleft", rotZ = 270, rotY = 0},
-		["DownRight"] = {image = "upleft", rotZ = 180, rotY = 0},
-		["Center"]    = {image = "center", rotZ = 0, rotY = 0},
+	-- Image and rotation/flip table for buttons and note type
+	local buttonInfoTable = {
+		-- dance, pump, techno
+		["Up"]        = {
+			tap         = {image = "down", rotZ = 180, rotY = 0},
+			hold        = {image = "down", flip = "TexCoordFlipMode_Y"},
+			holdReverse = {image = "down", flip = "TexCoordFlipMode_None"},
+			roll        = {image = "up", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "down", flip = "TexCoordFlipMode_None"},
+		},
+		["Down"]      = {
+			tap         = {image = "down", rotZ = 0, rotY = 0},
+			hold        = {image = "down", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "down", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "down", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "up", flip = "TexCoordFlipMode_None"},
+		},
+		["Left"]      = {
+			tap         = {image = "down", rotZ = 90, rotY = 0},
+			hold        = {image = "left", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "left", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "left", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "left", flip = "TexCoordFlipMode_None"},
+		},
+		["Right"]     = {
+			tap         = {image = "down", rotZ = 270, rotY = 0},
+			hold        = {image = "left", flip = "TexCoordFlipMode_X"},
+			holdReverse = {image = "left", flip = "TexCoordFlipMode_XY"},
+			roll        = {image = "left", flip = "TexCoordFlipMode_X"},
+			rollReverse = {image = "left", flip = "TexCoordFlipMode_X"},
+		},
+		["UpLeft"]    = {
+			tap         = {image = "upleft", rotZ = 0, rotY = 0},
+			hold        = {image = "upleft", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "upleft", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "upleft", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "downleft", flip = "TexCoordFlipMode_None"},
+		},
+		["UpRight"]   = {
+			tap         = {image = "upleft", rotZ = 90, rotY = 0},
+			hold        = {image = "upleft", flip = "TexCoordFlipMode_X"},
+			holdReverse = {image = "upleft", flip = "TexCoordFlipMode_XY"},
+			roll        = {image = "upleft", flip = "TexCoordFlipMode_X"},
+			rollReverse = {image = "downleft", flip = "TexCoordFlipMode_X"},
+		},
+		["DownLeft"]  = {
+			tap         = {image = "upleft", rotZ = 270, rotY = 0},
+			hold        = {image = "upleft", flip = "TexCoordFlipMode_Y"},
+			holdReverse = {image = "upleft", flip = "TexCoordFlipMode_None"},
+			roll        = {image = "downleft", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "upleft", flip = "TexCoordFlipMode_None"},
+		},
+		["DownRight"] = {
+			tap         = {image = "upleft", rotZ = 180, rotY = 0},
+			hold        = {image = "upleft", flip = "TexCoordFlipMode_XY"},
+			holdReverse = {image = "upleft", flip = "TexCoordFlipMode_X"},
+			roll        = {image = "downleft", flip = "TexCoordFlipMode_X"},
+			rollReverse = {image = "upleft", flip = "TexCoordFlipMode_X"},
+		},
+		["Center"]    = {
+			tap         = {image = "center", rotZ = 0, rotY = 0},
+			hold        = {image = "center", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "center", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "center", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "center", flip = "TexCoordFlipMode_None"},
+		},
 		-- Para
-		["ParaUp"]      = {image = "paraup", rotZ = 0, rotY = 0},
-		["ParaLeft"]    = {image = "paraup", rotZ = 270, rotY = 0},
-		["ParaRight"]   = {image = "paraup", rotZ = 90, rotY = 0},
-		["ParaUpLeft"]  = {image = "paraupleft", rotZ = 0, rotY = 0},
-		["ParaUpRight"] = {image = "paraupleft", rotZ = 90, rotY = 0},
+		["ParaUp"]      = {
+			tap         = {image = "paraup", rotZ = 0, rotY = 0},
+			hold        = {image = "paraup", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "paraup", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "paraup", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "paradown", flip = "TexCoordFlipMode_None"},
+		},
+		["ParaLeft"]    = {
+			tap         = {image = "paraup", rotZ = 270, rotY = 0},
+			hold        = {image = "paraleft", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "paraleft", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "paraleft", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "paraleft", flip = "TexCoordFlipMode_None"},
+		},
+		["ParaRight"]   = {
+			tap         = {image = "paraup", rotZ = 90, rotY = 0},
+			hold        = {image = "paraleft", flip = "TexCoordFlipMode_X"},
+			holdReverse = {image = "paraleft", flip = "TexCoordFlipMode_XY"},
+			roll        = {image = "paraleft", flip = "TexCoordFlipMode_X"},
+			rollReverse = {image = "paraleft", flip = "TexCoordFlipMode_X"},
+		},
+		["ParaUpLeft"]  = {
+			tap         = {image = "paraupleft", rotZ = 0, rotY = 0},
+			hold        = {image = "paraupleft", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "paraupleft", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "paraupleft", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "paradownleft", flip = "TexCoordFlipMode_None"},
+		},
+		["ParaUpRight"] = {
+			tap         = {image = "paraupleft", rotZ = 90, rotY = 0},
+			hold        = {image = "paraupleft", flip = "TexCoordFlipMode_X"},
+			holdReverse = {image = "paraupleft", flip = "TexCoordFlipMode_XY"},
+			roll        = {image = "paraupleft", flip = "TexCoordFlipMode_X"},
+			rollReverse = {image = "paradownleft", flip = "TexCoordFlipMode_X"},
+		},
 		-- ez2, ds3ddx
-		["FootDown"]      = {image = "down", rotZ = 0, rotY = 0},
-		["FootUpLeft"]    = {image = "upleft", rotZ = 0, rotY = 0},
-		["FootUpRight"]   = {image = "upleft", rotZ = 90, rotY = 0},
-		["FootDownLeft"]  = {image = "upleft", rotZ = 270, rotY = 0},
-		["FootDownRight"] = {image = "upleft", rotZ = 180, rotY = 0},
-		["HandUp"]        = {image = "handdown", rotZ = 180, rotY = 0},
-		["HandDown"]      = {image = "handdown", rotZ = 0, rotY = 0},
-		["HandLeft"]      = {image = "handleft", rotZ = 0, rotY = 0},
-		["HandRight"]     = {image = "handleft", rotZ = 180, rotY = 0},
-		["HandUpLeft"]    = {image = "circle", rotZ = 0, rotY = 0},
-		["HandUpRight"]   = {image = "circle", rotZ = 0, rotY = 0},
-		["HandLrLeft"]    = {image = "circle", rotZ = 0, rotY = 0},
-		["HandLrRight"]   = {image = "circle", rotZ = 0, rotY = 0},
+		["FootDown"]      = {
+			tap         = {image = "down", rotZ = 0, rotY = 0},
+			hold        = {image = "down", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "down", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "down", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "up", flip = "TexCoordFlipMode_None"},
+		},
+		["FootUpLeft"]    = {
+			tap         = {image = "upleft", rotZ = 0, rotY = 0},
+			hold        = {image = "upleft", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "upleft", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "upleft", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "downleft", flip = "TexCoordFlipMode_None"},
+		},
+		["FootUpRight"]   = {
+			tap         = {image = "upleft", rotZ = 90, rotY = 0},
+			hold        = {image = "upleft", flip = "TexCoordFlipMode_X"},
+			holdReverse = {image = "upleft", flip = "TexCoordFlipMode_XY"},
+			roll        = {image = "upleft", flip = "TexCoordFlipMode_X"},
+			rollReverse = {image = "downleft", flip = "TexCoordFlipMode_X"},
+		},
+		["FootDownLeft"]  = {
+			tap         = {image = "upleft", rotZ = 270, rotY = 0},
+			hold        = {image = "upleft", flip = "TexCoordFlipMode_Y"},
+			holdReverse = {image = "upleft", flip = "TexCoordFlipMode_None"},
+			roll        = {image = "downleft", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "upleft", flip = "TexCoordFlipMode_None"},
+		},
+		["FootDownRight"] = {
+			tap         = {image = "upleft", rotZ = 180, rotY = 0},
+			hold        = {image = "upleft", flip = "TexCoordFlipMode_XY"},
+			holdReverse = {image = "upleft", flip = "TexCoordFlipMode_X"},
+			roll        = {image = "downleft", flip = "TexCoordFlipMode_X"},
+			rollReverse = {image = "upleft", flip = "TexCoordFlipMode_X"},
+		},
+		["HandUp"]        = {
+			tap         = {image = "handdown", rotZ = 180, rotY = 0},
+			hold        = {image = "handdown", flip = "TexCoordFlipMode_Y"},
+			holdReverse = {image = "handdown", flip = "TexCoordFlipMode_None"},
+			roll        = {image = "handup", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "handdown", flip = "TexCoordFlipMode_None"},
+		},
+		["HandDown"]      = {
+			tap         = {image = "handdown", rotZ = 0, rotY = 0},
+			hold        = {image = "handdown", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "handdown", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "handdown", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "handup", flip = "TexCoordFlipMode_None"},
+		},
+		["HandLeft"]      = {
+			tap         = {image = "handleft", rotZ = 0, rotY = 0},
+			hold        = {image = "handleft", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "handleft", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "handleft", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "handleft", flip = "TexCoordFlipMode_None"},
+		},
+		["HandRight"]     = {
+			tap         = {image = "handleft", rotZ = 180, rotY = 0},
+			hold        = {image = "handleft", flip = "TexCoordFlipMode_X"},
+			holdReverse = {image = "handleft", flip = "TexCoordFlipMode_XY"},
+			roll        = {image = "handleft", flip = "TexCoordFlipMode_X"},
+			rollReverse = {image = "handleft", flip = "TexCoordFlipMode_X"},
+		},
+		["HandUpLeft"]    = {
+			tap         = {image = "circle", rotZ = 0, rotY = 0},
+			hold        = {image = "circle", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "circle", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "circle", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "circle", flip = "TexCoordFlipMode_None"},
+		},
+		["HandUpRight"]   = {
+			tap         = {image = "circle", rotZ = 0, rotY = 0},
+			hold        = {image = "circle", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "circle", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "circle", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "circle", flip = "TexCoordFlipMode_None"},
+		},
+		["HandLrLeft"]    = {
+			tap         = {image = "circle", rotZ = 0, rotY = 0},
+			hold        = {image = "circle", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "circle", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "circle", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "circle", flip = "TexCoordFlipMode_None"},
+		},
+		["HandLrRight"]   = {
+			tap         = {image = "circle", rotZ = 0, rotY = 0},
+			hold        = {image = "circle", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "circle", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "circle", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "circle", flip = "TexCoordFlipMode_None"},
+		},
 		-- kb7, beat
-		["Key1"]         = {image = "key", rotZ = 0, rotY = 0},
-		["Key2"]         = {image = "key", rotZ = 0, rotY = 0},
-		["Key3"]         = {image = "key", rotZ = 0, rotY = 0},
-		["Key4"]         = {image = "key", rotZ = 0, rotY = 0},
-		["Key5"]         = {image = "key", rotZ = 0, rotY = 0},
-		["Key6"]         = {image = "key", rotZ = 0, rotY = 0},
-		["Key7"]         = {image = "key", rotZ = 0, rotY = 0},
-		["Scratch"]      = {image = "scratch", rotZ = 0, rotY = 0},
-		["Scratch up"]   = {image = "scratch", rotZ = 0, rotY = 0},
-		["Scratch down"] = {image = "scratch", rotZ = 0, rotY = 0},
+		["Key1"]         = {
+			tap         = {image = "key", rotZ = 0, rotY = 0},
+			hold        = {image = "key", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "key", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "key", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "key", flip = "TexCoordFlipMode_None"},
+		},
+		["Key2"]         = {
+			tap         = {image = "key", rotZ = 0, rotY = 0},
+			hold        = {image = "key", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "key", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "key", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "key", flip = "TexCoordFlipMode_None"},
+		},
+		["Key3"]         = {
+			tap         = {image = "key", rotZ = 0, rotY = 0},
+			hold        = {image = "key", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "key", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "key", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "key", flip = "TexCoordFlipMode_None"},
+		},
+		["Key4"]         = {
+			tap         = {image = "key", rotZ = 0, rotY = 0},
+			hold        = {image = "key", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "key", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "key", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "key", flip = "TexCoordFlipMode_None"},
+		},
+		["Key5"]         = {
+			tap         = {image = "key", rotZ = 0, rotY = 0},
+			hold        = {image = "key", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "key", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "key", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "key", flip = "TexCoordFlipMode_None"},
+		},
+		["Key6"]         = {
+			tap         = {image = "key", rotZ = 0, rotY = 0},
+			hold        = {image = "key", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "key", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "key", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "key", flip = "TexCoordFlipMode_None"},
+		},
+		["Key7"]         = {
+			tap         = {image = "key", rotZ = 0, rotY = 0},
+			hold        = {image = "key", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "key", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "key", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "key", flip = "TexCoordFlipMode_None"},
+		},
+		["scratch"]      = {
+			tap         = {image = "scratch", rotZ = 0, rotY = 0},
+			hold        = {image = "scratch", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "scratch", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "scratch", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "scratch", flip = "TexCoordFlipMode_None"},
+		},
 		-- popn
-		["Left White"]   = {image = "burger", rotZ = 0, rotY = 0},
-		["Left Yellow"]  = {image = "burger", rotZ = 0, rotY = 0},
-		["Left Green"]   = {image = "burger", rotZ = 0, rotY = 0},
-		["Left Blue"]    = {image = "burger", rotZ = 0, rotY = 0},
-		["Red"]          = {image = "burger", rotZ = 0, rotY = 0},
-		["Right Blue"]   = {image = "burger", rotZ = 0, rotY = 0},
-		["Right Green"]  = {image = "burger", rotZ = 0, rotY = 0},
-		["Right Yellow"] = {image = "burger", rotZ = 0, rotY = 0},
-		["Right White"]  = {image = "burger", rotZ = 0, rotY = 0},
+		["Left White"]   = {
+			tap         = {image = "burger", rotZ = 0, rotY = 0},
+			hold        = {image = "burger", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "burger", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "burger", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "burger", flip = "TexCoordFlipMode_None"},
+		},
+		["Left Yellow"]  = {
+			tap         = {image = "burger", rotZ = 0, rotY = 0},
+			hold        = {image = "burger", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "burger", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "burger", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "burger", flip = "TexCoordFlipMode_None"},
+		},
+		["Left Green"]   = {
+			tap         = {image = "burger", rotZ = 0, rotY = 0},
+			hold        = {image = "burger", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "burger", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "burger", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "burger", flip = "TexCoordFlipMode_None"},
+		},
+		["Left Blue"]    = {
+			tap         = {image = "burger", rotZ = 0, rotY = 0},
+			hold        = {image = "burger", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "burger", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "burger", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "burger", flip = "TexCoordFlipMode_None"},
+		},
+		["Red"]          = {
+			tap         = {image = "burger", rotZ = 0, rotY = 0},
+			hold        = {image = "burger", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "burger", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "burger", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "burger", flip = "TexCoordFlipMode_None"},
+		},
+		["Right Blue"]   = {
+			tap         = {image = "burger", rotZ = 0, rotY = 0},
+			hold        = {image = "burger", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "burger", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "burger", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "burger", flip = "TexCoordFlipMode_None"},
+		},
+		["Right Green"]  = {
+			tap         = {image = "burger", rotZ = 0, rotY = 0},
+			hold        = {image = "burger", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "burger", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "burger", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "burger", flip = "TexCoordFlipMode_None"},
+		},
+		["Right Yellow"] = {
+			tap         = {image = "burger", rotZ = 0, rotY = 0},
+			hold        = {image = "burger", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "burger", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "burger", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "burger", flip = "TexCoordFlipMode_None"},
+		},
+		["Right White"]  = {
+			tap         = {image = "burger", flip = "TexCoordFlipMode_None"},
+			hold        = {image = "burger", rotZ = 0, rotY = 0},
+			holdReverse = {image = "burger", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "burger", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "burger", flip = "TexCoordFlipMode_None"},
+		},
 		-- kickbox
-		["DownLeftFoot"]  = {image = "rightfoot", rotZ = 0, rotY = 180}, -- Down: blue
-		["LeftFoot"]      = {image = "rightfoot", rotZ = 0, rotY = 180}, -- Any:  yellow
-		["UpLeftFoot"]    = {image = "rightfoot", rotZ = 0, rotY = 180}, -- Up:   red
-		["UpLeftFist"]    = {image = "rightfist", rotZ = 0, rotY = 180},
-		["LeftFist"]      = {image = "rightfist", rotZ = 0, rotY = 180},
-		["DownLeftFist"]  = {image = "rightfist", rotZ = 0, rotY = 180},
-		["DownRightFist"] = {image = "rightfist", rotZ = 0, rotY = 0},
-		["RightFist"]     = {image = "rightfist", rotZ = 0, rotY = 0},
-		["UpRightFist"]   = {image = "rightfist", rotZ = 0, rotY = 0},
-		["UpRightFoot"]   = {image = "rightfoot", rotZ = 0, rotY = 0},
-		["RightFoot"]     = {image = "rightfoot", rotZ = 0, rotY = 0},
-		["DownRightFoot"] = {image = "rightfoot", rotZ = 0, rotY = 0},
+		["DownLeftFoot"]  = { -- Down: blue
+			tap         = {image = "rightfoot", rotZ = 0, rotY = 180}, -- Down: blue
+			hold        = {image = "rightfoot", flip = "TexCoordFlipMode_X"},
+			holdReverse = {image = "rightfoot", flip = "TexCoordFlipMode_XY"},
+			roll        = {image = "rightfoot", flip = "TexCoordFlipMode_X"},
+			rollReverse = {image = "reverserightfoot", flip = "TexCoordFlipMode_X"},
+		},
+		["LeftFoot"]      = { -- Any:  yellow
+			tap         = {image = "rightfoot", rotZ = 0, rotY = 180}, -- Any:  yellow
+			hold        = {image = "rightfoot", flip = "TexCoordFlipMode_X"},
+			holdReverse = {image = "rightfoot", flip = "TexCoordFlipMode_XY"},
+			roll        = {image = "rightfoot", flip = "TexCoordFlipMode_X"},
+			rollReverse = {image = "reverserightfoot", flip = "TexCoordFlipMode_X"},
+		},
+		["UpLeftFoot"]    = { -- Up:   red
+			tap         = {image = "rightfoot", rotZ = 0, rotY = 180}, -- Up:   red
+			hold        = {image = "rightfoot", flip = "TexCoordFlipMode_X"},
+			holdReverse = {image = "rightfoot", flip = "TexCoordFlipMode_XY"},
+			roll        = {image = "rightfoot", flip = "TexCoordFlipMode_X"},
+			rollReverse = {image = "reverserightfoot", flip = "TexCoordFlipMode_X"},
+		},
+		["UpLeftFist"]    = {
+			tap         = {image = "rightfist", rotZ = 0, rotY = 180},
+			hold        = {image = "rightfist", flip = "TexCoordFlipMode_X"},
+			holdReverse = {image = "rightfist", flip = "TexCoordFlipMode_XY"},
+			roll        = {image = "rightfist", flip = "TexCoordFlipMode_X"},
+			rollReverse = {image = "reverserightfist", flip = "TexCoordFlipMode_X"},
+		},
+		["LeftFist"]      = {
+			tap         = {image = "rightfist", rotZ = 0, rotY = 180},
+			hold        = {image = "rightfist", flip = "TexCoordFlipMode_X"},
+			holdReverse = {image = "rightfist", flip = "TexCoordFlipMode_XY"},
+			roll        = {image = "rightfist", flip = "TexCoordFlipMode_X"},
+			rollReverse = {image = "reverserightfist", flip = "TexCoordFlipMode_X"},
+		},
+		["DownLeftFist"]  = {
+			tap         = {image = "rightfist", rotZ = 0, rotY = 180},
+			hold        = {image = "rightfist", flip = "TexCoordFlipMode_X"},
+			holdReverse = {image = "rightfist", flip = "TexCoordFlipMode_XY"},
+			roll        = {image = "rightfist", flip = "TexCoordFlipMode_X"},
+			rollReverse = {image = "reverserightfist", flip = "TexCoordFlipMode_X"},
+		},
+		["DownRightFist"] = {
+			tap         = {image = "rightfist", rotZ = 0, rotY = 0},
+			hold        = {image = "rightfist", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "rightfist", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "rightfist", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "reverserightfist", flip = "TexCoordFlipMode_None"},
+		},
+		["RightFist"]     = {
+			tap         = {image = "rightfist", rotZ = 0, rotY = 0},
+			hold        = {image = "rightfist", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "rightfist", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "rightfist", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "reverserightfist", flip = "TexCoordFlipMode_None"},
+		},
+		["UpRightFist"]   = {
+			tap         = {image = "rightfist", rotZ = 0, rotY = 0},
+			hold        = {image = "rightfist", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "rightfist", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "rightfist", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "reverserightfist", flip = "TexCoordFlipMode_None"},
+		},
+		["UpRightFoot"]   = {
+			tap         = {image = "rightfoot", rotZ = 0, rotY = 0},
+			hold        = {image = "rightfoot", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "rightfoot", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "rightfoot", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "reverserightfoot", flip = "TexCoordFlipMode_None"},
+		},
+		["RightFoot"]     = {
+			tap         = {image = "rightfoot", rotZ = 0, rotY = 0},
+			hold        = {image = "rightfoot", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "rightfoot", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "rightfoot", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "reverserightfoot", flip = "TexCoordFlipMode_None"},
+		},
+		["DownRightFoot"] = {
+			tap         = {image = "rightfoot", rotZ = 0, rotY = 0},
+			hold        = {image = "rightfoot", flip = "TexCoordFlipMode_None"},
+			holdReverse = {image = "rightfoot", flip = "TexCoordFlipMode_Y"},
+			roll        = {image = "rightfoot", flip = "TexCoordFlipMode_None"},
+			rollReverse = {image = "reverserightfoot", flip = "TexCoordFlipMode_None"},
+		},
 	};
 
-	setmetatable(tapList, {
+	setmetatable(buttonInfoTable, {
 		__index = function(table, key, value)
-			return {image = "fallback", rotZ = 0, rotY = 0};
-		end;
+			return {
+				tap         = {image = "fallback", rotZ = 0, rotY = 0},
+				hold        = {image = "fallback", flip = "TexCoordFlipMode_None"},
+				holdReverse = {image = "fallback", flip = "TexCoordFlipMode_Y"},
+				roll        = {image = "fallback", flip = "TexCoordFlipMode_None"},
+				rollReverse = {image = "fallback", flip = "TexCoordFlipMode_None"},
+			};
+		end
 	});
 
 	for i, button in ipairs(button_list) do
 		local noteType = skin_parameters and skin_parameters.note_type or "Normal";
 
-		local tap = tapList[button];
+		local buttonInfo = buttonInfoTable[button];
 
+		-- Button info for maniax-*
 		if stepstype == "StepsType_Maniax_Single" or stepstype == "StepsType_Maniax_Double" then
-			tap = {image = "ring", rotZ = 0, rotY = 0};
-		end;
+			buttonInfo = {
+				tap         = {image = "ring", rotZ = 0, rotY = 0},
+				hold        = {image = "ring", flip = "TexCoordFlipMode_None"},
+				holdReverse = {image = "ring", flip = "TexCoordFlipMode_Y"},
+				roll        = {image = "ring", flip = "TexCoordFlipMode_None"},
+				rollReverse = {image = "ring", flip = "TexCoordFlipMode_None"},
+			};
+		end
 
+		-- Button info for kb7-single
 		if stepstype == "StepsType_Kb7_Single" then
-			tap = {image = "circle", rotZ = 0, rotY = 0};
-		end;
+			buttonInfo = {
+				tap         = {image = "circle", rotZ = 0, rotY = 0},
+				hold        = {image = "circle", flip = "TexCoordFlipMode_None"},
+				holdReverse = {image = "circle", flip = "TexCoordFlipMode_Y"},
+				roll        = {image = "circle", flip = "TexCoordFlipMode_None"},
+				rollReverse = {image = "circle", flip = "TexCoordFlipMode_None"},
+			};
+		end
 
+		-- Button info for Center in techno-single5
 		if (stepstype == "StepsType_Techno_Single5" or stepstype == "StepsType_Techno_Double5") and button == "Center" then
-			tap = {image = "circle", rotZ = 0, rotY = 0};
-		end;
+			buttonInfo = {
+				tap         = {image = "circle", rotZ = 0, rotY = 0},
+				hold        = {image = "circle", flip = "TexCoordFlipMode_None"},
+				holdReverse = {image = "circle", flip = "TexCoordFlipMode_Y"},
+				roll        = {image = "circle", flip = "TexCoordFlipMode_None"},
+				rollReverse = {image = "circle", flip = "TexCoordFlipMode_None"},
+			};
+		end
 
+		-- Button info for note type variants
 		if noteType == "Bar32" then
-			tap = {image = "key", rotZ = 0, rotY = 0};
+			buttonInfo = {
+				tap         = {image = "key", rotZ = 0, rotY = 0},
+				hold        = {image = "key", flip = "TexCoordFlipMode_None"},
+				holdReverse = {image = "key", flip = "TexCoordFlipMode_Y"},
+				roll        = {image = "key", flip = "TexCoordFlipMode_None"},
+				rollReverse = {image = "key", flip = "TexCoordFlipMode_None"},
+			};
 		elseif noteType == "Bar64" then
-			tap = {image = "scratch", rotZ = 0, rotY = 0};
+			buttonInfo = {
+				tap         = {image = "scratch", rotZ = 0, rotY = 0},
+				hold        = {image = "scratch", flip = "TexCoordFlipMode_None"},
+				holdReverse = {image = "scratch", flip = "TexCoordFlipMode_Y"},
+				roll        = {image = "scratch", flip = "TexCoordFlipMode_None"},
+				rollReverse = {image = "scratch", flip = "TexCoordFlipMode_None"},
+			};
 		elseif noteType == "Circle" then
-			tap = {image = "circle", rotZ = 0, rotY = 0};
+			buttonInfo = {
+				tap         = {image = "circle", rotZ = 0, rotY = 0},
+				hold        = {image = "circle", flip = "TexCoordFlipMode_None"},
+				holdReverse = {image = "circle", flip = "TexCoordFlipMode_Y"},
+				roll        = {image = "circle", flip = "TexCoordFlipMode_None"},
+				rollReverse = {image = "circle", flip = "TexCoordFlipMode_None"},
+			};
 		end
 
 		ret[i]= Def.ActorFrame {
@@ -108,13 +489,13 @@ return function(button_list, stepstype, skin_parameters)
 				param.column:set_layer_fade_type(self, "FieldLayerFadeType_Receptor")
 			end,
 			Def.Sprite {
-				Texture = NEWSKIN:get_path(skin_name, "_" .. tap.image .. " receptor (doubleres).png");
-				InitCommand = cmd(rotationy,tap.rotY;rotationz,tap.rotZ;effectclock,"beat";diffuseramp;effectcolor1,color(".8,.8,.8,1");effectcolor2,color("1,1,1,1");effecttiming,.2,0,.8,0;effectoffset,.05);
+				Texture = NEWSKIN:get_path(skin_name, "_" .. buttonInfo.tap.image .. " receptor (doubleres).png");
+				InitCommand = cmd(rotationy,buttonInfo.tap.rotY;rotationz,buttonInfo.tap.rotZ;effectclock,"beat";diffuseramp;effectcolor1,color(".8,.8,.8,1");effectcolor2,color("1,1,1,1");effecttiming,.2,0,.8,0;effectoffset,.05);
 				NoneCommand = cmd(finishtweening;zoom,.85;diffusealpha,.9;linear,.11;diffusealpha,1;zoom,1);
 			},
 			Def.Sprite {
-				Texture=NEWSKIN:get_path(skin_name, "_" .. tap.image .. " rflash (doubleres).png");
-				InitCommand = cmd(rotationz,tap.rotZ;rotationy,tap.rotY;diffusealpha,0);
+				Texture=NEWSKIN:get_path(skin_name, "_" .. buttonInfo.tap.image .. " rflash (doubleres).png");
+				InitCommand = cmd(rotationz,buttonInfo.tap.rotZ;rotationy,buttonInfo.tap.rotY;diffusealpha,0);
 				-- TODO: rewrite to use BeatUpdateCommand (param.pressed, param.lifted)
 				BeatUpdateCommand = function(self, param)
 					if param.pressed then
