@@ -1,3 +1,13 @@
+--[[
+	この作品はクリエイティブ・コモンズ・表示 - 継承 4.0 国際・ライセンスで
+	提供されています。このライセンスのコピーを閲覧するには、
+	http://creativecommons.org/licenses/by-sa/4.0/を訪問して下さい。
+
+	This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
+	International License. To view a copy of this license,
+	visit http://creativecommons.org/licenses/by-sa/4.0/.
+]]
+
 local skin_name = Var("skin_name");
 return function(button_list, stepstype, skin_parameters)
 	local ret = {};
