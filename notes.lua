@@ -438,6 +438,7 @@ return function(button_list, stepstype, skin_parameters)
 		},
 		StepsType_Dance_Solo = {
 			width = {64, 48, 64, 64, 48, 64},
+			-- position = {-96, -96, -32, 32, 96, 96}, -- uncomment for PS3/Wii style solo
 		},
 		StepsType_Dance_Threepanel = {
 			width = {64, 64, 64},
@@ -446,7 +447,7 @@ return function(button_list, stepstype, skin_parameters)
 			width = {64, 64, 64, 64, 64, 64, 64, 64},
 		},
 
-		-- pump: 50 per column (2px double margin)
+		-- pump: 50 per column (2 double margin)
 		StepsType_Pump_Single = {
 			width = {50, 50, 50, 50, 50},
 		},
@@ -533,7 +534,7 @@ return function(button_list, stepstype, skin_parameters)
 			width = {64, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 64},
 		},
 
-		-- maniax: 32 per column (4px double margin)
+		-- maniax: 32 per column (4 double margin)
 		StepsType_Maniax_Single = {
 			width = {32, 32, 32, 32},
 		},
@@ -551,6 +552,7 @@ return function(button_list, stepstype, skin_parameters)
 		},
 		StepsType_Techno_Single8 = {
 			width = {56, 56, 56, 56, 56, 56, 56, 56},
+			-- position = {-96, -96, -96, -32, 32, 96, 96, 96}, -- uncomment for DDR's PS3/Wii style
 		},
 		StepsType_Techno_Double4 = {
 			width = {70, 70, 70, 70, 70, 70, 70, 70},
@@ -560,6 +562,7 @@ return function(button_list, stepstype, skin_parameters)
 		},
 		StepsType_Techno_Double8 = {
 			width = {56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56},
+			-- position = {-224, -224, -224, -160, -96, -32, -32, -32, 32, 32, 32, 96, 160, 224, 224, 224}, -- uncomment for DDR's PS3/Wii style
 		},
 
 		-- popn: not streched in 5buttons
@@ -631,13 +634,13 @@ Column Color Reference (+1 for white outline):
 ]]
 	-- Column color table for StepsTypes
 	local columnColorTable = {
-		-- dance: always red
-		StepsType_Dance_Single = {1, 1, 1, 1},
-		StepsType_Dance_Double = {1, 1, 1, 1, 1, 1, 1, 1},
-		StepsType_Dance_Couple = {1, 1, 1, 1, 1, 1, 1, 1},
-		StepsType_Dance_Solo = {1, 1, 1, 1, 1, 1},
-		StepsType_Dance_Threepanel = {1, 1, 1},
-		StepsType_Dance_Routine = {1, 1, 1, 1, 1, 1, 1, 1},
+		-- dance
+		StepsType_Dance_Single = {3, 1, 1, 3},
+		StepsType_Dance_Double = {3, 1, 1, 3, 3, 1, 1, 3},
+		StepsType_Dance_Couple = {3, 1, 1, 3, 3, 1, 1, 3},
+		StepsType_Dance_Solo = {3, 5, 1, 1, 5, 3},
+		StepsType_Dance_Threepanel = {5, 1, 5},
+		StepsType_Dance_Routine = {3, 1, 1, 3, 3, 1, 1, 3},
 
 		-- pump
 		StepsType_Pump_Single = {3, 1, 7, 1, 3},
@@ -787,6 +790,7 @@ Column Color Reference (+1 for white outline):
 		parts_per_beat = 1, quanta = {{per_beat = 1, states = {1}}}
 	};
 
+	-- State for active Hold Body
 	local activeState = {
 		parts_per_beat = 1, quanta = {{per_beat = 1, states = {1}}}
 	};
