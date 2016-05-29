@@ -2,24 +2,9 @@ NoteSkin hanubeki
 =================
 
 A simple flat -- but huge -- NoteSkin for StepMania 5.1.
-
-##Supported gametypes##
-* beat
-* dance
-* ds3ddx
-* ez2
-* kb7
-* maniax
-* para
-* popn
-* pump
-* techno
-* kickbox
+A goal of this noteskin is to support every gametype (except lights).
 
 ##Limitation of this NoteSkin##
-Not supported: lights
-Not tested: popn
-
 No routine masks (only quanta mode supported).
 In routine, holds are not fully colored by player,
 
