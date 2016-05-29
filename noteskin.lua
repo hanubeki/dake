@@ -10,7 +10,7 @@
 
 return {
 	notes = "notes.lua",
-	layers = {"receptors.lua", "explosions.lua"},
+	layers = {"receptors.lua", "outlines.lua", "explosions.lua"},
 	supports_all_buttons = false,
 	buttons = {
 		"Left", "Down", "Up", "Right",
