@@ -593,11 +593,11 @@ return function(button_list, stepstype, skin_parameters)
 				end,
 			},
 			Def.Sprite {
-				Texture = NEWSKIN:get_path(skin_name, "_mhit.png"),
+				Texture = NEWSKIN:get_path(skin_name, "_hitmine.png"),
 				InitCommand = cmd(zoom,mineZoom;blend,"BlendMode_Add";diffusealpha,0),
 				ColumnJudgmentCommand = function(self, param)
 					if param.tap_note_score == "TapNoteScore_HitMine" then
-						self:finishtweening():diffusealpha(1):rotationz(0):decelerate(0.3):rotationz(90):linear(0.3):rotationz(180):diffusealpha(0);
+						self:finishtweening():diffusealpha(1):rotationz(0):decelerate(0.25):rotationz(90):linear(0.25):rotationz(180):diffusealpha(0);
 					end
 				end,
 			},
