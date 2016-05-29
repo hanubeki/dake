@@ -500,8 +500,7 @@ return function(button_list, stepstype, skin_parameters)
 			end,
 			Def.Sprite {
 				Texture = NEWSKIN:get_path(skin_name, "_" .. buttonInfo.tap.image .. " receptor (doubleres).png");
-				InitCommand = cmd(rotationy,buttonInfo.tap.rotY;rotationz,buttonInfo.tap.rotZ;effectclock,"beat";diffuseramp;effectcolor1,color(".8,.8,.8,1");effectcolor2,color("1,1,1,1");effecttiming,.2,0,.8,0;effectoffset,.05);
-				NoneCommand = cmd(finishtweening;zoom,.85;diffusealpha,.9;linear,.11;diffusealpha,1;zoom,1);
+				InitCommand = cmd(rotationy,buttonInfo.tap.rotY;rotationz,buttonInfo.tap.rotZ;effectclock,"beat";diffuseramp;effectcolor1,color("0.8,0.8,0.8,1");effectcolor2,color("1,1,1,1");effecttiming,0.2,0,0.8,0;effectoffset,0.05);
 			},
 			Def.Sprite {
 				Texture = NEWSKIN:get_path(skin_name, "_" .. buttonInfo.tap.image .. " rflash (doubleres).png");
@@ -514,7 +513,6 @@ return function(button_list, stepstype, skin_parameters)
 						self:finishtweening():decelerate(0.12):diffusealpha(0):zoom(1.2);
 					end
 				end,
-				NoneCommand = cmd(finishtweening;zoom,.85;diffusealpha,.9;linear,.11;diffusealpha,1;zoom,1);
 			},
 		};
 	end

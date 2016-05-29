@@ -28,8 +28,7 @@ In routine, holds are not fully colored by player,
     * Using "Arrow" with Split/Alternate/Symmetric coloring is not recommended.
 
 ##Known problems##
-* Pressing hold head offset if Visual Delay is set
-* Receptor outline does not animate
+* Active hold head has offset if Visual Delay is set
 
 Fllowing problems are not confirmed in alpha 2:
 * Crash while playing Springtime pump-single Expert (bundled with SM5)
