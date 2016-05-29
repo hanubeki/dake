@@ -542,20 +542,6 @@ return function(button_list, stepstype, skin_parameters)
 				param.column:set_layer_fade_type(self, "FieldLayerFadeType_Explosion")
 			end,
 			Def.Sprite {
-				Texture = NEWSKIN:get_path(skin_name, "_hflash 2x1 (doubleres).png"),
-				InitCommand = function(self)
-					self:diffusealpha(0)
-				end,
-				HoldCommand = function(self, param)
-					if param.start then
-						self:finishtweening()
-							:diffusealpha(1):glowshift():effectcolor1({1,1,1,0}):effectcolor2({1,1,1,0.7}):effectperiod(0.1);
-					elseif param.finished then
-						self:diffusealpha(0)
-					end
-				end,
-			},
-			Def.Sprite {
 				Texture = NEWSKIN:get_path(skin_name, "_" .. buttonInfo.tap.image .. " glow (doubleres).png"),
 				InitCommand = cmd(rotationz,buttonInfo.tap.rotZ;rotationy,buttonInfo.tap.rotY;diffusealpha,0),
 				ColumnJudgmentCommand = function(self, param)
@@ -564,7 +550,7 @@ return function(button_list, stepstype, skin_parameters)
 						TapNoteScore_W2 = {1, 1, 0.85, 1},
 						TapNoteScore_W3 = {0.5, 1, 0.75, 1},
 						TapNoteScore_W4 = {0.5, 1, 1, 1},
-						TapNoteScore_W5 = {1.0, 0.5, 1, 1},
+						TapNoteScore_W5 = {1, 0.5, 1, 1},
 						HoldNoteScore_Held = {1, 1, 1, 1},
 					};
 					local exp_color = diffuse[param.tap_note_score or param.hold_note_score];
@@ -582,12 +568,27 @@ return function(button_list, stepstype, skin_parameters)
 						TapNoteScore_W2 = {1, 1, 0.9, 1},
 						TapNoteScore_W3 = {0.6, 1, 0.8, 1},
 						TapNoteScore_W4 = {0.6, 1, 1, 1},
-						TapNoteScore_W5 = {1.0, 0.6, 1, 1},
+						TapNoteScore_W5 = {1, 0.6, 1, 1},
 						HoldNoteScore_Held = {1, 1, 1, 1},
 					};
 					local exp_color = diffuse[param.tap_note_score or param.hold_note_score];
 					if param.bright and exp_color then
 						self:finishtweening():diffuse(exp_color):sleep(0.1):decelerate(0.4):diffusealpha(0);
+					end
+				end,
+			},
+			Def.Sprite {
+				Texture = NEWSKIN:get_path(skin_name, "_hflash 2x1 (doubleres).png"),
+				InitCommand = function(self)
+					self:diffusealpha(0)
+				end,
+				HoldCommand = function(self, param)
+					if param.start then
+						self:finishtweening():diffusealpha(1):glowshift():effectcolor1({1, 1, 1, 0}):effectcolor2({1, 1, 1, 0.7}):effectperiod(0.1);
+					elseif param.finished then
+						self:diffusealpha(0);
+					else
+						self:diffusealpha(param.life);
 					end
 				end,
 			},
