@@ -584,7 +584,7 @@ return function(button_list, stepstype, skin_parameters)
 				end,
 				HoldCommand = function(self, param)
 					if param.start then
-						self:finishtweening():diffusealpha(1):glowshift():effectcolor1({1, 1, 1, 0}):effectcolor2({1, 1, 1, 0.7}):effectperiod(0.1);
+						self:finishtweening():diffusealpha(param.life):glowshift():effectcolor1({1, 1, 1, 0}):effectcolor2({1, 1, 1, 0.7}):effectperiod(0.1);
 					elseif param.finished then
 						self:diffusealpha(0);
 					else
