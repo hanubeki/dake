@@ -40,7 +40,7 @@ International License. To view a copy of this license,
 visit http://creativecommons.org/licenses/by-sa/4.0/.
 
 _mhit.png: 
-sm-ssc is copyright ｩ AJ Kelly, Midiman, shakesoda (referred to as
+sm-ssc is copyright © AJ Kelly, Midiman, shakesoda (referred to as
 "the spinal shark collective" hereafter), and other contributors.
 All rights reserved.
 
