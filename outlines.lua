@@ -501,7 +501,6 @@ return function(button_list, stepstype, skin_parameters)
 			Def.Sprite {
 				Texture = NEWSKIN:get_path(skin_name, "_" .. buttonInfo.tap.image .. " rflash (doubleres).png");
 				InitCommand = cmd(rotationz,buttonInfo.tap.rotZ;rotationy,buttonInfo.tap.rotY;diffusealpha,0);
-				-- TODO: rewrite to use BeatUpdateCommand (param.pressed, param.lifted)
 				BeatUpdateCommand = function(self, param)
 					if param.pressed then
 						self:finishtweening():zoom(1):blend("BlendMode_Add"):diffusealpha(0.6);
