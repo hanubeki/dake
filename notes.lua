@@ -782,22 +782,34 @@ Column Color Reference (+1 for white outline):
 
 	-- State for Tap Lift
 	local liftState = {
-		parts_per_beat = 1, quanta = {{per_beat = 1, states = {18}}}
+		parts_per_beat = 1,
+		quanta = {
+			{per_beat = 1, states = {18}},
+		},
 	};
 
 	-- State for single image (such as mine, octagon lift)
 	local singleState = {
-		parts_per_beat = 1, quanta = {{per_beat = 1, states = {1}}}
+		parts_per_beat = 1,
+		quanta = {
+			{per_beat = 1, states = {1}},
+		},
 	};
 
 	-- State for active Hold Body
 	local activeState = {
-		parts_per_beat = 1, quanta = {{per_beat = 1, states = {1}}}
+		parts_per_beat = 1,
+		quanta = {
+			{per_beat = 1, states = {1}},
+		},
 	};
 
 	-- State for inactive Hold Body
 	local inactiveState = {
-		parts_per_beat = 1, quanta = {{per_beat = 1, states = {3}}}
+		parts_per_beat = 1,
+		quanta = {
+			{per_beat = 1, states = {3}},
+		},
 	};
 
 	local columns = {};
@@ -905,8 +917,11 @@ Column Color Reference (+1 for white outline):
 
 		-- State for column color
 		local columnState = {
-			parts_per_beat = 1, quanta = {{per_beat = 1, states = {columnColor}}}
-		}
+			parts_per_beat = 1,
+			quanta = {
+				{per_beat = 1, states = {columnColor}},
+			},
+		};
 
 --[[
 		-- Image name for Minefield
@@ -935,7 +950,7 @@ Column Color Reference (+1 for white outline):
 					actor = Def.Sprite {
 						Texture = NEWSKIN:get_path(skin_name, "_" .. buttonInfo.tap.image .. " tap note 2x16 (doubleres).png"),
 						InitCommand = cmd(rotationz,buttonInfo.tap.rotZ;rotationy,buttonInfo.tap.rotY),
-					}
+					},
 				},
 				NewSkinTapPart_Mine = {
 					state_map = singleState,
@@ -956,7 +971,7 @@ Column Color Reference (+1 for white outline):
 							Texture = NEWSKIN:get_path(skin_name, "_mparts 2x16 (doubleres).png"),
 							InitCommand = cmd(rotationz,240;spin;effectclock,"beat";effectmagnitude,0,0,-60),
 						},
-					}
+					},
 				},
 				NewSkinTapPart_Lift = {
 					state_map = liftType == "Arrow" and liftState or singleState,
@@ -964,7 +979,7 @@ Column Color Reference (+1 for white outline):
 						Texture = liftType == "Arrow" and NEWSKIN:get_path(skin_name, "_" .. buttonInfo.tap.image .. " tap note 2x16 (doubleres).png")
 							or NEWSKIN:get_path(skin_name, "_fallback tap lift 2x1 (doubleres).png"),
 						InitCommand = liftType == "Arrow" and cmd(rotationz,buttonInfo.tap.rotZ;rotationy,buttonInfo.tap.rotY) or cmd(zoom,mineZoom),
-					}
+					},
 				},
 			},
 			holds = {
