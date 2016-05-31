@@ -613,6 +613,34 @@ return function(button_list, stepstype, skin_parameters)
 		end
 	});
 
+	-- Column position table for beat-*
+	local beatColumnPositionTable = {
+		StepsType_Bm_Single5 = {
+			Left = {-80, -32, 0, 32, 64, 96},
+			Right = {80, -96, -64, -32, 0, 32},
+		},
+		StepsType_Bm_Versus5 = {
+			Left = {-80, -32, 0, 32, 64, 96},
+			Right = {80, -96, -64, -32, 0, 32},
+		},
+		StepsType_Bm_Double5 = {
+			Left = {-224, -176, -144, -112, -80, -48, 48, 80, 112, 144, 176, 224},
+			Right = {-64, -240, -208, -176, -144, -112, 48, 80, 112, 144, 176, 224},
+		},
+		StepsType_Bm_Single7 = {
+			Left = {-112, -64, -32, 0, 32, 64, 96, 128},
+			Right = {112, -128, -96, -64, -32, 0, 32, 64},
+		},
+		StepsType_Bm_Versus7 = {
+			Left = {-112, -64, -32, 0, 32, 64, 96, 128},
+			Right = {112, -128, -96, -64, -32, 0, 32, 64},
+		},
+		StepsType_Bm_Double7 = {
+			Left = {-288, -240, -208, -176, -144, -112, -80, -48, 48, 80, 112, 144, 176, 208, 240, 288},
+			Right = {-64, -304, -272, -240, -208, -176, -144, -112, 48, 80, 112, 144, 176, 208, 240, 288},
+		},
+	};
+
 --[[
 Column Color Reference (+1 for white outline):
 	 1: Red
@@ -817,6 +845,7 @@ Column Color Reference (+1 for white outline):
 		local noteType = skin_parameters and skin_parameters.note_type or "Normal";
 		local liftType = skin_parameters and skin_parameters.lift_type or "Octagon";
 		local colorType = skin_parameters and skin_parameters.color_type or "Quantize";
+		local scratchSide = skin_parameters and skin_parameters.scratch_side or "Left";
 
 		local buttonInfo = buttonInfoTable[button];
 		local mineZoom = mineZoomTable[stepstype];
@@ -857,6 +886,11 @@ Column Color Reference (+1 for white outline):
 		-- Compute column width
 		local baseWidth = button == "scratch" and 128 or 64;
 		local computedPadding = (columnSizeTable[stepstype].width[i] or 64) + ((columnSizeTable[stepstype].padding and columnSizeTable[stepstype].padding[i]) or 0) - baseWidth;
+		local columnPosition = columnSizeTable[stepstype].position and columnSizeTable[stepstype].position[i];
+
+		if beatColumnPositionTable[stepstype] and beatColumnPositionTable[stepstype][scratchSide] then
+			columnPosition = beatColumnPositionTable[stepstype][scratchSide][i];
+		end
 
 		-- Button info and column width for note type variants
 		if noteType == "Bar32" then
@@ -938,7 +972,7 @@ Column Color Reference (+1 for white outline):
 			-- XXX: "Holds in this column will be stretched to this width."
 			width = baseWidth,
 			padding = computedPadding,
-			custom_x = columnSizeTable[stepstype].position and columnSizeTable[stepstype].position[i],
+			custom_x = columnPosition,
 			hold_gray_percent = 0.5,
 			use_hold_heads_for_taps_on_row = false,
 			anim_time = 1,

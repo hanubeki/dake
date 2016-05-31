@@ -37,6 +37,7 @@ return {
 		note_type = "Normal",
 		lift_type = "Octagon",
 		color_type = "Quantize",
+		scratch_side = "Left",
 	},
 	skin_parameter_info = {
 		note_type = {
@@ -77,6 +78,19 @@ return {
 				},
 			},
 			choices = {"Quantize", "Column", "Split", "Alternate", "Symmetric"},
+		},
+		scratch_side = {
+			translation = {
+				en = {
+					title = "(beat) Scratch Side", explanation = "Choose side of scratch. If doubles chart, only affected to P1",
+					choices = {"Left", "Right"},
+				},
+				ja = {
+					title = "(beat) スクラッチサイド", explanation = "スクラッチの位置を選択します。\nダブル譜面の場合、P1側のみ影響します。",
+					choices = {"左側", "右側"},
+				},
+			},
+			choices = {"Left", "Right"},
 		},
 	},
 };
