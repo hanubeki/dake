@@ -908,6 +908,15 @@ Column Color Reference (+1 for white outline):
 			parts_per_beat = 1, quanta = {{per_beat = 1, states = {columnColor}}}
 		}
 
+--[[
+		-- Image name for Minefield
+		local minefieldImage = mineZoom < 0.75 and "half" or "fallback";
+
+		if button == "scratch" then
+			minefieldImage = "scratch";
+		end
+]]
+
 		columns[i] = {
 			-- width = columnSizeTable[stepstype].width[i] or 64,
 			-- padding = (columnSizeTable[stepstype].padding and columnSizeTable[stepstype].padding[i]) or 0,
@@ -991,6 +1000,20 @@ Column Color Reference (+1 for white outline):
 						flip = buttonInfo.roll.flip,
 					},
 				},
+--[[
+				TapNoteSubType_Minefield = {
+					{
+						state_map = inactiveState,
+						textures = {"_" .. minefieldImage .. " minefield 4x1 (doubleres).png"},
+						flip = "TexCoordFlipMode_None",
+					},
+					{
+						state_map = activeState,
+						textures = {"_" .. minefieldImage .. " minefield 4x1 (doubleres).png"},
+						flip = "TexCoordFlipMode_None",
+					},
+				},
+]]
 			},
 			reverse_holds = {
 				TapNoteSubType_Hold = {
@@ -1017,6 +1040,20 @@ Column Color Reference (+1 for white outline):
 						flip = buttonInfo.rollReverse.flip,
 					},
 				},
+--[[
+				TapNoteSubType_Minefield = {
+					{
+						state_map = inactiveState,
+						textures = {"_" .. minefieldImage .. " minefield 4x1 (doubleres).png"},
+						flip = "TexCoordFlipMode_None",
+					},
+					{
+						state_map = activeState,
+						textures = {"_" .. minefieldImage .. " minefield 4x1 (doubleres).png"},
+						flip = "TexCoordFlipMode_None",
+					},
+				},
+]]
 			},
 			rotations = {
 				NewSkinTapPart_Tap = 0,
