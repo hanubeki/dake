@@ -32,6 +32,7 @@ In routine, holds are not fully colored by player,
 
 Fllowing problems are not confirmed in alpha 2:
 * Crash while playing Springtime pump-single Expert (bundled with SM5)
+* Crash when attempt to play beat-double5 chart.
 
 ##License##
 This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
