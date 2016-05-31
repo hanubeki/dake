@@ -1045,12 +1045,12 @@ Column Color Reference (+1 for white outline):
 					{
 						state_map = inactiveState,
 						textures = {"_" .. minefieldImage .. " minefield 4x1 (doubleres).png"},
-						flip = "TexCoordFlipMode_None",
+						flip = "TexCoordFlipMode_Y",
 					},
 					{
 						state_map = activeState,
 						textures = {"_" .. minefieldImage .. " minefield 4x1 (doubleres).png"},
-						flip = "TexCoordFlipMode_None",
+						flip = "TexCoordFlipMode_Y",
 					},
 				},
 ]]
