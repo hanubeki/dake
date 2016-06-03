@@ -27,6 +27,12 @@ In routine, holds are not fully colored by player,
     * [ja] リフトの形状を選択します。
     * Using "Arrow" with Split/Alternate/Symmetric coloring is not recommended.
 
+###(beat) Scratch Side###
+* Left, Right
+    * [en] Choose side of scratch. If doubles chart, only affected to P1.
+    * [ja] スクラッチの位置を選択します。ダブル譜面の場合、P1側のみ影響します。
+    * It will require post-alpha2 build.
+
 ##Known problems##
 * Active hold head has offset if Visual Delay is set
 * Crash when attempt to play beat-double5 chart.

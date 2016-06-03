@@ -82,7 +82,7 @@ return {
 		scratch_side = {
 			translation = {
 				en = {
-					title = "(beat) Scratch Side", explanation = "Choose side of scratch. If doubles chart, only affected to P1",
+					title = "(beat) Scratch Side", explanation = "Choose side of scratch. If doubles chart, only affected to P1.",
 					choices = {"Left", "Right"},
 				},
 				ja = {
