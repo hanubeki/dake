@@ -453,6 +453,7 @@ return function(button_list, stepstype, skin_parameters)
 		},
 		StepsType_Pump_Halfdouble = {
 			width = {50, 50, 50, 50, 50, 50},
+			position = {-126, -76, -26, 26, 76, 126},
 		},
 		StepsType_Pump_Double = {
 			width = {50, 50, 50, 50, 50, 50, 50, 50, 50, 50},
@@ -565,7 +566,7 @@ return function(button_list, stepstype, skin_parameters)
 			-- position = {-224, -224, -224, -160, -96, -32, -32, -32, 32, 32, 32, 96, 160, 224, 224, 224}, -- uncomment for DDR's PS3/Wii style
 		},
 
-		-- popn: not streched in 5buttons
+		-- popn: not stretched in 5-button mode
 		StepsType_Popn_Five = {
 			width = {32, 32, 32, 32, 32}, -- {36, 30, 36, 30, 36}
 			padding = {2, 2, 2, 2, 2}, -- {2, 0, 2, 0, 2}
