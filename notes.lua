@@ -766,7 +766,7 @@ Column Color Reference (+1 for white outline):
 		StepsType_Maniax_Single = 0.5,
 		StepsType_Maniax_Double = 0.5,
 
-		-- popn: not streched in 5buttons
+		-- popn: not stretched in 5-button mode
 		StepsType_Popn_Five = 0.5,
 		StepsType_Popn_Nine = 0.5,
 
@@ -1051,7 +1051,7 @@ Column Color Reference (+1 for white outline):
 					},
 				},
 --[[
-				TapNoteSubType_Minefield = {
+				TapNoteSubType_Mine = {
 					{
 						state_map = inactiveState,
 						textures = {"_" .. minefieldImage .. " minefield 4x1 (doubleres).png"},
@@ -1091,7 +1091,7 @@ Column Color Reference (+1 for white outline):
 					},
 				},
 --[[
-				TapNoteSubType_Minefield = {
+				TapNoteSubType_Mine = {
 					{
 						state_map = inactiveState,
 						textures = {"_" .. minefieldImage .. " minefield 4x1 (doubleres).png"},
