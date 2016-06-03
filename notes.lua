@@ -1105,11 +1105,6 @@ Column Color Reference (+1 for white outline):
 				},
 ]]
 			},
-			rotations = {
-				NewSkinTapPart_Tap = 0,
-				NewSkinTapPart_Mine = 0,
-				NewSkinTapPart_Lift = 0,
-			},
 		};
 	end
 	return {
