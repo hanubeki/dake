@@ -664,12 +664,12 @@ Column Color Reference (+1 for white outline):
 	-- Column color table for StepsTypes
 	local columnColorTable = {
 		-- dance
-		StepsType_Dance_Single = {3, 1, 1, 3},
-		StepsType_Dance_Double = {3, 1, 1, 3, 3, 1, 1, 3},
-		StepsType_Dance_Couple = {3, 1, 1, 3, 3, 1, 1, 3},
-		StepsType_Dance_Solo = {3, 5, 1, 1, 5, 3},
-		StepsType_Dance_Threepanel = {5, 1, 5},
-		StepsType_Dance_Routine = {3, 1, 1, 3, 3, 1, 1, 3},
+		StepsType_Dance_Single = {3, 13, 13, 3},
+		StepsType_Dance_Double = {3, 13, 13, 3, 3, 13, 13, 3},
+		StepsType_Dance_Couple = {3, 13, 13, 3, 3, 13, 13, 3},
+		StepsType_Dance_Solo = {3, 5, 13, 13, 5, 3},
+		StepsType_Dance_Threepanel = {5, 13, 5},
+		StepsType_Dance_Routine = {3, 13, 13, 3, 3, 13, 13, 3},
 
 		-- pump
 		StepsType_Pump_Single = {3, 1, 7, 1, 3},
