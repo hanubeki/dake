@@ -4,9 +4,11 @@ NoteSkin hanubeki
 A simple flat -- but huge -- NoteSkin for StepMania 5.1.
 A goal of this noteskin is to support every gametype (except lights).
 
+If you are looking for 5.0.x version, see [5.0-final](https://github.com/hanubeki/noteskin-hanubeki/tree/5.0-final) tag.
+
 ##Limitation of this NoteSkin##
 No routine masks (only quanta mode supported).
-In routine, holds are not fully colored by player,
+In routine, holds are not fully colored by player.
 
 ##NoteSkin Parameters##
 
