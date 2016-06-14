@@ -497,8 +497,8 @@ return function(button_list, stepstype, skin_parameters)
 				self:draworder(newfield_draw_order.receptor)
 					:rotationy(buttonInfo.tap.rotY):rotationz(buttonInfo.tap.rotZ)
 					:diffuseramp():effectclock("beat")
-					:effectcolor1(color("0.8,0.8,0.8,1")):effectcolor2(color("1,1,1,1"))
-					:effecttiming(0.2,0,0.8,0):effectoffset(0.05);
+					:effectcolor1({0.8, 0.8, 0.8, 1}):effectcolor2({1, 1, 1, 1})
+					:effecttiming(0.2, 0, 0.8, 0):effectoffset(0.05);
 			end,
 			WidthSetCommand = function(self, param)
 				param.column:set_layer_fade_type(self, "FieldLayerFadeType_Receptor");
