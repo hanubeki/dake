@@ -536,14 +536,16 @@ return function(button_list, stepstype, skin_parameters)
 
 		ret[i] = Def.ActorFrame{
 			InitCommand = function(self)
-				self:draworder(newfield_draw_order.explosion)
+				self:draworder(newfield_draw_order.explosion);
 			end,
 			WidthSetCommand = function(self, param)
-				param.column:set_layer_fade_type(self, "FieldLayerFadeType_Explosion")
+				param.column:set_layer_fade_type(self, "FieldLayerFadeType_Explosion");
 			end,
 			Def.Sprite {
 				Texture = NEWSKIN:get_path(skin_name, "_" .. buttonInfo.tap.image .. " glow (doubleres).png"),
-				InitCommand = cmd(rotationz,buttonInfo.tap.rotZ;rotationy,buttonInfo.tap.rotY;diffusealpha,0),
+				InitCommand = function(self)
+					self:rotationz(buttonInfo.tap.rotZ):rotationy(buttonInfo.tap.rotY):diffusealpha(0);
+				end;
 				ColumnJudgmentCommand = function(self, param)
 					local diffuse = {
 						TapNoteScore_W1 = {1, 1, 1, 1},
@@ -561,7 +563,9 @@ return function(button_list, stepstype, skin_parameters)
 			},
 			Def.Sprite {
 				Texture = NEWSKIN:get_path(skin_name, "_bright (doubleres).png"),
-				InitCommand = cmd(zoom,mineZoom;diffusealpha,0),
+				InitCommand = function(self)
+					self:zoom(mineZoom):diffusealpha(0);
+				end;
 				ColumnJudgmentCommand = function(self, param)
 					local diffuse = {
 						TapNoteScore_W1 = {1, 1, 1, 1},
@@ -594,7 +598,9 @@ return function(button_list, stepstype, skin_parameters)
 			},
 			Def.Sprite {
 				Texture = NEWSKIN:get_path(skin_name, "_hitmine.png"),
-				InitCommand = cmd(zoom,mineZoom;blend,"BlendMode_Add";diffusealpha,0),
+				InitCommand = function(self)
+					self:zoom(mineZoom):blend("BlendMode_Add"):diffusealpha(0);
+				end,
 				ColumnJudgmentCommand = function(self, param)
 					if param.tap_note_score == "TapNoteScore_HitMine" then
 						self:finishtweening():diffusealpha(1):rotationz(0):decelerate(0.25):rotationz(90):linear(0.25):rotationz(180):diffusealpha(0);

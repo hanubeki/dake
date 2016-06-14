@@ -984,27 +984,37 @@ Column Color Reference (+1 for white outline):
 					state_map = (colorType == "Quantize" or GAMEMAN:stepstype_is_multiplayer(stepstype)) and tapState or columnState,
 					actor = Def.Sprite {
 						Texture = NEWSKIN:get_path(skin_name, "_" .. buttonInfo.tap.image .. " tap note 2x16 (doubleres).png"),
-						InitCommand = cmd(rotationz,buttonInfo.tap.rotZ;rotationy,buttonInfo.tap.rotY),
+						InitCommand = function(self)
+							self:rotationz(buttonInfo.tap.rotZ):rotationy(buttonInfo.tap.rotY);
+						end,
 					},
 				},
 				NewSkinTapPart_Mine = {
 					state_map = singleState,
 					actor = Def.ActorFrame {
-						InitCommand = cmd(zoom,mineZoom),
+						InitCommand = function(self)
+							selfzoom(mineZoom);
+						end,
 						Def.Sprite {
 							Texture = NEWSKIN:get_path(skin_name, "_mine 2x16 (doubleres).png"),
 						},
 						Def.Sprite {
 							Texture = NEWSKIN:get_path(skin_name, "_mparts 2x16 (doubleres).png"),
-							InitCommand = cmd(spin;effectclock,"beat";effectmagnitude,0,0,-60),
+							InitCommand = function(self)
+								self:spin():effectclock("beat"):effectmagnitude(0,0,-60);
+							end,
 						},
 						Def.Sprite {
 							Texture = NEWSKIN:get_path(skin_name, "_mparts 2x16 (doubleres).png"),
-							InitCommand = cmd(rotationz,120;spin;effectclock,"beat";effectmagnitude,0,0,-60),
+							InitCommand = function(self)
+								self:rotationz(120):spin():effectclock("beat"):effectmagnitude(0,0,-60);
+							end,
 						},
 						Def.Sprite {
 							Texture = NEWSKIN:get_path(skin_name, "_mparts 2x16 (doubleres).png"),
-							InitCommand = cmd(rotationz,240;spin;effectclock,"beat";effectmagnitude,0,0,-60),
+							InitCommand = function(self)
+								self:rotationz(240):spin():effectclock("beat"):effectmagnitude(0,0,-60);
+							end,
 						},
 					},
 				},
@@ -1013,7 +1023,13 @@ Column Color Reference (+1 for white outline):
 					actor = Def.Sprite {
 						Texture = liftType == "Arrow" and NEWSKIN:get_path(skin_name, "_" .. buttonInfo.tap.image .. " tap note 2x16 (doubleres).png")
 							or NEWSKIN:get_path(skin_name, "_fallback tap lift 2x1 (doubleres).png"),
-						InitCommand = liftType == "Arrow" and cmd(rotationz,buttonInfo.tap.rotZ;rotationy,buttonInfo.tap.rotY) or cmd(zoom,mineZoom),
+						InitCommand = function(self)
+							if liftType == "Arrow" then
+								self:rotationz(buttonInfo.tap.rotZ):rotationy(buttonInfo.tap.rotY);
+							else
+								self:zoom(mineZoom);
+							end
+						end,
 					},
 				},
 			},

@@ -491,24 +491,21 @@ return function(button_list, stepstype, skin_parameters)
 			};
 		end
 
-		ret[i] = Def.ActorFrame {
+		ret[i] = Def.Sprite {
+			Texture = NEWSKIN:get_path(skin_name, "_" .. buttonInfo.tap.image .. " rflash (doubleres).png");
 			InitCommand = function(self)
-				self:draworder(newfield_draw_order.receptor + 1)
+				self:draworder(newfield_draw_order.receptor + 1):rotationz(buttonInfo.tap.rotZ):rotationy(buttonInfo.tap.rotY):diffusealpha(0);
 			end,
 			WidthSetCommand = function(self, param)
 				param.column:set_layer_fade_type(self, "FieldLayerFadeType_Receptor")
 			end,
-			Def.Sprite {
-				Texture = NEWSKIN:get_path(skin_name, "_" .. buttonInfo.tap.image .. " rflash (doubleres).png");
-				InitCommand = cmd(rotationz,buttonInfo.tap.rotZ;rotationy,buttonInfo.tap.rotY;diffusealpha,0);
-				BeatUpdateCommand = function(self, param)
-					if param.pressed then
-						self:finishtweening():zoom(1):blend("BlendMode_Add"):diffusealpha(0.6);
-					elseif param.lifted then
-						self:finishtweening():decelerate(0.12):diffusealpha(0):zoom(1.2);
-					end
-				end,
-			},
+			BeatUpdateCommand = function(self, param)
+				if param.pressed then
+					self:finishtweening():zoom(1):blend("BlendMode_Add"):diffusealpha(0.6);
+				elseif param.lifted then
+					self:finishtweening():decelerate(0.12):diffusealpha(0):zoom(1.2);
+				end
+			end,
 		};
 	end
 	return ret;
