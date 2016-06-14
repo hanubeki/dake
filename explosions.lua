@@ -545,7 +545,7 @@ return function(button_list, stepstype, skin_parameters)
 				Texture = NEWSKIN:get_path(skin_name, "_" .. buttonInfo.tap.image .. " glow (doubleres).png"),
 				InitCommand = function(self)
 					self:rotationz(buttonInfo.tap.rotZ):rotationy(buttonInfo.tap.rotY):diffusealpha(0);
-				end;
+				end,
 				ColumnJudgmentCommand = function(self, param)
 					local diffuse = {
 						TapNoteScore_W1 = {1, 1, 1, 1},
@@ -565,7 +565,7 @@ return function(button_list, stepstype, skin_parameters)
 				Texture = NEWSKIN:get_path(skin_name, "_bright (doubleres).png"),
 				InitCommand = function(self)
 					self:zoom(mineZoom):diffusealpha(0);
-				end;
+				end,
 				ColumnJudgmentCommand = function(self, param)
 					local diffuse = {
 						TapNoteScore_W1 = {1, 1, 1, 1},
