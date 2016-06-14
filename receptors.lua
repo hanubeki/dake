@@ -494,7 +494,11 @@ return function(button_list, stepstype, skin_parameters)
 		ret[i] = Def.Sprite {
 			Texture = NEWSKIN:get_path(skin_name, "_" .. buttonInfo.tap.image .. " receptor (doubleres).png");
 			InitCommand = function(self)
-				self:draworder(newfield_draw_order.receptor):rotationy(buttonInfo.tap.rotY):rotationz(buttonInfo.tap.rotZ):diffuseramp():effectclock("beat"):effectcolor1(color("0.8,0.8,0.8,1")):effectcolor2(color("1,1,1,1")):effecttiming(0.2,0,0.8,0):effectoffset(0.05);
+				self:draworder(newfield_draw_order.receptor)
+					:rotationy(buttonInfo.tap.rotY):rotationz(buttonInfo.tap.rotZ)
+					:diffuseramp():effectclock("beat")
+					:effectcolor1(color("0.8,0.8,0.8,1")):effectcolor2(color("1,1,1,1"))
+					:effecttiming(0.2,0,0.8,0):effectoffset(0.05);
 			end,
 			WidthSetCommand = function(self, param)
 				param.column:set_layer_fade_type(self, "FieldLayerFadeType_Receptor");

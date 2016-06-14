@@ -588,7 +588,8 @@ return function(button_list, stepstype, skin_parameters)
 				end,
 				HoldCommand = function(self, param)
 					if param.start then
-						self:finishtweening():diffusealpha(param.life):glowshift():effectcolor1({1, 1, 1, 0}):effectcolor2({1, 1, 1, 0.7}):effectperiod(0.1);
+						self:finishtweening():diffusealpha(param.life)
+							:glowshift():effectcolor1({1, 1, 1, 0}):effectcolor2({1, 1, 1, 0.7}):effectperiod(0.1);
 					elseif param.finished then
 						self:diffusealpha(0);
 					else
@@ -599,11 +600,14 @@ return function(button_list, stepstype, skin_parameters)
 			Def.Sprite {
 				Texture = NEWSKIN:get_path(skin_name, "_hitmine.png"),
 				InitCommand = function(self)
-					self:zoom(mineZoom):blend("BlendMode_Add"):diffusealpha(0);
+					self:blend("BlendMode_Add")
+						:zoom(mineZoom):diffusealpha(0);
 				end,
 				ColumnJudgmentCommand = function(self, param)
 					if param.tap_note_score == "TapNoteScore_HitMine" then
-						self:finishtweening():diffusealpha(1):rotationz(0):decelerate(0.25):rotationz(90):linear(0.25):rotationz(180):diffusealpha(0);
+						self:finishtweening():diffusealpha(1):rotationz(0)
+							:decelerate(0.25):rotationz(90)
+							:linear(0.25):rotationz(180):diffusealpha(0);
 					end
 				end,
 			},

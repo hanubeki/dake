@@ -1007,13 +1007,15 @@ Column Color Reference (+1 for white outline):
 						Def.Sprite {
 							Texture = NEWSKIN:get_path(skin_name, "_mparts 2x16 (doubleres).png"),
 							InitCommand = function(self)
-								self:rotationz(120):spin():effectclock("beat"):effectmagnitude(0,0,-60);
+								self:rotationz(120)
+									:spin():effectclock("beat"):effectmagnitude(0,0,-60);
 							end,
 						},
 						Def.Sprite {
 							Texture = NEWSKIN:get_path(skin_name, "_mparts 2x16 (doubleres).png"),
 							InitCommand = function(self)
-								self:rotationz(240):spin():effectclock("beat"):effectmagnitude(0,0,-60);
+								self:rotationz(240)
+									:spin():effectclock("beat"):effectmagnitude(0,0,-60);
 							end,
 						},
 					},
