@@ -37,6 +37,7 @@ return {
 		note_type = "Normal",
 		lift_type = "Octagon",
 		color_type = "Quantize",
+		mine_color = false,
 		scratch_side = "Left",
 	},
 	skin_parameter_info = {
@@ -78,6 +79,17 @@ return {
 				},
 			},
 			choices = {"Quantize", "Column", "Split", "Alternate", "Symmetric"},
+		},
+		mine_color = {
+			translation = {
+				en = {
+					title = "Mine Color", explanation = "Choose if mines to be colored same as normal notes.",
+				},
+				ja = {
+					title = "マインカラー", explanation = "マインノートを通常ノートと同じように色分けするか選択します。",
+				},
+			},
+			type = "bool",
 		},
 		scratch_side = {
 			translation = {

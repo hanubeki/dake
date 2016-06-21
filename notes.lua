@@ -796,18 +796,16 @@ Column Color Reference (+1 for white outline):
 		},
 	};
 
-	if GAMEMAN:stepstype_is_multiplayer(stepstype) then
-		-- State for Tap Note (playerized)
-		tapState = {
-			parts_per_beat = 48,
-			quanta = {
-				{per_beat = 1, states = {13}}, -- P1
-				{per_beat = 2, states = {3}}, -- P2
-				{per_beat = 3, states = {7}}, -- P3
-				{per_beat = 4, states = {5}}, -- P4
-			},
-		};
-	end
+	-- State for Tap Note (playerized)
+	local routineState = {
+		parts_per_beat = 48,
+		quanta = {
+			{per_beat = 1, states = {13}}, -- P1
+			{per_beat = 2, states = {3}}, -- P2
+			{per_beat = 3, states = {7}}, -- P3
+			{per_beat = 4, states = {5}}, -- P4
+		},
+	};
 
 	-- State for Tap Lift
 	local liftState = {
@@ -846,6 +844,7 @@ Column Color Reference (+1 for white outline):
 		local noteType = skin_parameters and skin_parameters.note_type or "Normal";
 		local liftType = skin_parameters and skin_parameters.lift_type or "Octagon";
 		local colorType = skin_parameters and skin_parameters.color_type or "Quantize";
+		local mineColor = skin_parameters and skin_parameters.mine_color;
 		local scratchSide = skin_parameters and skin_parameters.scratch_side or "Left";
 
 		local buttonInfo = buttonInfoTable[button];
@@ -958,6 +957,12 @@ Column Color Reference (+1 for white outline):
 			},
 		};
 
+		if colorType == "Quantize" then
+			columnState = tapState;
+		elseif GAMEMAN:stepstype_is_multiplayer(stepstype) then
+			columnState = routineState;
+		end
+
 --[[
 		-- Image name for Minefield
 		local minefieldImage = mineZoom < 0.75 and "half" or "fallback";
@@ -981,7 +986,7 @@ Column Color Reference (+1 for white outline):
 			anim_uses_beats = true,
 			taps = {
 				NewSkinTapPart_Tap = {
-					state_map = (colorType == "Quantize" or GAMEMAN:stepstype_is_multiplayer(stepstype)) and tapState or columnState,
+					state_map = columnState,
 					actor = Def.Sprite {
 						Texture = NEWSKIN:get_path(skin_name, "_" .. buttonInfo.tap.image .. " tap note 2x16 (doubleres).png"),
 						InitCommand = function(self)
@@ -990,7 +995,7 @@ Column Color Reference (+1 for white outline):
 					},
 				},
 				NewSkinTapPart_Mine = {
-					state_map = singleState,
+					state_map = mineColor and columnState or singleState,
 					actor = Def.ActorFrame {
 						InitCommand = function(self)
 							selfzoom(mineZoom);
