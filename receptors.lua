@@ -427,7 +427,7 @@ return function(button_list, stepstype, skin_parameters)
 	});
 
 	local hideReceptorTable = {
-		-- Uncomment them for Wii/PS3 style solo, see also notes.lua and find "Wii".
+		-- Uncomment them for PS3/Wii style solo, see also notes.lua and find "PS3/Wii".
 		-- StepsType_Dance_Solo = {false, true, false, false, true, false},
 		-- StepsType_Techno_Single8 = {true, false, true, false, false, true, false, true},
 		-- StepsType_Techno_Double8 = {true, false, true, false, false, true, false, true, true, false, true, false, false, true, false, true},
