@@ -36,8 +36,7 @@ In routine, holds are not fully colored by player.
     * It will require post-alpha2 build.
 
 ##Known problems##
-* Active hold head has offset if Visual Delay is set
-* Crash when attempt to play beat-double5 chart.
+* Active hold head has offset if Visual Delay is set.
 
 Fllowing problems are not confirmed in alpha 2:
 * Crash while playing Springtime pump-single Expert (bundled with SM5)

@@ -782,7 +782,7 @@ Column Color Reference (+1 for white outline):
 	});
 
 	-- State for Tap Note (quantized)
-	local tapState = {
+	local quantaState = {
 		parts_per_beat = 48,
 		quanta = {
 			{per_beat = 1, states = {1}}, -- 4th
@@ -958,7 +958,7 @@ Column Color Reference (+1 for white outline):
 		};
 
 		if colorType == "Quantize" then
-			columnState = tapState;
+			columnState = quantaState;
 		elseif GAMEMAN:stepstype_is_multiplayer(stepstype) then
 			columnState = routineState;
 		end
