@@ -1026,10 +1026,11 @@ Column Color Reference (+1 for white outline):
 					},
 				},
 				NewSkinTapPart_Lift = {
-					state_map = liftType == "Arrow" and liftState or singleState,
+					state_map = liftType == "Arrow" and liftState or liftType == "OctagonColored" and columnState or singleState,
 					actor = Def.Sprite {
 						Texture = liftType == "Arrow" and NEWSKIN:get_path(skin_name, "_" .. buttonInfo.tap.image .. " tap note 2x16 (doubleres).png")
-							or NEWSKIN:get_path(skin_name, "_fallback tap lift 2x1 (doubleres).png"),
+							or liftType == "OctagonColored" and NEWSKIN:get_path(skin_name, "_lift 2x16 (doubleres).png")
+							or NEWSKIN:get_path(skin_name, "_lift 2x1 (doubleres).png"),
 						InitCommand = function(self)
 							if liftType == "Arrow" then
 								self:rotationz(buttonInfo.tap.rotZ):rotationy(buttonInfo.tap.rotY);

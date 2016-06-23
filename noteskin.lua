@@ -58,14 +58,14 @@ return {
 			translation = {
 				en = {
 					title = "Lift Type", explanation = "Choose shape of lifts.",
-					choices = {"Octagon", "Arrow"},
+					choices = {"Octagon", "Ocragon (Colored)", "Arrow"},
 				},
 				ja = {
 					title = "リフトタイプ", explanation = "リフトの形状を選択します。",
-					choices = {"八角形", "矢印"},
+					choices = {"八角形", "八角形 (色付き)", "矢印"},
 				},
 			},
-			choices = {"Octagon", "Arrow"},
+			choices = {"Octagon", "OctagonColored", "Arrow"},
 		},
 		color_type = {
 			translation = {
