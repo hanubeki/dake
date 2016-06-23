@@ -37,6 +37,8 @@ return {
 		note_type = "Normal",
 		lift_type = "Octagon",
 		color_type = "Quantize",
+		quanta_mode = "Default",
+		quanta_multiply = "Default",
 		mine_color = false,
 		scratch_side = "Left",
 	},
@@ -79,6 +81,32 @@ return {
 				},
 			},
 			choices = {"Quantize", "Column", "Split", "Alternate", "Symmetric"},
+		},
+		quanta_mode = {
+			translation = {
+				en = {
+					title = "Quanta Mode", explanation = "Choose quantize mode.",
+					choices = {"Default", "3.9", "Bold", "Solo", "ITG", "DDR"},
+				},
+				ja = {
+					title = "クォンタモード", explanation = "クォンタイズのモードを選択します。",
+					choices = {"Default", "3.9", "Bold", "Solo", "ITG", "DDR"},
+				},
+			},
+			choices = {"Default", "3.9", "Bold", "Solo", "ITG", "DDR"},
+		},
+		quanta_multiply = {
+			translation = {
+				en = {
+					title = "Quanta Multiply", explanation = "Choose quantize mode.",
+					choices = {"Default", "Halved", "Thirdsed", "Quartered"},
+				},
+				ja = {
+					title = "クォンタ倍率", explanation = "クォンタイズの基準となる倍率を選択します。",
+					choices = {"デフォルト", "2分の1", "3分の1", "4分の1"},
+				},
+			},
+			choices = {"Default", "Halved", "Thirdsed", "Quartered"},
 		},
 		mine_color = {
 			translation = {

@@ -649,7 +649,7 @@ Column Color Reference (+1 for white outline):
 	 5: Green
 	 7: Yellow
 	 9: Purple
-	11: Emerald
+	11: Teal
 	13: Magenta
 	15: LightGreen
 	17: Gray
@@ -781,20 +781,35 @@ Column Color Reference (+1 for white outline):
 		end
 	});
 
-	-- State for Tap Note (quantized)
-	local quantaState = {
-		parts_per_beat = 48,
-		quanta = {
-			{per_beat = 1, states = {1}}, -- 4th
-			{per_beat = 2, states = {3}}, -- 8th
-			{per_beat = 3, states = {5}}, -- 12th
-			{per_beat = 4, states = {7}}, -- 16th
-			{per_beat = 6, states = {9}}, -- 24th
-			{per_beat = 8, states = {11}}, -- 32nd
-			{per_beat = 12, states = {13}}, -- 48th
-			{per_beat = 16, states = {15}}, -- 64th
-		},
-	};
+	local function generateQuantaState(mode, muliply)
+		local quantaModeTable = {
+			--            { 4, 8, 12, 16, 24, 32, 48, 64, 96, 128, 192},
+			["Default"] = { 1, 3,  5,  7,  9, 11, 13, 15, 15,  15,  15},
+			["3.9"]     = { 1, 3,  9,  7, 13, 19, 11,  5, 15,  17,  17},
+			["Bold"]    = { 5, 1,  3,  7,  9, 11, 13, 19, 19,  19,  19},
+			["Solo"]    = {19, 3, 13,  9,  9,  9,  9,  9,  9,   9,   9},
+			["ITG"]     = {19, 3,  9,  5,  9,  7,  9, 11, 19,  19,  19},
+			["DDR"]     = { 1, 3,  5,  7,  5,  5,  5,  5,  5,   5,   5},
+		};
+
+		local quantaMultiplyTable = {
+			["Default"]   = {1, 2, 3, 4, 5, 6, 7, 8, 9, 11},
+			["Halved"]    = {1, 1, 3, 2, 3, 4, 5, 6, 7,  9},
+			["Thirdsed"]  = {1, 2, 1, 4, 2, 6, 4, 8, 6, 11},
+			["Quartered"] = {1, 1, 3, 1, 3, 2, 3, 4, 5,  7},
+		};
+
+		local quantaState = {parts_per_beat = 48, quanta = {}};
+
+		local quantam = {1, 2, 3, 4, 6, 8, 12, 16, 24, 28};
+
+		for i, perBeat in ipairs(quantam) do
+			local j = quantaMultiplyTable[muliply][i];
+			quantaState.quanta[i] = {per_beat = perBeat, states = {quantaModeTable[mode][j]}};
+		end
+
+		return quantaState;
+	end
 
 	-- State for Tap Note (playerized)
 	local routineState = {
@@ -844,6 +859,8 @@ Column Color Reference (+1 for white outline):
 		local noteType = skin_parameters and skin_parameters.note_type or "Normal";
 		local liftType = skin_parameters and skin_parameters.lift_type or "Octagon";
 		local colorType = skin_parameters and skin_parameters.color_type or "Quantize";
+		local quantaMode = skin_parameters and skin_parameters.quanta_mode or "Default";
+		local quantaMultiply = skin_parameters and skin_parameters.quanta_multiply or "Default";
 		local mineColor = skin_parameters and skin_parameters.mine_color;
 		local scratchSide = skin_parameters and skin_parameters.scratch_side or "Left";
 
@@ -958,7 +975,7 @@ Column Color Reference (+1 for white outline):
 		};
 
 		if colorType == "Quantize" then
-			columnState = quantaState;
+			columnState = generateQuantaState(quantaMode, quantaMultiply);
 		elseif GAMEMAN:stepstype_is_multiplayer(stepstype) then
 			columnState = routineState;
 		end
