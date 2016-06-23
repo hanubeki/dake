@@ -98,7 +98,7 @@ return {
 		quanta_multiply = {
 			translation = {
 				en = {
-					title = "Quanta Multiply", explanation = "Choose quantize mode.",
+					title = "Quanta Multiply", explanation = "Choose quantize multiplier.",
 					choices = {"Default", "Halved", "Thirdsed", "Quartered"},
 				},
 				ja = {
