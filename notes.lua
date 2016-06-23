@@ -1075,6 +1075,20 @@ Column Color Reference (+1 for white outline):
 					},
 				},
 --[[
+				TapNoteSubType_CheckpointHold = {
+					{
+						state_map = inactiveState,
+						textures = {"_" .. buttonInfo.hold.image .. " checkpointhold 4x1 (doubleres).png"},
+						flip = buttonInfo.hold.flip,
+					},
+					{
+						state_map = activeState,
+						textures = {"_" .. buttonInfo.hold.image .. " checkpointhold 4x1 (doubleres).png"},
+						flip = buttonInfo.hold.flip,
+					},
+				},
+--]]
+--[[
 				TapNoteSubType_Mine = {
 					{
 						state_map = inactiveState,
@@ -1087,7 +1101,7 @@ Column Color Reference (+1 for white outline):
 						flip = "TexCoordFlipMode_None",
 					},
 				},
-]]
+--]]
 			},
 			reverse_holds = {
 				TapNoteSubType_Hold = {
@@ -1115,6 +1129,20 @@ Column Color Reference (+1 for white outline):
 					},
 				},
 --[[
+				TapNoteSubType_CheckpointHold = {
+					{
+						state_map = inactiveState,
+						textures = {"_" .. buttonInfo.holdReverse.image .. " checkpointhold 4x1 (doubleres).png"},
+						flip = buttonInfo.holdReverse.flip,
+					},
+					{
+						state_map = activeState,
+						textures = {"_" .. buttonInfo.holdReverse.image .. " checkpointhold 4x1 (doubleres).png"},
+						flip = buttonInfo.holdReverse.flip,
+					},
+				},
+--]]
+--[[
 				TapNoteSubType_Mine = {
 					{
 						state_map = inactiveState,
@@ -1127,7 +1155,7 @@ Column Color Reference (+1 for white outline):
 						flip = "TexCoordFlipMode_Y",
 					},
 				},
-]]
+--]]
 			},
 		};
 	end
