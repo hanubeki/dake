@@ -1,6 +1,5 @@
 # PictBear (Japanese painting software) File Type
 *.pbx
 
-# Assets and Previews
-hanubeki/big
-hanubeki/Preview
+# Temporary files
+tmp/
