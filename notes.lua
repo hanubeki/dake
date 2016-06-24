@@ -795,7 +795,7 @@ Column Color Reference (+1 for white outline):
 		local quantaMultiplyTable = {
 			["Default"]   = {1, 2, 3, 4, 5, 6, 7, 8, 9, 11},
 			["Halved"]    = {1, 1, 3, 2, 3, 4, 5, 6, 7,  9},
-			["Thirdsed"]  = {1, 2, 1, 4, 2, 6, 4, 8, 6, 11},
+			["Thirdsed"]  = {1, 2, 1, 4, 2, 6, 4, 8, 6,  8},
 			["Quartered"] = {1, 1, 3, 1, 3, 2, 3, 4, 5,  7},
 		};
 
