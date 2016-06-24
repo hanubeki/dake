@@ -975,7 +975,7 @@ Column Color Reference (+1 for white outline):
 		local columnColor = columnColorTable[stepstype][i] or 1;
 
 		local primaryColor = colorReferTable[colorValues.primary] or 17;
-		local secondaryColor = colorReferTable[colorValues.secondart] or 3;
+		local secondaryColor = colorReferTable[colorValues.secondary] or 3;
 		local tertiaryColor = colorReferTable[colorValues.tertiary] or 19;
 
 		if colorType == "Split" then
