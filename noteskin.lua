@@ -86,14 +86,14 @@ return {
 			translation = {
 				en = {
 					title = "Quanta Mode", explanation = "Choose quantize mode.",
-					choices = {"Default", "3.9", "Bold", "Solo", "ITG", "DDR", "PIU Rhythm", "Mungyodance", "Pulsen Shapes"},
+					choices = {"Default", "3.9 Note", "3.9 Solo", "4.0 Bold", "ITG", "DDR Note", "PIU Rhythm", "Mungyodance", "Pulsen Shapes"},
 				},
 				ja = {
 					title = "クォンタモード", explanation = "クォンタイズのモードを選択します。",
-					choices = {"Default", "3.9", "Bold", "Solo", "ITG", "DDR", "PIU Rhythm", "Mungyodance", "Pulsen Shapes"},
+					choices = {"Default", "3.9 Note", "3.9 Solo", "4.0 Bold", "ITG", "DDR Note", "PIU Rhythm", "Mungyodance", "Pulsen Shapes"},
 				},
 			},
-			choices = {"Default", "3.9", "Bold", "Solo", "ITG", "DDR", "PIU Rhythm", "Mungyodance", "Pulsen Shapes"},
+			choices = {"Default", "3.9", "Solo", "Bold", "ITG", "DDR", "PIU", "Mungyodance", "Pulsen"},
 		},
 		quanta_multiply = {
 			translation = {

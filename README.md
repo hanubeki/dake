@@ -19,7 +19,7 @@ In routine, holds are not fully colored by player.
     * Alternate and Symmetric are same way if column number is odd.
 
 ###Quanta Mode###
-* Default, 3.9, Bold, Solo, ITG, DDR, PIU Rhythm, Mungyodance, Pulsen Shapes
+* Default, 3.9 Note, 3.9 Solo, 4.0 Bold, ITG, DDR Note, PIU Rhythm, Mungyodance, Pulsen Shapes
     * [en] Choose quantize mode.
     * [ja] クォンタイズのモードを選択します。
 
