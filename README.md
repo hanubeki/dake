@@ -18,6 +18,21 @@ In routine, holds are not fully colored by player.
     * [ja] ノートの色付け方法を選択します。
     * Alternate and Symmetric are same way if column number is odd.
 
+###Quanta Mode###
+* Default, 3.9, Bold, Solo, ITG, DDR, PIU Rhythm, Mungyodance, Pulsen Shapes
+    * [en] Choose quantize mode.
+    * [ja] クォンタイズのモードを選択します。
+
+###Quanta Multiply###
+* Default, Halved, Thirdsed, Quartered
+    * [en] Choose quantize multiplier.
+    * [ja] クォンタイズの基準となる倍率を選択します。
+
+###Mine Color###
+* False, True
+    * [en] Choose if mines to be colored same as normal notes.
+    * [ja] マインノートを通常ノートと同じように色分けするか選択します。
+
 ###Note Type###
 * Normal, Bar (Narrow), Bar (Wide), Circle
     * [en] Choose shape of note.
