@@ -651,7 +651,7 @@ Column Color Reference (+1 for white outline):
 	 9: Purple
 	11: Teal
 	13: Magenta
-	15: LightGreen
+	15: Light Green
 	17: Gray
 	19: Orange
 	21: Reserved
@@ -782,18 +782,20 @@ Column Color Reference (+1 for white outline):
 	});
 
 	local function generateQuantaState(mode, muliply)
+		-- Colors for quantize variant
 		local quantaModeTable = {
-			--            { 4, 8, 12, 16, 24, 32, 48, 64, 96, 128, 192},
-			["Default"] = { 1, 3,  5,  7,  9, 11, 13, 15, 15,  15,  15},
-			["3.9"]     = { 1, 3,  9,  7, 13, 19, 11,  5, 15,  17,  17},
-			["Bold"]    = { 5, 1,  3,  7,  9, 11, 13, 19, 19,  19,  19},
-			["Solo"]    = {19, 3, 13,  9,  9,  9,  9,  9,  9,   9,   9},
-			["ITG"]     = {19, 3,  9,  5,  9,  7,  9, 11,  9,   9,   9},
-			["DDR"]     = { 1, 3,  5,  7,  5,  5,  5,  5,  5,   5,   5},
+			--            { 4, 8, 12, 16, 24, 32, 48, 64, 96, 192}, -- th
+			["Default"] = { 1, 3,  5,  7,  9, 11, 13, 15, 15,  15},
+			["3.9"]     = { 1, 3,  9,  7, 13, 19, 11,  5, 15,  17},
+			["Bold"]    = { 5, 1,  3,  7,  9, 11, 13, 19, 19,  19},
+			["Solo"]    = {19, 3, 13,  9,  9,  9,  9,  9,  9,   9},
+			["ITG"]     = {19, 3,  9,  5,  9,  7,  9, 11,  9,   9},
+			["DDR"]     = { 1, 3,  5,  7,  5,  5,  5,  5,  5,   5},
 		};
 
+		-- Table for quantize multiplier
 		local quantaMultiplyTable = {
-			["Default"]   = {1, 2, 3, 4, 5, 6, 7, 8, 9, 11},
+			["Default"]   = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
 			["Halved"]    = {1, 1, 3, 2, 3, 4, 5, 6, 7,  9},
 			["Thirdsed"]  = {1, 2, 1, 4, 2, 6, 4, 8, 6,  8},
 			["Quartered"] = {1, 1, 3, 1, 3, 2, 3, 4, 5,  7},
