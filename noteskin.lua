@@ -39,6 +39,11 @@ return {
 		color_type = "Quantize",
 		quanta_mode = "Default",
 		quanta_multiply = "Default",
+		color_values = {
+			primary   = "Gray",
+			secondary = "Blue",
+			tertiary  = "Orange",
+		},
 		mine_color = false,
 		scratch_side = "Left",
 	},
@@ -73,23 +78,23 @@ return {
 			translation = {
 				en = {
 					title = "Color Type", explanation = "Choose coloring method of note.",
-					choices = {"Quantize", "Column", "Split", "Alternate", "Symmetric"},
+					choices = {"Quantize", "Column", "Split", "Alternate", "Symmetric", "Flat"},
 				},
 				ja = {
 					title = "カラータイプ", explanation = "ノートの色付け方法を選択します。",
-					choices = {"クォンタイズ", "列", "分割", "交互", "対称"},
+					choices = {"クォンタイズ", "列", "分割", "交互", "対称", "フラット"},
 				},
 			},
-			choices = {"Quantize", "Column", "Split", "Alternate", "Symmetric"},
+			choices = {"Quantize", "Column", "Split", "Alternate", "Symmetric", "Flat"},
 		},
 		quanta_mode = {
 			translation = {
 				en = {
-					title = "Quanta Mode", explanation = "Choose quantize mode.",
+					title = "Quanta Mode", explanation = "Choose quantize coloring mode.",
 					choices = {"Default", "3.9 Note", "3.9 Solo", "4.0 Bold", "ITG", "DDR Note", "PIU Rhythm", "Mungyodance", "Pulsen Shapes"},
 				},
 				ja = {
-					title = "クォンタモード", explanation = "クォンタイズのモードを選択します。",
+					title = "クォンタモード", explanation = "クォンタイズの色付けモードを選択します。",
 					choices = {"Default", "3.9 Note", "3.9 Solo", "4.0 Bold", "ITG", "DDR Note", "PIU Rhythm", "Mungyodance", "Pulsen Shapes"},
 				},
 			},
@@ -107,6 +112,55 @@ return {
 				},
 			},
 			choices = {"Default", "Halved", "Thirdsed", "Quartered"},
+		},
+		color_values = {
+			translation = {
+				en = {
+					title = "Color values", explanation = "Set colors for Split, Alternate, Symmetric and Flat coloring.",
+				},
+				ja = {
+					title = "カラーバリュー", explanation = "Split、Alternate、Symmetric、Flat用の色を設定します。",
+				},
+			},
+			primary = {
+				translation = {
+					en = {
+						title = "Primary", explanation = "Primary color for Split, Alternate, Symmetric and Flat coloring.",
+						choices = {"Red", "Blue", "Green", "Yellow", "Purple", "Teal", "Magenta", "LightGreen", "Gray", "Orange"},
+					},
+					ja = {
+						title = "第1色", explanation = "Split、Alternate、Symmetric、Flat用の1番目の色です。",
+						choices = {"Red", "Blue", "Green", "Yellow", "Purple", "Teal", "Magenta", "LightGreen", "Gray", "Orange"},
+					},
+				},
+				choices = {"Red", "Blue", "Green", "Yellow", "Purple", "Teal", "Magenta", "LightGreen", "Gray", "Orange"},
+			},
+			secondary = {
+				translation = {
+					en = {
+						title = "Secondary", explanation = "Secondary color for Split, Alternate and Symmetric coloring.",
+						choices = {"Red", "Blue", "Green", "Yellow", "Purple", "Teal", "Magenta", "LightGreen", "Gray", "Orange"},
+					},
+					ja = {
+						title = "第2色", explanation = "Split、Alternate、Symmetric用の2番目の色です。",
+						choices = {"Red", "Blue", "Green", "Yellow", "Purple", "Teal", "Magenta", "LightGreen", "Gray", "Orange"},
+					},
+				},
+				choices = {"Red", "Blue", "Green", "Yellow", "Purple", "Teal", "Magenta", "LightGreen", "Gray", "Orange"},
+			},
+			tertiary  = {
+				translation = {
+					en = {
+						title = "Tertiary", explanation = "Tertiary color for Split coloring.",
+						choices = {"Red", "Blue", "Green", "Yellow", "Purple", "Teal", "Magenta", "LightGreen", "Gray", "Orange"},
+					},
+					ja = {
+						title = "第3色", explanation = "Split用の3番目の色です。",
+						choices = {"Red", "Blue", "Green", "Yellow", "Purple", "Teal", "Magenta", "LightGreen", "Gray", "Orange"},
+					},
+				},
+				choices = {"Red", "Blue", "Green", "Yellow", "Purple", "Teal", "Magenta", "LightGreen", "Gray", "Orange"},
+			},
 		},
 		mine_color = {
 			translation = {

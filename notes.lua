@@ -651,7 +651,7 @@ Column Color Reference (+1 for white outline):
 	 9: Purple
 	11: Teal
 	13: Magenta
-	15: Light Green
+	15: LightGreen
 	17: Gray
 	19: Orange
 	21: Reserved
@@ -661,6 +661,20 @@ Column Color Reference (+1 for white outline):
 	29: Reserved
 	31: Reserved
 ]]
+
+	local colorReferTable = {
+		["Red"]        =  1,
+		["Blue"]       =  3,
+		["Green"]      =  5,
+		["Yellow"]     =  7,
+		["Purple"]     =  9,
+		["Teal"]       = 11,
+		["Magenta"]    = 13,
+		["LightGreen"] = 15,
+		["Gray"]       = 17,
+		["Orange"]     = 19,
+	};
+
 	-- Column color table for StepsTypes
 	local columnColorTable = {
 		-- dance
@@ -866,6 +880,7 @@ Column Color Reference (+1 for white outline):
 		local colorType = skin_parameters and skin_parameters.color_type or "Quantize";
 		local quantaMode = skin_parameters and skin_parameters.quanta_mode or "Default";
 		local quantaMultiply = skin_parameters and skin_parameters.quanta_multiply or "Default";
+		local colorValues = skin_parameters and skin_parameters.color_values or {primary = "Gray", secondary = "Blue", tertiary = "Orange"};
 		local mineColor = skin_parameters and skin_parameters.mine_color;
 		local scratchSide = skin_parameters and skin_parameters.scratch_side or "Left";
 
@@ -959,16 +974,22 @@ Column Color Reference (+1 for white outline):
 		-- Column color
 		local columnColor = columnColorTable[stepstype][i] or 1;
 
+		local primaryColor = colorReferTable[colorValues.primary] or 17;
+		local secondaryColor = colorReferTable[colorValues.secondart] or 3;
+		local tertiaryColor = colorReferTable[colorValues.tertiary] or 19;
+
 		if colorType == "Split" then
-			columnColor = i <= #button_list / 2 and 17 or 3; -- left or right
+			columnColor = i <= #button_list / 2 and primaryColor or secondaryColor; -- left or right
 
 			if #button_list % 2 == 1 and i == (#button_list - 1) / 2 + 1 then
-				columnColor = 19; -- center
+				columnColor = tertiaryColor; -- center
 			end
 		elseif colorType == "Alternate" then
-			columnColor = i % 2 == 1 and 17 or 3; -- odd or even
+			columnColor = i % 2 == 1 and primaryColor or secondaryColor; -- odd or even
 		elseif colorType == "Symmetric" then
-			columnColor = math.min(i, #button_list - i + 1) % 2 == 1 and 17 or 3; -- odd or even
+			columnColor = math.min(i, #button_list - i + 1) % 2 == 1 and primaryColor or secondaryColor; -- odd or even
+		elseif colorType == "Flat" then
+			columnColor = primaryColor; -- center
 		end
 
 		-- State for column color

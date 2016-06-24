@@ -13,20 +13,25 @@ In routine, holds are not fully colored by player.
 ##NoteSkin Parameters##
 
 ###Color Type###
-* Quantize, Column, Split, Alternate, Symmetric
+* Quantize, Column, Split, Alternate, Symmetric, Flat
     * [en] Choose coloring method of note.
     * [ja] ノートの色付け方法を選択します。
     * Alternate and Symmetric are same way if column number is odd.
 
 ###Quanta Mode###
 * Default, 3.9 Note, 3.9 Solo, 4.0 Bold, ITG, DDR Note, PIU Rhythm, Mungyodance, Pulsen Shapes
-    * [en] Choose quantize mode.
-    * [ja] クォンタイズのモードを選択します。
+    * [en] Choose quantize coloring mode.
+    * [ja] クォンタイズの色付けモードを選択します。
 
 ###Quanta Multiply###
 * Default, Halved, Thirdsed, Quartered
     * [en] Choose quantize multiplier.
     * [ja] クォンタイズの基準となる倍率を選択します。
+
+###Color Values###
+* Primary, Secondary, Tertiary
+    * [en] Set colors for Split, Alternate, Symmetric and Flat coloring.
+    * [ja] Split、Alternate、Symmetric、Flat用の色を設定します。
 
 ###Mine Color###
 * False, True
