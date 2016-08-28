@@ -506,9 +506,9 @@ return function(button_list, stepstype, skin_parameters)
 		end
 
 		ret[i] = Def.Sprite {
-			Texture = NEWSKIN:get_path(skin_name, "_" .. buttonInfo.tap.image .. " receptor (doubleres).png");
+			Texture = NOTESKIN:get_path(skin_name, "_" .. buttonInfo.tap.image .. " receptor (doubleres).png");
 			InitCommand = function(self)
-				self:draworder(newfield_draw_order.receptor):visible(not isHidden)
+				self:draworder(notefield_draw_order.receptor):visible(not isHidden)
 					:rotationy(buttonInfo.tap.rotY):rotationz(buttonInfo.tap.rotZ)
 					:diffuseramp():effectclock("beat")
 					:effectcolor1({0.8, 0.8, 0.8, 1}):effectcolor2({1, 1, 1, 1})

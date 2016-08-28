@@ -536,13 +536,13 @@ return function(button_list, stepstype, skin_parameters)
 
 		ret[i] = Def.ActorFrame{
 			InitCommand = function(self)
-				self:draworder(newfield_draw_order.explosion);
+				self:draworder(notefield_draw_order.explosion);
 			end,
 			WidthSetCommand = function(self, param)
 				param.column:set_layer_fade_type(self, "FieldLayerFadeType_Explosion");
 			end,
 			Def.Sprite {
-				Texture = NEWSKIN:get_path(skin_name, "_" .. buttonInfo.tap.image .. " glow (doubleres).png"),
+				Texture = NOTESKIN:get_path(skin_name, "_" .. buttonInfo.tap.image .. " glow (doubleres).png"),
 				InitCommand = function(self)
 					self:rotationz(buttonInfo.tap.rotZ):rotationy(buttonInfo.tap.rotY):diffusealpha(0);
 				end,
@@ -562,7 +562,7 @@ return function(button_list, stepstype, skin_parameters)
 				end,
 			},
 			Def.Sprite {
-				Texture = NEWSKIN:get_path(skin_name, "_bright (doubleres).png"),
+				Texture = NOTESKIN:get_path(skin_name, "_bright (doubleres).png"),
 				InitCommand = function(self)
 					self:zoom(mineZoom):diffusealpha(0);
 				end,
@@ -582,7 +582,7 @@ return function(button_list, stepstype, skin_parameters)
 				end,
 			},
 			Def.Sprite {
-				Texture = NEWSKIN:get_path(skin_name, "_hflash 2x1 (doubleres).png"),
+				Texture = NOTESKIN:get_path(skin_name, "_hflash 2x1 (doubleres).png"),
 				InitCommand = function(self)
 					self:diffusealpha(0)
 				end,
@@ -598,7 +598,7 @@ return function(button_list, stepstype, skin_parameters)
 				end,
 			},
 			Def.Sprite {
-				Texture = NEWSKIN:get_path(skin_name, "_hitmine.png"),
+				Texture = NOTESKIN:get_path(skin_name, "_hitmine.png"),
 				InitCommand = function(self)
 					self:blend("BlendMode_Add")
 						:zoom(mineZoom):diffusealpha(0);
