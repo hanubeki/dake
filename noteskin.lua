@@ -45,6 +45,7 @@ return {
 			tertiary  = "Orange",
 		},
 		mine_color = false,
+		narrower_solo = false,
 		scratch_side = "Left",
 	},
 	skin_parameter_info = {
@@ -169,6 +170,17 @@ return {
 				},
 				ja = {
 					title = "マインカラー", explanation = "マインノートを通常ノートと同じように色分けするか選択します。",
+				},
+			},
+			type = "bool",
+		},
+		narrower_solo = {
+			translation = {
+				en = {
+					title = "Narrower Solo", explanation = "Narrower lane like PS3 DDR's Octo Mode in Solo/Techno8.",
+				},
+				ja = {
+					title = "Narrower Solo", explanation = "Solo/Techno8のレーンをPS3 DDRのOctoモードやWii DDRのように狭くします。",
 				},
 			},
 			type = "bool",

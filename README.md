@@ -4,6 +4,8 @@ NoteSkin hanubeki
 A simple flat -- but huge -- NoteSkin for StepMania 5.1.
 A goal of this noteskin is to support every gametype (except lights).
 
+It requires StepMania 5.1.-3 or newer.
+
 If you are looking for 5.0.x version, see [5.0-final](https://github.com/hanubeki/noteskin-hanubeki/tree/5.0-final) tag.
 
 ##Limitation of this NoteSkin##
@@ -49,17 +51,18 @@ In routine, holds are not fully colored by player.
     * [ja] リフトの形状を選択します。
     * Using "Arrow" with Split/Alternate/Symmetric coloring is not recommended.
 
+###Narrower Solo###
+* False, True
+    * [en] Narrower lane like PS3 DDR's Octo Mode in Solo/Techno8.
+    * [ja] Solo/Techno8のレーンをPS3 DDRのOctoモードやWii DDRのように狭くします。
+
 ###(beat) Scratch Side###
 * Left, Right
     * [en] Choose side of scratch. If doubles chart, only affected to P1.
     * [ja] スクラッチの位置を選択します。ダブル譜面の場合、P1側のみ影響します。
-    * It will require post-alpha2 build.
 
 ##Known problems##
 * Active hold head has offset if Visual Delay is set.
-
-Fllowing problems are not confirmed in alpha 2:
-* Crash while playing Springtime pump-single Expert (bundled with SM5)
 
 ##License##
 This work is licensed under the Creative Commons Attribution-ShareAlike 4.0

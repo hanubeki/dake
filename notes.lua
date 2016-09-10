@@ -495,7 +495,6 @@ return function(button_list, stepstype, skin_parameters)
 		},
 		StepsType_Dance_Solo = {
 			width = {64, 48, 64, 64, 48, 64},
-			-- position = {-96, -96, -32, 32, 96, 96}, -- uncomment for PS3/Wii style solo
 		},
 		StepsType_Dance_Threepanel = {
 			width = {64, 64, 64},
@@ -610,7 +609,6 @@ return function(button_list, stepstype, skin_parameters)
 		},
 		StepsType_Techno_Single8 = {
 			width = {56, 56, 56, 56, 56, 56, 56, 56},
-			-- position = {-96, -96, -96, -32, 32, 96, 96, 96}, -- uncomment for DDR's PS3/Wii style
 		},
 		StepsType_Techno_Double4 = {
 			width = {70, 70, 70, 70, 70, 70, 70, 70},
@@ -620,7 +618,6 @@ return function(button_list, stepstype, skin_parameters)
 		},
 		StepsType_Techno_Double8 = {
 			width = {56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56},
-			-- position = {-224, -224, -224, -160, -96, -32, -32, -32, 32, 32, 32, 96, 160, 224, 224, 224}, -- uncomment for DDR's PS3/Wii style
 		},
 
 		-- popn: not stretched in 5-button mode
@@ -670,6 +667,13 @@ return function(button_list, stepstype, skin_parameters)
 			};
 		end
 	});
+
+	-- Column position table for PS3/Wii style Solo
+	local narrowerSoloPositionTable = {
+		StepsType_Dance_Solo = {-96, -96, -32, 32, 96, 96},
+		StepsType_Techno_Single8 = {-96, -96, -96, -32, 32, 96, 96, 96},
+		StepsType_Techno_Single8 = {-224, -224, -224, -160, -96, -32, -32, -32, 32, 32, 32, 96, 160, 224, 224, 224},
+	};
 
 	-- Column position table for beat-*
 	-- XXX: Button order for beat-*5 in NoteSkin.cpp needs to be fixed.
@@ -939,6 +943,7 @@ Column Color Reference (+1 for white outline):
 	local colorValues = skin_parameters and skin_parameters.color_values or {primary = "Gray", secondary = "Blue", tertiary = "Orange"};
 	local mineColor = skin_parameters and skin_parameters.mine_color;
 	local scratchSide = skin_parameters and skin_parameters.scratch_side or "Left";
+	local narrowerSolo = skin_parameters and skin_parameters.narrower_solo;
 
 	local primaryColor = colorReferTable[colorValues.primary] or 17;
 	local secondaryColor = colorReferTable[colorValues.secondary] or 3;
@@ -1038,6 +1043,10 @@ Column Color Reference (+1 for white outline):
 		local computedPadding = columnWidth + columnPadding - buttonInfo.baseWidth;
 		local columnPosition = columnSizeTable[stepstype].position and columnSizeTable[stepstype].position[i];
 
+		if narrowerSolo and narrowerSoloPositionTable[stepstype] then
+			columnPosition = narrowerSoloPositionTable[stepstype][i];
+		end
+
 		if beatColumnPositionTable[stepstype] and beatColumnPositionTable[stepstype][scratchSide] then
 			columnPosition = beatColumnPositionTable[stepstype][scratchSide][i];
 		end
@@ -1108,7 +1117,7 @@ Column Color Reference (+1 for white outline):
 					state_map = mineColor and columnState or singleState,
 					actor = Def.ActorFrame {
 						InitCommand = function(self)
-							selfzoom(mineZoom);
+							self:zoom(mineZoom);
 						end,
 						Def.Sprite {
 							Texture = NOTESKIN:get_path(skin_name, "_mine 2x16 (doubleres).png"),
