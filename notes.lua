@@ -672,7 +672,7 @@ return function(button_list, stepstype, skin_parameters)
 	local narrowerSoloPositionTable = {
 		StepsType_Dance_Solo = {-96, -96, -32, 32, 96, 96},
 		StepsType_Techno_Single8 = {-96, -96, -96, -32, 32, 96, 96, 96},
-		StepsType_Techno_Single8 = {-224, -224, -224, -160, -96, -32, -32, -32, 32, 32, 32, 96, 160, 224, 224, 224},
+		StepsType_Techno_Double8 = {-224, -224, -224, -160, -96, -32, -32, -32, 32, 32, 32, 96, 160, 224, 224, 224},
 	};
 
 	-- Column position table for beat-*
