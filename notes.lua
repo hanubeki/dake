@@ -874,7 +874,7 @@ Column Color Reference (+1 for white outline):
 
 		local quantaState = {parts_per_beat = 48, quanta = {}};
 
-		local quantam = {1, 2, 3, 4, 6, 8, 12, 16, 24, 28};
+		local quantam = {1, 2, 3, 4, 6, 8, 12, 16, 24, 48};
 
 		for i, perBeat in ipairs(quantam) do
 			quantaState.quanta[i] = {per_beat = perBeat, states = {quantaModeTable[mode][i]}};
