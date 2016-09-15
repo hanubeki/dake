@@ -904,36 +904,16 @@ Column Color Reference (+1 for white outline):
 	};
 
 	-- State for Tap Lift
-	local liftState = {
-		parts_per_beat = 1,
-		quanta = {
-			{per_beat = 1, states = {18}},
-		},
-	};
+	local liftState = NoteSkin.single_quanta_state_map{18};
 
 	-- State for single image (such as mine, octagon lift)
-	local singleState = {
-		parts_per_beat = 1,
-		quanta = {
-			{per_beat = 1, states = {1}},
-		},
-	};
+	local singleState = NoteSkin.single_quanta_state_map{1};
 
 	-- State for active Hold Body
-	local activeState = {
-		parts_per_beat = 1,
-		quanta = {
-			{per_beat = 1, states = {1}},
-		},
-	};
+	local activeState = NoteSkin.single_quanta_state_map{1};
 
 	-- State for inactive Hold Body
-	local inactiveState = {
-		parts_per_beat = 1,
-		quanta = {
-			{per_beat = 1, states = {3}},
-		},
-	};
+	local inactiveState = NoteSkin.single_quanta_state_map{3};
 
 	local noteType = skin_parameters and skin_parameters.note_type or "Normal";
 	local liftType = skin_parameters and skin_parameters.lift_type or "Octagon";
@@ -1069,12 +1049,7 @@ Column Color Reference (+1 for white outline):
 		end
 
 		-- State for column color
-		local columnState = {
-			parts_per_beat = 1,
-			quanta = {
-				{per_beat = 1, states = {columnColor}},
-			},
-		};
+		local columnState = NoteSkin.single_quanta_state_map{columnColor};
 
 		if colorType == "Quantize" then
 			columnState = generateQuantaState(quantaMode, quantaMultiply);
