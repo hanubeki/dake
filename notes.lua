@@ -857,7 +857,7 @@ Column Color Reference (+1 for white outline):
 		end
 	});
 
-	local function generateQuantaState(mode, muliply)
+	local function generateQuantaState(mode)
 		-- Colors for quantize variant
 		local quantaModeTable = {
 			--                { 4, 8, 12, 16, 24, 32, 48, 64, 96, 192}, -- th
@@ -872,21 +872,12 @@ Column Color Reference (+1 for white outline):
 			["Pulsen"]      = { 3, 5, 13,  7, 19,  9, 17, 11, 11,  11},
 		};
 
-		-- Table for quantize multiplier
-		local quantaMultiplyTable = {
-			["Default"]   = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
-			["Halved"]    = {1, 1, 3, 2, 3, 4, 5, 6, 7,  9},
-			["Thirdsed"]  = {1, 2, 1, 4, 2, 6, 4, 8, 6,  8},
-			["Quartered"] = {1, 1, 3, 1, 3, 2, 3, 4, 5,  7},
-		};
-
 		local quantaState = {parts_per_beat = 48, quanta = {}};
 
 		local quantam = {1, 2, 3, 4, 6, 8, 12, 16, 24, 28};
 
 		for i, perBeat in ipairs(quantam) do
-			local j = quantaMultiplyTable[muliply][i];
-			quantaState.quanta[i] = {per_beat = perBeat, states = {quantaModeTable[mode][j]}};
+			quantaState.quanta[i] = {per_beat = perBeat, states = {quantaModeTable[mode][i]}};
 		end
 
 		return quantaState;
@@ -919,7 +910,6 @@ Column Color Reference (+1 for white outline):
 	local liftType = skin_parameters and skin_parameters.lift_type or "Octagon";
 	local colorType = skin_parameters and skin_parameters.color_type or "Quantize";
 	local quantaMode = skin_parameters and skin_parameters.quanta_mode or "Default";
-	local quantaMultiply = skin_parameters and skin_parameters.quanta_multiply or "Default";
 	local colorValues = skin_parameters and skin_parameters.color_values or {primary = "Gray", secondary = "Blue", tertiary = "Orange"};
 	local mineColor = skin_parameters and skin_parameters.mine_color;
 	local scratchSide = skin_parameters and skin_parameters.scratch_side or "Left";
@@ -1052,7 +1042,7 @@ Column Color Reference (+1 for white outline):
 		local columnState = NoteSkin.single_quanta_state_map{columnColor};
 
 		if colorType == "Quantize" then
-			columnState = generateQuantaState(quantaMode, quantaMultiply);
+			columnState = generateQuantaState(quantaMode);
 		elseif GAMEMAN:stepstype_is_multiplayer(stepstype) then
 			columnState = routineState;
 		end

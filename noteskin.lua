@@ -38,7 +38,6 @@ return {
 		lift_type = "Octagon",
 		color_type = "Quantize",
 		quanta_mode = "Default",
-		quanta_multiply = "Default",
 		color_values = {
 			primary   = "Gray",
 			secondary = "Blue",
@@ -95,24 +94,11 @@ return {
 					choices = {"Default", "3.9 Note", "3.9 Solo", "4.0 Bold", "ITG", "DDR Note", "PIU Rhythm", "Mungyodance", "Pulsen Shapes"},
 				},
 				ja = {
-					title = "クォンタモード", explanation = "クォンタイズの色付けモードを選択します。",
+					title = "クォンタモード", explanation = "クォンタイズの色分けモードを選択します。",
 					choices = {"Default", "3.9 Note", "3.9 Solo", "4.0 Bold", "ITG", "DDR Note", "PIU Rhythm", "Mungyodance", "Pulsen Shapes"},
 				},
 			},
 			choices = {"Default", "3.9", "Solo", "Bold", "ITG", "DDR", "PIU", "Mungyodance", "Pulsen"},
-		},
-		quanta_multiply = {
-			translation = {
-				en = {
-					title = "Quanta Multiply", explanation = "Choose quantize multiplier.",
-					choices = {"Default", "Halved", "Thirdsed", "Quartered"},
-				},
-				ja = {
-					title = "クォンタ倍率", explanation = "クォンタイズの基準となる倍率を選択します。",
-					choices = {"デフォルト", "2分の1", "3分の1", "4分の1"},
-				},
-			},
-			choices = {"Default", "Halved", "Thirdsed", "Quartered"},
 		},
 		color_values = {
 			translation = {
