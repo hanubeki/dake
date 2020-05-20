@@ -929,7 +929,7 @@ Column Color Reference (+1 for white outline):
 		local mineZoom = mineZoomTable[stepstype];
 
 		-- Button info for maniax-*
-		if stepstype == "StepsType_Maniax_Single" or stepstype == "StepsType_Maniax_Double" then
+		if ({stepstype:find("StepsType_Maniax_")})[1] == 1 then
 			buttonInfo = {
 				baseWidth   = 64,
 				tap         = {image = "ring", rotZ = 0, rotY = 0},
@@ -941,7 +941,7 @@ Column Color Reference (+1 for white outline):
 		end
 
 		-- Button info for kb7-single
-		if stepstype == "StepsType_Kb7_Single" then
+		if ({stepstype:find("StepsType_Kb7_")})[1] == 1 then
 			buttonInfo = {
 				baseWidth   = 64,
 				tap         = {image = "circle", rotZ = 0, rotY = 0},
@@ -953,7 +953,7 @@ Column Color Reference (+1 for white outline):
 		end
 
 		-- Button info for Center in techno-single/double5
-		if (stepstype == "StepsType_Techno_Single5" or stepstype == "StepsType_Techno_Double5") and button == "Center" then
+		if ({stepstype:find("StepsType_Techno_")})[1] == 1 and button == "Center" then
 			buttonInfo = {
 				baseWidth   = 64,
 				tap         = {image = "circle", rotZ = 0, rotY = 0},
@@ -1047,6 +1047,15 @@ Column Color Reference (+1 for white outline):
 			columnState = routineState;
 		end
 
+		-- Length data for Holds
+		local hold_length = {
+			pixels_before_note = 32,
+			topcap_pixels = 32,
+			body_pixels = 64,
+			bottomcap_pixels = 32,
+			pixels_after_note = 32,
+		};
+
 --[[
 		-- Image name for Minefield
 		local minefieldImage = mineZoom < 0.75 and "half" or "fallback";
@@ -1132,18 +1141,13 @@ Column Color Reference (+1 for white outline):
 						textures = {"_" .. buttonInfo.hold.image .. " hold 4x1 (doubleres).png"},
 						flip = buttonInfo.hold.flip,
 						disable_filtering = false,
-						length_data = {
-							start_note_offset = -0.5,
-							end_note_offset = 0.5,
-							head_pixs = 32,
-							body_pixs = 64,
-							tail_pixs = 32,
-						},
+						length_data = hold_length,
 					},
 					{
 						state_map = activeState,
 						textures = {"_" .. buttonInfo.hold.image .. " hold 4x1 (doubleres).png"},
 						flip = buttonInfo.hold.flip,
+						length_data = hold_length,
 					},
 				},
 				TapNoteSubType_Roll = {
@@ -1151,11 +1155,13 @@ Column Color Reference (+1 for white outline):
 						state_map = inactiveState,
 						textures = {"_" .. buttonInfo.roll.image .. " roll 4x1 (doubleres).png"},
 						flip = buttonInfo.roll.flip,
+						length_data = hold_length,
 					},
 					{
 						state_map = activeState,
 						textures = {"_" .. buttonInfo.roll.image .. " roll 4x1 (doubleres).png"},
 						flip = buttonInfo.roll.flip,
+						length_data = hold_length,
 					},
 				},
 --[[
@@ -1164,11 +1170,13 @@ Column Color Reference (+1 for white outline):
 						state_map = inactiveState,
 						textures = {"_" .. buttonInfo.hold.image .. " checkpointhold 4x1 (doubleres).png"},
 						flip = buttonInfo.hold.flip,
+						length_data = hold_length,
 					},
 					{
 						state_map = activeState,
 						textures = {"_" .. buttonInfo.hold.image .. " checkpointhold 4x1 (doubleres).png"},
 						flip = buttonInfo.hold.flip,
+						length_data = hold_length,
 					},
 				},
 --]]
