@@ -2,12 +2,12 @@ local ret = ... or {}
 
 local game = GAMESTATE:GetCurrentGame():GetName()
 
--- [ja] Receptor�̖��邢�F�̊֐�
+-- [ja] Receptorの明るい色の関数
 local function BrightColor(col)
 	return {(col[1] + 2) / 3, (col[2] + 2) / 3, (col[3] + 2) / 3, col[4]}
 end
 
--- [ja] �e�{�^���̃��_�C���N�g�e�[�u��
+-- [ja] 各ボタンのリダイレクトテーブル
 ret.RedirTable =
 {
 	-- Dance (incl. solo and octo), Pump, pAra, Techno, smX
@@ -94,7 +94,7 @@ local FallbackOne = {
 	end
 }
 
--- [ja] Tap Note/Hold Head�p�̃��_�C���N�g�e�[�u��
+-- [ja] Tap Note/Hold Head用のリダイレクトテーブル
 local TapRedir = {
 	["Up"]        = "_down",
 	["Down"]      = "_down",
@@ -143,7 +143,7 @@ local TapRedir = {
 }
 setmetatable(TapRedir, Fallback)
 
--- [ja] Tap Note/Hold Head�p�̔��]�e�[�u��
+-- [ja] Tap Note/Hold Head用の反転テーブル
 local TapRotateY = {
 	["DownLeftFoot"]  = 180,
 	["AnyLeftFoot"]   = 180,
@@ -160,7 +160,7 @@ local TapRotateY = {
 }
 setmetatable(TapRotateY, FallbackZero)
 
--- [ja] Tap Note/Hold Head�p�̉�]�e�[�u��
+-- [ja] Tap Note/Hold Head用の回転テーブル
 local TapRotateZ = {
 	["Up"]        = 180,
 	["Down"]      =   0,
@@ -186,7 +186,7 @@ local TapRotateZ = {
 }
 setmetatable(TapRotateZ, FallbackZero)
 
--- [ja] ���ʉ摜�̊eGame�p�̊g��e�[�u��
+-- [ja] 共通画像の各Game用の拡大テーブル
 local ZoomTable = {
 	["maniax"] = 1/2,
 	["beat"] = 1/2,
