@@ -68,6 +68,12 @@ ret.RedirTable =
 	["UpRightFoot"]   =   "UpRightFoot",
 	["AnyRightFoot"]  =  "AnyRightFoot",
 	["DownRightFoot"] = "DownRightFoot",
+	-- guitar
+	["Fret 1"] = "Fret",
+	["Fret 2"] = "Fret",
+	["Fret 3"] = "Fret",
+	["Fret 4"] = "Fret",
+	["Fret 5"] = "Fret",
 }
 
 local Fallback = {
@@ -132,6 +138,8 @@ local TapRedir = {
 	["UpRightFoot"]   = "_rightfoot",
 	["AnyRightFoot"]  = "_rightfoot",
 	["DownRightFoot"] = "_rightfoot",
+
+	["Fret"] = "_circle",
 }
 setmetatable(TapRedir, Fallback)
 
@@ -231,6 +239,8 @@ local HoldBodyRedir = {
 	["UpRightFoot"]   = "_rightfoot",
 	["AnyRightFoot"]  = "_rightfoot",
 	["DownRightFoot"] = "_rightfoot",
+
+	["Fret"] = "_thin",
 }
 setmetatable(HoldBodyRedir, Fallback)
 
@@ -262,6 +272,8 @@ local HoldCapRedir = {
 	["UpRightFoot"]   = "_rightfoot",
 	["AnyRightFoot"]  = "_rightfoot",
 	["DownRightFoot"] = "_rightfoot",
+
+	["Fret"] = "_thin",
 }
 local HoldCapRedirMeta = {
 	__index = function(table, key, value)
@@ -426,6 +438,13 @@ local ColorTable = {
 		["UpRightFoot"]   = 0,
 		["AnyRightFoot"]  = 6,
 		["DownRightFoot"] = 2,
+	},
+	["guitar"] = {
+		["Fret 1"] = 6,
+		["Fret 2"] = 8,
+		["Fret 3"] = 4,
+		["Fret 4"] = 0,
+		["Fret 5"] = 2,
 	},
 	["lights"] = { -- isn't game
 		["MarqueeUpLeft"] = 0,

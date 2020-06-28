@@ -68,6 +68,12 @@ ret.RedirTable =
 	["UpRightFoot"]   =   "UpRightFoot",
 	["AnyRightFoot"]  =  "AnyRightFoot",
 	["DownRightFoot"] = "DownRightFoot",
+	-- guitar
+	["Fret 1"] = "Fret",
+	["Fret 2"] = "Fret",
+	["Fret 3"] = "Fret",
+	["Fret 4"] = "Fret",
+	["Fret 5"] = "Fret",
 }
 
 local Fallback = {
@@ -132,6 +138,8 @@ local TapRedir = {
 	["UpRightFoot"]   = "_rightfoot",
 	["AnyRightFoot"]  = "_rightfoot",
 	["DownRightFoot"] = "_rightfoot",
+
+	["Fret"] = "_circle",
 }
 setmetatable(TapRedir, Fallback)
 
