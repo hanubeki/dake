@@ -74,6 +74,19 @@ ret.RedirTable =
 	["Fret 3"] = "Fret",
 	["Fret 4"] = "Fret",
 	["Fret 5"] = "Fret",
+	["Fret 6"] = "Fret",
+	["Strum Up"] = "Strum",
+	["Strum Down"] = "Strum",
+	-- gddm
+	["Crash"] = "Cymbal",
+	["Hi-Hat"] = "Cymbal",
+	["Hi-Hat Pedal"] = "Pedal",
+	["Snare"] = "Tom",
+	["Tom1"] = "Tom",
+	["Kick"] = "Pedal",
+	["Tom2"] = "Tom",
+	["Tom3"] = "Tom",
+	["Ride"] = "Cymbal",
 }
 
 local Fallback = {
@@ -140,6 +153,11 @@ local TapRedir = {
 	["DownRightFoot"] = "_rightfoot",
 
 	["Fret"] = "_circle",
+	["Strum"] = "_strum",
+
+	["Cymbal"] = "_scratch",
+	["Tom"] = "_scratch",
+	["Pedal"] = "_scratch",
 }
 setmetatable(TapRedir, Fallback)
 
@@ -241,6 +259,11 @@ local HoldBodyRedir = {
 	["DownRightFoot"] = "_rightfoot",
 
 	["Fret"] = "_thin",
+	["Strum"] = "_strum",
+
+	["Cymbal"] = "_scratch",
+	["Tom"] = "_scratch",
+	["Pedal"] = "_scratch",
 }
 setmetatable(HoldBodyRedir, Fallback)
 
@@ -274,6 +297,10 @@ local HoldCapRedir = {
 	["DownRightFoot"] = "_rightfoot",
 
 	["Fret"] = "_thin",
+
+	["Cymbal"] = "_scratch",
+	["Tom"] = "_scratch",
+	["Pedal"] = "_scratch",
 }
 local HoldCapRedirMeta = {
 	__index = function(table, key, value)
@@ -445,6 +472,20 @@ local ColorTable = {
 		["Fret 3"] = 4,
 		["Fret 4"] = 0,
 		["Fret 5"] = 2,
+		["Fret 6"] = 16,
+		["Strum Up"] = 16,
+		["Strum Down"] = 16,
+	},
+	["gddm"] = {
+		["Crash"]        = 12,
+		["Hi-Hat"]       = 2,
+		["Hi-Hat Pedal"] = 12,
+		["Snare"]        = 6,
+		["Tom1"]         = 4,
+		["Kick"]         = 8,
+		["Tom2"]         = 0,
+		["Tom3"]         = 18,
+		["Ride"]         = 2,
 	},
 	["lights"] = { -- isn't game
 		["MarqueeUpLeft"] = 0,
@@ -542,6 +583,28 @@ local function func()
 		}
 	end
 
+	if string.find(sButton, "Strum") then
+		if string.find(sElement, "Tap Note") then
+			local strumLength = string.find(GAMESTATE:GetCurrentStyle(pn):GetName(), "6") and 320 or 192
+
+			return Def.Quad {
+				InitCommand = function (self) self:setsize(strumLength, 8):diffuse({1, 1, 1, 1}) end
+			}
+		else
+			local t
+
+			if Var "SpriteOnly" then
+				t = LoadActor("_blank")
+			else
+				t = Def.Actor {}
+			end
+
+			return t .. {
+				InitCommand = function (self) self:visible(false) end
+			}
+		end
+	end
+
 	local sButtonToLoad, sElementToLoad = ret.Redir(sButton, sElement)
 	assert(sButtonToLoad)
 	assert(sElementToLoad)
@@ -560,11 +623,33 @@ local function func()
 	if sElementToLoad == "Tap Note" then
 		local color = ColorTable["Routine"][pn]
 
+		if sButtonToLoad == "Pedal" then
+			t[#t+1] = Def.Sprite {
+				Texture = NOTESKIN:GetPath("_common", "underlay foot"),
+				Frames = {{Frame = 0, Delay = 1}},
+			}
+		elseif sButtonToLoad == "Cymbal" then
+			local cymRot = sButton == "Hi-Hat" and -60 or -45
+
+			t[#t+1] = Def.Sprite {
+				Texture = NOTESKIN:GetPath("_common", "underlay cymbal"),
+				Frames = {{Frame = 0, Delay = 1}},
+				InitCommand = function (self) self:rotationz(cymRot) end,
+			}
+		end
+
 		t[#t+1] = Def.Sprite {
 			Texture = NOTESKIN:GetPath(TapRedir[sButtonToLoad], "tap note"),
 			Frames = {{Frame = color, Delay = 1}},
 			InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ) end,
 		}
+
+		if sButton == "Center" and (not string.find(GAMESTATE:GetCurrentStyle(pn):GetStepsType(), "StepsType_Smx_")) then
+			t[#t+1] = Def.Sprite {
+				Texture = NOTESKIN:GetPath("_common", "overlay feet"),
+				Frames = {{Frame = 0, Delay = 1}},
+			}
+		end
 	elseif sElementToLoad == "Tap Mine" then
 		t[#t+1] = Def.Sprite {
 			Texture = NOTESKIN:GetPath("_common", "mine base"),
@@ -605,12 +690,37 @@ local function func()
 			Frames = {{Frame = 0, Delay = 1}},
 		}
 	elseif sElementToLoad == "Receptor" then
+		if sButtonToLoad == "Pedal" then
+			t[#t+1] = Def.Sprite {
+				Texture = NOTESKIN:GetPath("_common", "underlay foot"),
+				Frames = {{Frame = 0, Delay = 1}},
+				InitCommand = function (self) self:diffusealpha(0.5) end,
+			}
+		elseif sButtonToLoad == "Cymbal" then
+			local cymRot = sButton == "Hi-Hat" and -60 or -45
+
+			t[#t+1] = Def.Sprite {
+				Texture = NOTESKIN:GetPath("_common", "underlay cymbal"),
+				Frames = {{Frame = 0, Delay = 1}},
+				InitCommand = function (self) self:diffusealpha(0.5):rotationz(cymRot) end,
+			}
+		end
+
 		t[#t+1] = Def.Sprite {
 			Texture = NOTESKIN:GetPath(TapRedir[sButtonToLoad], "receptor base"),
 			Frames = {{Frame = 0, Delay = 1}},
 			InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ):effectclock("beat"):diffuseramp():effectcolor1({0.8, 0.8, 0.8, 1}):effectcolor2({1, 1, 1, 1}):effectoffset(0.05) end,
 			NoneCommand = function (self) self:finishtweening():zoom(0.85):diffusealpha(0.9):linear(0.1):diffusealpha(1):zoom(1) end,
 		}
+
+		if sButton == "Center" and (not string.find(GAMESTATE:GetCurrentStyle(pn):GetStepsType(), "StepsType_Smx_")) then
+			t[#t+1] = Def.Sprite {
+				Texture = NOTESKIN:GetPath("_common", "overlay feet"),
+				Frames = {{Frame = 0, Delay = 1}},
+				InitCommand = function (self) self:diffusealpha(0.5) end,
+			}
+		end
+
 		t[#t+1] = Def.Sprite {
 			Texture = NOTESKIN:GetPath(TapRedir[sButtonToLoad], "receptor flash"),
 			Frames = {{Frame = 0, Delay = 1}},
