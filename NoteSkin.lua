@@ -96,19 +96,19 @@ ret.RedirTable =
 }
 
 local Fallback = {
-	__index = function(table, key, value)
+	__index = function (table, key, value)
 		return "_fallback"
 	end
 }
 
 local FallbackZero = {
-	__index = function(table, key, value)
+	__index = function (table, key, value)
 		return 0
 	end
 }
 
 local FallbackOne = {
-	__index = function(table, key, value)
+	__index = function (table, key, value)
 		return 1
 	end
 }
@@ -309,7 +309,7 @@ local HoldCapRedir = {
 	["Pedal"] = "_scratch",
 }
 local HoldCapRedirMeta = {
-	__index = function(table, key, value)
+	__index = function (table, key, value)
 		return "_" .. key:lower()
 	end
 }
@@ -511,7 +511,7 @@ local ColorTable = {
 	},
 }
 local ColorTableMeta = {
-	__index = function(table, key, value)
+	__index = function (table, key, value)
 		local dummy = {}
 		setmetatable(dummy, FallbackZero)
 		return dummy
@@ -519,7 +519,7 @@ local ColorTableMeta = {
 }
 setmetatable(ColorTable, ColorTableMeta)
 
-ret.Redir = function(sButton, sElement)
+ret.Redir = function (sButton, sElement)
 	-- Instead of separate hold heads, use the tap note graphics.
 	if sElement == "Hold Head Inactive" or
 	   sElement == "Hold Head Active" or
@@ -590,7 +590,7 @@ local function func()
 	end
 
 	if sButton:find("Strum") then
-		if sElement:find("Tap Note") then
+		if sElement == "Tap Note" then
 			local strumLength = GAMESTATE:GetCurrentStyle(pn):GetName():find("6") and 320 or 192
 
 			return Def.Quad {
@@ -742,7 +742,7 @@ local function func()
 			NoneCommand = function (self) self:finishtweening():zoom(0.85):diffusealpha(0.9):linear(0.15):diffusealpha(1):zoom(1) end,
 		}
 	elseif sElementToLoad == "Explosion" then
-		local glowCommands = function(actor, color)
+		local glowCommands = function (actor, color)
 			return actor:finishtweening():diffuse(color):sleep(0.1):decelerate(0.2):diffusealpha(0)
 		end
 
