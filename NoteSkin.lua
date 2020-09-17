@@ -310,7 +310,7 @@ local HoldCapRedir = {
 }
 local HoldCapRedirMeta = {
 	__index = function(table, key, value)
-		return "_" .. string.lower(key)
+		return "_" .. key:lower()
 	end
 }
 setmetatable(HoldCapRedir, HoldCapRedirMeta)
@@ -548,26 +548,26 @@ local function func()
 	local pn = Var "Player" or GAMESTATE:GetMasterPlayerNumber()
 
 	if GAMESTATE:GetCurrentStyle(pn):GetStepsType() == "StepsType_Kickbox_Human" then
-		if string.find(sButton, "LeftFoot") then
+		if sButton:find("LeftFoot") then
 			sButton = "AnyLeftFoot"
 		end
-		if string.find(sButton, "RightFoot") then
+		if sButton:find("RightFoot") then
 			sButton = "AnyRightFoot"
 		end
 		--
-		if string.find(sButton, "LeftFist") then
+		if sButton:find("LeftFist") then
 			sButton = "AnyLeftFist"
 		end
-		if string.find(sButton, "RightFist") then
+		if sButton:find("RightFist") then
 			sButton = "AnyRightFist"
 		end
 	end
 
 	if GAMESTATE:GetCurrentStyle(pn):GetStepsType() == "StepsType_Kickbox_Insect" then
-		if string.find(sButton, "LeftFoot") then
+		if sButton:find("LeftFoot") then
 			sButton = "AnyLeftFoot"
 		end
-		if string.find(sButton, "RightFoot") then
+		if sButton:find("RightFoot") then
 			sButton = "AnyRightFoot"
 		end
 	end
@@ -589,9 +589,9 @@ local function func()
 		}
 	end
 
-	if string.find(sButton, "Strum") then
-		if string.find(sElement, "Tap Note") then
-			local strumLength = string.find(GAMESTATE:GetCurrentStyle(pn):GetName(), "6") and 320 or 192
+	if sButton:find("Strum") then
+		if sElement:find("Tap Note") then
+			local strumLength = GAMESTATE:GetCurrentStyle(pn):GetName():find("6") and 320 or 192
 
 			return Def.Quad {
 				InitCommand = function (self) self:setsize(strumLength, 8):diffuse({1, 1, 1, 1}) end
@@ -656,7 +656,7 @@ local function func()
 			InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ) end,
 		}
 
-		if sButton == "Center" and (not string.find(GAMESTATE:GetCurrentStyle(pn):GetStepsType(), "StepsType_Smx_")) then
+		if sButton == "Center" and (not GAMESTATE:GetCurrentStyle(pn):GetStepsType():find("StepsType_Smx_")) then
 			t[#t+1] = Def.Sprite {
 				Texture = NOTESKIN:GetPath("_common", "overlay feet"),
 				Frames = {{Frame = 0, Delay = 1}},
@@ -689,16 +689,16 @@ local function func()
 			Frames = {{Frame = 0, Delay = 1}},
 			InitCommand = function (self) self:zoom(zoomValue) end,
 		}
-	elseif string.find(sElementToLoad, "Hold .*cap") or
-	       string.find(sElementToLoad, "Roll .*cap") then
+	elseif sElementToLoad:find("Hold .*cap") or
+	       sElementToLoad:find("Roll .*cap") then
 		t = Def.Sprite {
-			Texture = NOTESKIN:GetPath(ret.HanubekiExtras.HoldType or HoldCapRedir[sButtonToLoad], string.lower(sElementToLoad)),
+			Texture = NOTESKIN:GetPath(ret.HanubekiExtras.HoldType or HoldCapRedir[sButtonToLoad], sElementToLoad:lower()),
 			Frames = {{Frame = 0, Delay = 1}},
 		}
-	elseif string.find(sElementToLoad, "Hold Body") or
-	       string.find(sElementToLoad, "Roll Body") then
+	elseif sElementToLoad:find("Hold Body") or
+	       sElementToLoad:find("Roll Body") then
 		t = Def.Sprite {
-			Texture = NOTESKIN:GetPath(ret.HanubekiExtras.HoldType or HoldBodyRedir[sButtonToLoad], string.lower(sElementToLoad)),
+			Texture = NOTESKIN:GetPath(ret.HanubekiExtras.HoldType or HoldBodyRedir[sButtonToLoad], sElementToLoad:lower()),
 			Frames = {{Frame = 0, Delay = 1}},
 		}
 	elseif sElementToLoad == "Receptor" then
@@ -725,7 +725,7 @@ local function func()
 			NoneCommand = function (self) self:finishtweening():zoom(0.85):diffusealpha(0.9):linear(0.1):diffusealpha(1):zoom(1) end,
 		}
 
-		if sButton == "Center" and (not string.find(GAMESTATE:GetCurrentStyle(pn):GetStepsType(), "StepsType_Smx_")) then
+		if sButton == "Center" and (not GAMESTATE:GetCurrentStyle(pn):GetStepsType():find("StepsType_Smx_")) then
 			t[#t+1] = Def.Sprite {
 				Texture = NOTESKIN:GetPath("_common", "overlay feet"),
 				Frames = {{Frame = 0, Delay = 1}},
