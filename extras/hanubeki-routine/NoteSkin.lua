@@ -1,7 +1,6 @@
 local ret = ... or {}
 
-if ret.HanubekiExtras then
-	ret.HanubekiExtras.Routine = true
-end
+assert(ret.HanubekiExtras)
+ret.HanubekiExtras.Routine = true
 
 return ret

@@ -1,31 +1,28 @@
+-- hanubeki's SUPER-SPAGHETTI™ NoteSkin lua
+
 local ret = ... or {}
 
 local game = GAMESTATE:GetCurrentGame():GetName()
 
--- [ja] Receptorの明るい色の関数
-local function BrightColor(col)
-	return {(col[1] + 2) / 3, (col[2] + 2) / 3, (col[3] + 2) / 3, col[4]}
-end
-
 -- [ja] Extras用変数テーブル
 -- Flat (bool): colored by column
--- Routine (bool): colored by player number (actually not working on routine because of my mistake in sm5)
+-- Routine (bool): colored by player number
 -- HoldType (string): replace holds by specified name
 ret.HanubekiExtras = {}
 
 -- [ja] 各ボタンのリダイレクトテーブル
 ret.RedirTable =
 {
-	-- Dance (incl. solo and octo), Pump, pAra, Techno, smX
-	["Up"]        = game == "para"   and "ParaUp"                                     or     "Up",     -- D-ATX
-	["Down"]      =                                                                          "Down",   -- D--TX
-	["Left"]      = game == "para"   and "ParaLeft"                                   or     "Left",   -- D-ATX
-	["Right"]     = game == "para"   and "ParaRight"                                  or     "Right",  -- D-ATX
-	["UpLeft"]    = game == "para"   and "ParaUpLeft"                                 or   "UpLeft",   -- sPAT-
-	["UpRight"]   = game == "para"   and "ParaUpRight"                                or   "UpRight",  -- sPAT-
-	["DownLeft"]  =                                                                      "DownLeft",   -- oP-T-
-	["DownRight"] =                                                                      "DownRight",  -- oP-T-
-	["Center"]    = game == "techno" and "Circle"      or game == "smx" and "Diamond" or     "Center", -- -P-TX
+	-- Dance (incl. solo and octo), Pump, pAra, Techno, smX, Horizon
+	["Up"]        = game == "para"   and "ParaUp"                                     or     "Up",     -- D-ATXH
+	["Down"]      =                                                                          "Down",   -- D--TXH
+	["Left"]      = game == "para"   and "ParaLeft"                                   or     "Left",   -- D-ATXH
+	["Right"]     = game == "para"   and "ParaRight"                                  or     "Right",  -- D-ATXH
+	["UpLeft"]    = game == "para"   and "ParaUpLeft"                                 or   "UpLeft",   -- sPAT-H
+	["UpRight"]   = game == "para"   and "ParaUpRight"                                or   "UpRight",  -- sPAT-H
+	["DownLeft"]  =                                                                      "DownLeft",   -- oP-T-H
+	["DownRight"] =                                                                      "DownRight",  -- oP-T-H
+	["Center"]    = game == "techno" and "Circle"      or game == "smx" and "Diamond" or     "Center", -- -P-TXH
 	-- ez2, ds3ddx, Maniax
 	["FootDown"]      =                                    "Down",  -- 2--
 	["FootUpLeft"]    =                                  "UpLeft",  -- 23-
@@ -41,26 +38,26 @@ ret.RedirTable =
 	["HandLrLeft"]    = game == "maniax" and "Ring" or "Circle",    -- 2-M
 	["HandLrRight"]   = game == "maniax" and "Ring" or "Circle",    -- 2-M
 	-- kb7, beat
-	["Key1"]         = game == "kb7" and "Circle" or "Key",
-	["Key2"]         = game == "kb7" and "Circle" or "Key",
-	["Key3"]         = game == "kb7" and "Circle" or "Key",
-	["Key4"]         = game == "kb7" and "Circle" or "Key",
-	["Key5"]         = game == "kb7" and "Circle" or "Key",
-	["Key6"]         = game == "kb7" and "Circle" or "Key",
-	["Key7"]         = game == "kb7" and "Circle" or "Key",
+	["Key1"]         = game == "kb7" and "Circle" or "KeyWhite",
+	["Key2"]         = game == "kb7" and "Circle" or "KeyBlue",
+	["Key3"]         = game == "kb7" and "Circle" or "KeyWhite",
+	["Key4"]         = game == "kb7" and "Circle" or "KeyBlue",
+	["Key5"]         = game == "kb7" and "Circle" or "KeyWhite",
+	["Key6"]         = game == "kb7" and "Circle" or "KeyBlue",
+	["Key7"]         = game == "kb7" and "Circle" or "KeyWhite",
 	["scratch"]      =                               "Scratch",
 	["scratch up"]   =                               "Scratch",
 	["scratch down"] =                               "Scratch",
 	-- popn
-	["Left White"]   = "Burger",
-	["Left Yellow"]  = "Burger",
-	["Left Green"]   = "Burger",
-	["Left Blue"]    = "Burger",
-	["Red"]          = "Burger",
-	["Right Blue"]   = "Burger",
-	["Right Green"]  = "Burger",
-	["Right Yellow"] = "Burger",
-	["Right White"]  = "Burger",
+	["Left White"]   = "BurgerLower",
+	["Left Yellow"]  = "BurgerUpper",
+	["Left Green"]   = "BurgerLower",
+	["Left Blue"]    = "BurgerUpper",
+	["Red"]          = "BurgerLower",
+	["Right Blue"]   = "BurgerUpper",
+	["Right Green"]  = "BurgerLower",
+	["Right Yellow"] = "BurgerUpper",
+	["Right White"]  = "BurgerLower",
 	-- kickbox
 	["DownLeftFoot"]  = "DownLeftFoot", -- Down: blue
 	["AnyLeftFoot"]   =  "AnyLeftFoot", -- Any:  yellow
@@ -74,13 +71,14 @@ ret.RedirTable =
 	["UpRightFoot"]   =   "UpRightFoot",
 	["AnyRightFoot"]  =  "AnyRightFoot",
 	["DownRightFoot"] = "DownRightFoot",
-	-- guitar
-	["Fret 1"] = "Fret",
-	["Fret 2"] = "Fret",
-	["Fret 3"] = "Fret",
-	["Fret 4"] = "Fret",
-	["Fret 5"] = "Fret",
-	["Fret 6"] = "Fret",
+	-- guitar, gdgf, gh
+	["Fret 1"] = game == "gdgf" and "Fret" or "Gem",
+	["Fret 2"] = game == "gdgf" and "Fret" or "Gem",
+	["Fret 3"] = game == "gdgf" and "Fret" or "Gem",
+	["Fret 4"] = game == "gdgf" and "Fret" or "Gem",
+	["Fret 5"] = game == "gdgf" and "Fret" or "Gem",
+	["Fret 6"] = game == "gdgf" and "Fret" or "Gem",
+	["Strum"] = "Strum",
 	["Strum Up"] = "Strum",
 	["Strum Down"] = "Strum",
 	-- gddm
@@ -93,6 +91,8 @@ ret.RedirTable =
 	["Tom2"] = "Tom",
 	["Tom3"] = "Tom",
 	["Ride"] = "Cymbal",
+	--taiko
+	["Main"] = "Main",
 }
 
 local Fallback = {
@@ -140,10 +140,14 @@ local TapRedir = {
 
 	["Ring"] = "_ring",
 
-	["Key"]      = "_key",
+	-- ["Key"]      = "_key",
+	["KeyWhite"] = "_keywhite",
+	["KeyBlue"]  = "_keyblue",
 	["Scratch"]  = "_scratch",
 
-	["Burger"] = "_burger",
+	-- ["Burger"] = "_burger",
+	["BurgerLower"] = "_burgerlower",
+	["BurgerUpper"] = "_burgerupper",
 
 	["DownLeftFoot"]  = "_rightfoot",
 	["AnyLeftFoot"]   = "_rightfoot",
@@ -158,12 +162,17 @@ local TapRedir = {
 	["AnyRightFoot"]  = "_rightfoot",
 	["DownRightFoot"] = "_rightfoot",
 
-	["Fret"] = "_circle",
-	["Strum"] = "_strum",
+	["Fret"] = "_scratch",
+	["Gem"] = "_gem",
+	["Strum"] = "_strumlong",
+	["StrumLong"] = "_strumlong",
+	["StrumShort"] = "_strumshort",
 
 	["Cymbal"] = "_scratch",
 	["Tom"] = "_scratch",
 	["Pedal"] = "_scratch",
+
+	["Main"] = "_main",
 }
 setmetatable(TapRedir, Fallback)
 
@@ -246,10 +255,15 @@ local HoldBodyRedir = {
 
 	["Ring"] = "_ring",
 
-	["Key"]      = "_key",
-	["Scratch"]  = "_scratch",
+	-- ["Key"]      = "_key",
+	["KeyWhite"] = "_keywhite",
+	["KeyBlue"]  = "_keyblue",
+	["Scratch"]  = "_down",
+	-- ["Scratch"]  = "_scratch",
 
-	["Burger"] = "_key",
+	-- ["Burger"] = "_key",
+	["BurgerLower"] = "_keywhite",
+	["BurgerUpper"] = "_keyblue",
 
 	["DownLeftFoot"]  = "_leftfoot",
 	["AnyLeftFoot"]   = "_leftfoot",
@@ -264,12 +278,21 @@ local HoldBodyRedir = {
 	["AnyRightFoot"]  = "_rightfoot",
 	["DownRightFoot"] = "_rightfoot",
 
-	["Fret"] = "_thin",
+	["Fret"] = "_down",
+	-- ["Fret"] = "_scratch",
+	["Gem"] = "_thin",
 	["Strum"] = "_strum",
+	["StrumLong"] = "_strum",
+	["StrumShort"] = "_strum",
 
-	["Cymbal"] = "_scratch",
-	["Tom"] = "_scratch",
-	["Pedal"] = "_scratch",
+	["Cymbal"] = "_down",
+	["Tom"] = "_down",
+	["Pedal"] = "_down",
+	-- ["Cymbal"] = "_scratch",
+	-- ["Tom"] = "_scratch",
+	-- ["Pedal"] = "_scratch",
+
+	["Main"] = "_main",
 }
 setmetatable(HoldBodyRedir, Fallback)
 
@@ -302,7 +325,10 @@ local HoldCapRedir = {
 	["AnyRightFoot"]  = "_rightfoot",
 	["DownRightFoot"] = "_rightfoot",
 
-	["Fret"] = "_thin",
+	["Fret"] = "_scratch",
+	["Gem"] = "_thin",
+	["StrumLong"] = "_strum",
+	["StrumShort"] = "_strum",
 
 	["Cymbal"] = "_scratch",
 	["Tom"] = "_scratch",
@@ -329,7 +355,7 @@ local ColorTable = {
 	 2: Blue
 	 4: Green
 	 6: Yellow
-	 8: Purple
+	 8: Violet
 	10: Teal
 	12: Magenta
 	14: Seafoam
@@ -401,6 +427,17 @@ local ColorTable = {
 		["Up"] = 0,
 		["Right"] = 2,
 	},
+	["horizon"] = {
+		["DownLeft"] = 2,
+		["Left"] = 8,
+		["UpLeft"] = 0,
+		["Down"] = 4,
+		["Center"] = 6,
+		["Up"] = 18,
+		["UpRight"] = 0,
+		["Right"] = 8,
+		["DownRight"] = 2,
+	},
 	["ez2"] = {
 		["FootUpLeft"] = 0,
 		["HandLrLeft"] = 4,
@@ -459,17 +496,17 @@ local ColorTable = {
 		["Right White"] = 16,
 	},
 	["kickbox"] = {
-		["DownLeftFoot"]  = 2, -- Down: blue
-		["AnyLeftFoot"]   = 6, -- Any:  yellow
-		["UpLeftFoot"]    = 0, -- Up:   red
-		["UpLeftFist"]    = 0,
-		["AnyLeftFist"]   = 6,
-		["DownLeftFist"]  = 2,
+		["DownLeftFoot"] = 2,
+		["AnyLeftFoot"] = 6,
+		["UpLeftFoot"] = 0,
+		["UpLeftFist"] = 0,
+		["AnyLeftFist"] = 6,
+		["DownLeftFist"] = 2,
 		["DownRightFist"] = 2,
-		["AnyRightFist"]  = 6,
-		["UpRightFist"]   = 0,
-		["UpRightFoot"]   = 0,
-		["AnyRightFoot"]  = 6,
+		["AnyRightFist"] = 6,
+		["UpRightFist"] = 0,
+		["UpRightFoot"] = 0,
+		["AnyRightFoot"] = 6,
 		["DownRightFoot"] = 2,
 	},
 	["guitar"] = {
@@ -482,16 +519,51 @@ local ColorTable = {
 		["Strum Up"] = 16,
 		["Strum Down"] = 16,
 	},
+	["gdgf"] = {
+		["Fret 1"] = 0,
+		["Fret 2"] = 4,
+		["Fret 3"] = 2,
+		["Fret 4"] = 6,
+		["Fret 5"] = 12,
+		["Fret 6"] = 10, -- not in original game
+		["Strum Up"] = 16,
+		["Strum Down"] = 16,
+	},
+	["gh"] = {
+		["Fret 1"] = 4,
+		["Fret 2"] = 0,
+		["Fret 3"] = 6,
+		["Fret 4"] = 2,
+		["Fret 5"] = 18,
+		["Fret 6"] = 10, -- not in original game
+		["Strum Up"] = 8,
+		["Strum Down"] = 8,
+	},
+--[[
+	["gh"] = { -- Alternate Color
+		["Fret 1"] = 0,
+		["Fret 2"] = 6,
+		["Fret 3"] = 2,
+		["Fret 4"] = 18
+		["Fret 5"] = 4,
+		["Fret 6"] = 10, -- not in original game
+		["Strum Up"] = 8,
+		["Strum Down"] = 8,
+	},
+--]]
 	["gddm"] = {
-		["Crash"]        = 12,
-		["Hi-Hat"]       = 2,
+		["Crash"] = 12,
+		["Hi-Hat"] = 2,
 		["Hi-Hat Pedal"] = 12,
-		["Snare"]        = 6,
-		["Tom1"]         = 4,
-		["Kick"]         = 8,
-		["Tom2"]         = 0,
-		["Tom3"]         = 18,
-		["Ride"]         = 2,
+		["Snare"] = 6,
+		["Tom1"] = 4,
+		["Kick"] = 8,
+		["Tom2"] = 0,
+		["Tom3"] = 18,
+		["Ride"] = 2,
+	},
+	["taiko"] = {
+		["Main"] = 0,
 	},
 	["lights"] = { -- isn't game
 		["MarqueeUpLeft"] = 0,
@@ -508,6 +580,7 @@ local ColorTable = {
 		["PlayerNumber_P2"] = 2,
 		["PlayerNumber_P3"] = 6,
 		["PlayerNumber_P4"] = 4,
+		["PlayerNumber_P5"] = 8,
 	},
 }
 local ColorTableMeta = {
@@ -525,12 +598,136 @@ ret.Redir = function (sButton, sElement)
 	   sElement == "Hold Head Active" or
 	   sElement == "Roll Head Inactive" or
 	   sElement == "Roll Head Active" or
+	   sElement == "Hold Head 1 Inactive" or
+	   sElement == "Hold Head 1 Active" or
+	   sElement == "Roll Head 1 Inactive" or
+	   sElement == "Roll Head 1 Active" or
 	   sElement == "Tap Fake"
 	then
 		sElement = "Tap Note"
 	end
 
+	-- Instead of separate hold blues, use the tap blue graphics.
+	if sElement == "Hold Blue Inactive" or
+	   sElement == "Hold Blue Active" or
+	   sElement == "Roll Blue Inactive" or
+	   sElement == "Roll Blue Active" or
+	   sElement == "Hold Blue 1 Inactive" or
+	   sElement == "Hold Blue 1 Active" or
+	   sElement == "Roll Blue 1 Inactive" or
+	   sElement == "Roll Blue 1 Active"
+	then
+		sElement = "Tap Blue"
+	end
+
+	-- Instead of separate hold yellows, use the tap yellow graphics.
+	if sElement == "Hold Yellow Inactive" or
+	   sElement == "Hold Yellow Active" or
+	   sElement == "Roll Yellow Inactive" or
+	   sElement == "Roll Yellow Active" or
+	   sElement == "Hold Yellow 1 Inactive" or
+	   sElement == "Hold Yellow 1 Active" or
+	   sElement == "Roll Yellow 1 Inactive" or
+	   sElement == "Roll Yellow 1 Active"
+	then
+		sElement = "Tap Yellow"
+	end
+
+	-- Instead of separate hold heads, use the tap note graphics.
+	if sElement == "Hold BigRed Inactive" or
+	   sElement == "Hold BigRed Active" or
+	   sElement == "Roll BigRed Inactive" or
+	   sElement == "Roll BigRed Active" or
+	   sElement == "Hold BigRed 1 Inactive" or
+	   sElement == "Hold BigRed 1 Active" or
+	   sElement == "Roll BigRed 1 Inactive" or
+	   sElement == "Roll BigRed 1 Active"
+	then
+		sElement = "Tap BigRed Note"
+	end
+
+	-- Instead of separate hold blues, use the tap blue graphics.
+	if sElement == "Hold BigBlue Inactive" or
+	   sElement == "Hold BigBlue Active" or
+	   sElement == "Roll BigBlue Inactive" or
+	   sElement == "Roll BigBlue Active" or
+	   sElement == "Hold BigBlue 1 Inactive" or
+	   sElement == "Hold BigBlue 1 Active" or
+	   sElement == "Roll BigBlue 1 Inactive" or
+	   sElement == "Roll BigBlue 1 Active"
+	then
+		sElement = "Tap BigBlue"
+	end
+
+	-- Instead of separate hold yellows, use the tap yellow graphics.
+	if sElement == "Hold BigYellow Inactive" or
+	   sElement == "Hold BigYellow Active" or
+	   sElement == "Roll BigYellow Inactive" or
+	   sElement == "Roll BigYellow Active" or
+	   sElement == "Hold BigYellow 1 Inactive" or
+	   sElement == "Hold BigYellow 1 Active" or
+	   sElement == "Roll BigYellow 1 Inactive" or
+	   sElement == "Roll BigYellow 1 Active"
+	then
+		sElement = "Tap BigYellow"
+	end
+
+	-- Instead of separate hold tapsheads, use the tap taps graphics.
+	if sElement == "Hold Tapshead Inactive" or
+	   sElement == "Hold Tapshead Active" or
+	   sElement == "Roll Tapshead Inactive" or
+	   sElement == "Roll Tapshead Active" or
+	   sElement == "Hold Tapshead 1 Inactive" or
+	   sElement == "Hold Tapshead 1 Active" or
+	   sElement == "Roll Tapshead 1 Inactive" or
+	   sElement == "Roll Tapshead 1 Active"
+	then
+		sElement = "Tap Taps"
+	end
+
+	-- Instead of separate hold hopoheads, use the tap hopo graphics.
+	if sElement == "Hold Hopohead Inactive" or
+	   sElement == "Hold Hopohead Active" or
+	   sElement == "Roll Hopohead Inactive" or
+	   sElement == "Roll Hopohead Active" or
+	   sElement == "Hold Hopohead 1 Inactive" or
+	   sElement == "Hold Hopohead 1 Active" or
+	   sElement == "Roll Hopohead 1 Inactive" or
+	   sElement == "Roll Hopohead 1 Active"
+	then
+		sElement = "Tap Taps"
+	end
+
+	-- Instead of separate hold lifttails, use the tap lift graphics.
+	if sElement == "Hold LiftTail Inactive" or
+	   sElement == "Hold LiftTail Active" or
+	   sElement == "Roll LiftTail Inactive" or
+	   sElement == "Roll LiftTail Active" or
+	   sElement == "Hold LiftTail 1 Inactive" or
+	   sElement == "Hold LiftTail 1 Active" or
+	   sElement == "Roll LiftTail 1 Inactive" or
+	   sElement == "Roll LiftTail 1 Active"
+	then
+		sElement = "Tap Lift"
+	end
+
+	-- Instead of separate mine heads, use the tap mine graphics.
+	if sElement == "Mine Head"
+	then
+		sElement = "Tap Mine"
+	end
+
+	if game == "taiko" then
+		sElement = string.gsub(sElement, "Roll", "Hold")
+		sElement = string.gsub(sElement, "Inactive", "Active")
+	end
+
 	sButton = ret.RedirTable[sButton] or "Fallback"
+
+	-- Strum width varies with styles.
+	if sButton == "Strum" then
+		sButton = game == "gh" and "StrumLong" or GAMESTATE:GetCurrentStyle(pn):GetName():find("6") and "StrumLong" or "StrumShort"
+	end
 
 	return sButton, sElement
 end
@@ -540,12 +737,31 @@ ret.Blank = {
 	["Hold Tail Inactive"] = true,
 	["Roll Tail Active"] = true,
 	["Roll Tail Inactive"] = true,
+	["Mine Tail Active"] = true,
+	["Mine Tail Inactive"] = true,
+	["Mine LiftTail Active"] = true,
+	["Mine LiftTail Inactive"] = true,
 }
 
 local function func()
 	local sButton = Var "Button"
 	local sElement = Var "Element"
+	local sEffect = Var "Effect"
 	local pn = Var "Player" or GAMESTATE:GetMasterPlayerNumber()
+	local sPlayer = pn
+
+	if game == "taiko" then
+		ret.HanubekiExtras.Flat = true
+		ret.HanubekiExtras.Routine = false
+		ret.HanubekiExtras.HoldType = nil
+	end
+
+	if ret.HanubekiExtras.Routine then
+		sPlayer = "PlayerNumber_" .. (sElement:match("^P%d+") or "P1")
+		if sPlayer ~= "PlayerNumber_P1" then
+			sElement = sElement:match("^P%d+ (.*)$")
+		end
+	end
 
 	if GAMESTATE:GetCurrentStyle(pn):GetStepsType() == "StepsType_Kickbox_Human" then
 		if sButton:find("LeftFoot") then
@@ -573,42 +789,13 @@ local function func()
 	end
 
 	if ret.Blank[sElement] then
-		-- Return a blank element.  If SpriteOnly is set,
+		-- Return a blank element. If SpriteOnly is set,
 		-- we need to return a sprite; otherwise just return
 		-- a dummy actor.
-		local t
-
-		if Var "SpriteOnly" then
-			t = LoadActor("_blank")
-		else
-			t = Def.Actor {}
-		end
-
+		local t = Var "SpriteOnly" and LoadActor("_blank") or Def.Actor {}
 		return t .. {
 			InitCommand = function (self) self:visible(false) end
 		}
-	end
-
-	if sButton:find("Strum") then
-		if sElement == "Tap Note" then
-			local strumLength = GAMESTATE:GetCurrentStyle(pn):GetName():find("6") and 320 or 192
-
-			return Def.Quad {
-				InitCommand = function (self) self:setsize(strumLength, 8):diffuse({1, 1, 1, 1}) end
-			}
-		else
-			local t
-
-			if Var "SpriteOnly" then
-				t = LoadActor("_blank")
-			else
-				t = Def.Actor {}
-			end
-
-			return t .. {
-				InitCommand = function (self) self:visible(false) end
-			}
-		end
 	end
 
 	local sButtonToLoad, sElementToLoad = ret.Redir(sButton, sElement)
@@ -624,9 +811,149 @@ local function func()
 	local rotZ = TapRotateZ[sButtonToLoad]
 	local zoomValue = ZoomTable[game]
 
+	-- [ja] Sprite読み込み用関数
+	local function singleSprite (button, element)
+		return Def.Sprite {
+			Texture = NOTESKIN:GetPath(button, element),
+			Frames = {{Frame = 0, Delay = 1}},
+		}
+	end
+
+	local function colorSprite (button, element, color)
+		return Def.Sprite {
+			Texture = NOTESKIN:GetPath(button, element),
+			Frames = {{Frame = color, Delay = 1}},
+		}
+	end
+
+
 	local t = Def.ActorFrame {}
 
-	if sElementToLoad == "Tap Note" then
+	if sElementToLoad == "Tap Note" or
+	   sElementToLoad == "Tap Blue" or
+	   sElementToLoad == "Tap Yellow" or
+	   sElementToLoad == "Tap BigRed" or
+	   sElementToLoad == "Tap BigBlue" or
+	   sElementToLoad == "Tap BigYellow"
+	then
+		local color = 0
+
+		if ret.HanubekiExtras.Routine then
+			color = ColorTable["Routine"][sPlayer]
+		elseif ret.HanubekiExtras.Flat then
+			color = ColorTable[game][sButton]
+		end
+
+		if sButtonToLoad == "Pedal" then
+			t[#t+1] = singleSprite("_common", "underlay foot")
+		elseif sButtonToLoad == "Cymbal" then
+			local cymRot = sButton == "Hi-Hat" and -60 or -45
+
+			t[#t+1] = singleSprite("_common", "underlay cymbal") .. {
+				InitCommand = function (self) self:rotationz(cymRot) end,
+			}
+		end
+
+		t[#t+1] = colorSprite(TapRedir[sButtonToLoad], sElementToLoad:lower(), color) .. {
+			InitCommand = function (self)
+				self:rotationy(rotY):rotationz(rotZ)
+				if tonumber(sEffect) > 0 then
+					self:glow({1, 1, 1, 0.85})
+				end
+			end,
+			FeverMessageCommand = function(self, params)
+				if params.pn ~= pn then return end
+				if tonumber(sEffect) == 0 then
+					if params.Active then
+						self:glow({0, 0.5, 1, 0.7})
+					else
+						self:glow({1, 1, 1, 0})
+					end
+				end
+			end,
+			FeverMissedMessageCommand = function(self, params)
+				if params.pn ~= pn then return end
+				if tonumber(sEffect) > 0 then
+					if params.Missed then
+						self:glow({1, 1, 1, 0})
+					else
+						self:glow({1, 1, 1, 0.5})
+					end
+				end
+			end,
+		}
+
+		if sButton == "Center" and (game == "pump" or game == "techno") then
+			t[#t+1] = singleSprite("_common", "overlay feet")
+		end
+	elseif sElementToLoad == "Tap Mine" then
+		t[#t+1] = singleSprite("_common", "mine base") .. {
+			InitCommand = function (self)
+				self:zoom(zoomValue)
+				if tonumber(sEffect) > 0 then
+					self:glow({1, 1, 1, 0.85})
+				end
+			end,
+			FeverMessageCommand = function(self, params)
+				if params.pn ~= pn then return end
+				if tonumber(sEffect) == 0 then
+					if params.Active then
+						self:glow({0, 0.5, 1, 0.7})
+					else
+						self:glow({1, 1, 1, 0})
+					end
+				end
+			end,
+			FeverMissedMessageCommand = function(self, params)
+				if params.pn ~= pn then return end
+				if tonumber(sEffect) > 0 then
+					if params.Missed then
+						self:glow({1, 1, 1, 0})
+					else
+						self:glow({1, 1, 1, 0.5})
+					end
+				end
+			end,
+		}
+		t[#t+1] = singleSprite("_common", "mine parts") .. {
+			InitCommand = function (self) self:zoom(zoomValue):spin():effectclock("beat"):effectmagnitude(0, 0, -60) end,
+		}
+		t[#t+1] = singleSprite("_common", "mine parts") .. {
+			InitCommand = function (self) self:zoom(zoomValue):rotationz(120):spin():effectclock("beat"):effectmagnitude(0, 0, -60) end,
+		}
+		t[#t+1] = singleSprite("_common", "mine parts") .. {
+			InitCommand = function (self) self:zoom(zoomValue):rotationz(240):spin():effectclock("beat"):effectmagnitude(0, 0, -60) end,
+		}
+	elseif sElementToLoad == "Tap Lift" then
+		t[#t+1] = singleSprite("_common", "tap lift") .. {
+			InitCommand = function (self)
+				self:zoom(zoomValue)
+				if tonumber(sEffect) > 0 then
+					self:glow({1, 1, 1, 0.85})
+				end
+			end,
+			FeverMessageCommand = function(self, params)
+				if params.pn ~= pn then return end
+				if tonumber(sEffect) == 0 then
+					if params.Active then
+						self:glow({0, 0.5, 1, 0.7})
+					else
+						self:glow({1, 1, 1, 0})
+					end
+				end
+			end,
+			FeverMissedMessageCommand = function(self, params)
+				if params.pn ~= pn then return end
+				if tonumber(sEffect) > 0 then
+					if params.Missed then
+						self:glow({1, 1, 1, 0})
+					else
+						self:glow({1, 1, 1, 0.5})
+					end
+				end
+			end,
+		}
+	elseif sElementToLoad == "Tap Hopo" then
 		local color = 0
 
 		if ret.HanubekiExtras.Routine then
@@ -635,120 +962,240 @@ local function func()
 			color = ColorTable[game][sButton]
 		end
 
-		if sButtonToLoad == "Pedal" then
-			t[#t+1] = Def.Sprite {
-				Texture = NOTESKIN:GetPath("_common", "underlay foot"),
-				Frames = {{Frame = 0, Delay = 1}},
-			}
-		elseif sButtonToLoad == "Cymbal" then
-			local cymRot = sButton == "Hi-Hat" and -60 or -45
+		t[#t+1] = colorSprite(sButton:find("Strum") and TapRedir[sButtonToLoad] or "_common", "tap hopo", color) .. {
+			InitCommand = function (self)
+				self:zoom(zoomValue)
+				if tonumber(sEffect) > 0 then
+					self:glow({1, 1, 1, 0.85})
+				end
+			end,
+			FeverMessageCommand = function(self, params)
+				if params.pn ~= pn then return end
+				if tonumber(sEffect) == 0 then
+					if params.Active then
+						self:glow({0, 0.5, 1, 0.7})
+					else
+						self:glow({1, 1, 1, 0})
+					end
+				end
+			end,
+			FeverMissedMessageCommand = function(self, params)
+				if params.pn ~= pn then return end
+				if tonumber(sEffect) > 0 then
+					if params.Missed then
+						self:glow({1, 1, 1, 0})
+					else
+						self:glow({1, 1, 1, 0.5})
+					end
+				end
+			end,
+		}
+	elseif sElementToLoad == "Tap Taps" then
+		local color = 0
 
-			t[#t+1] = Def.Sprite {
-				Texture = NOTESKIN:GetPath("_common", "underlay cymbal"),
-				Frames = {{Frame = 0, Delay = 1}},
-				InitCommand = function (self) self:rotationz(cymRot) end,
-			}
+		if ret.HanubekiExtras.Routine then
+			color = ColorTable["Routine"][pn]
+		elseif ret.HanubekiExtras.Flat then
+			color = ColorTable[game][sButton]
 		end
 
-		t[#t+1] = Def.Sprite {
-			Texture = NOTESKIN:GetPath(TapRedir[sButtonToLoad], "tap note"),
-			Frames = {{Frame = color, Delay = 1}},
-			InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ) end,
+		t[#t+1] = colorSprite(sButton:find("Strum") and TapRedir[sButtonToLoad] or "_common", "tap taps", color) .. {
+			InitCommand = function (self)
+				self:zoom(zoomValue)
+				if tonumber(sEffect) > 0 then
+					self:glow({1, 1, 1, 0.85})
+				end
+			end,
+			FeverMessageCommand = function(self, params)
+				if params.pn ~= pn then return end
+				if tonumber(sEffect) == 0 then
+					if params.Active then
+						self:glow({0, 0.5, 1, 0.7})
+					else
+						self:glow({1, 1, 1, 0})
+					end
+				end
+			end,
+			FeverMissedMessageCommand = function(self, params)
+				if params.pn ~= pn then return end
+				if tonumber(sEffect) > 0 then
+					if params.Missed then
+						self:glow({1, 1, 1, 0})
+					else
+						self:glow({1, 1, 1, 0.5})
+					end
+				end
+			end,
 		}
-
-		if sButton == "Center" and (not GAMESTATE:GetCurrentStyle(pn):GetStepsType():find("StepsType_Smx_")) then
-			t[#t+1] = Def.Sprite {
-				Texture = NOTESKIN:GetPath("_common", "overlay feet"),
-				Frames = {{Frame = 0, Delay = 1}},
-			}
-		end
-	elseif sElementToLoad == "Tap Mine" then
-		t[#t+1] = Def.Sprite {
-			Texture = NOTESKIN:GetPath("_common", "mine base"),
-			Frames = {{Frame = 0, Delay = 1}},
-			InitCommand = function (self) self:zoom(zoomValue) end,
-		}
-		t[#t+1] = Def.Sprite {
-			Texture = NOTESKIN:GetPath("_common", "mine parts"),
-			Frames = {{Frame = 0, Delay = 1}},
-			InitCommand = function (self) self:zoom(zoomValue):spin():effectclock("beat"):effectmagnitude(0, 0, -60) end,
-		}
-		t[#t+1] = Def.Sprite {
-			Texture = NOTESKIN:GetPath("_common", "mine parts"),
-			Frames = {{Frame = 0, Delay = 1}},
-			InitCommand = function (self) self:zoom(zoomValue):rotationz(120):spin():effectclock("beat"):effectmagnitude(0, 0, -60) end,
-		}
-		t[#t+1] = Def.Sprite {
-			Texture = NOTESKIN:GetPath("_common", "mine parts"),
-			Frames = {{Frame = 0, Delay = 1}},
-			InitCommand = function (self) self:zoom(zoomValue):rotationz(240):spin():effectclock("beat"):effectmagnitude(0, 0, -60) end,
-		}
-	elseif sElementToLoad == "Tap Lift" then
-		t[#t+1] = Def.Sprite {
-			Texture = NOTESKIN:GetPath("_common", "tap lift"),
-			Frames = {{Frame = 0, Delay = 1}},
-			InitCommand = function (self) self:zoom(zoomValue) end,
-		}
-	elseif sElementToLoad:find("Hold .*cap") or
-	       sElementToLoad:find("Roll .*cap") then
-		t = Def.Sprite {
-			Texture = NOTESKIN:GetPath(ret.HanubekiExtras.HoldType or HoldCapRedir[sButtonToLoad], sElementToLoad:lower()),
-			Frames = {{Frame = 0, Delay = 1}},
-		}
-	elseif sElementToLoad:find("Hold Body") or
-	       sElementToLoad:find("Roll Body") then
-		t = Def.Sprite {
-			Texture = NOTESKIN:GetPath(ret.HanubekiExtras.HoldType or HoldBodyRedir[sButtonToLoad], sElementToLoad:lower()),
-			Frames = {{Frame = 0, Delay = 1}},
-		}
+	elseif sElementToLoad:find("Hold .*cap") or sElementToLoad:find("Roll .*cap") or
+	       sElementToLoad:find("Hold Blue .*cap") or sElementToLoad:find("Roll Blue .*cap") or
+	       sElementToLoad:find("Hold Yellow .*cap") or sElementToLoad:find("Roll Yellow .*cap") or
+	       sElementToLoad:find("Hold BigRed .*cap") or sElementToLoad:find("Roll BigRed .*cap") or
+	       sElementToLoad:find("Hold BigBlue .*cap") or sElementToLoad:find("Roll BigBlue .*cap") or
+	       sElementToLoad:find("Hold BigYellow .*cap") or sElementToLoad:find("Roll BigYellow .*cap")
+	then
+		-- TODO: better match
+		t = singleSprite(ret.HanubekiExtras.HoldType or HoldCapRedir[sButtonToLoad], sElementToLoad:lower())
+	elseif sElementToLoad:find("Hold Body") or sElementToLoad:find("Roll Body") or
+	       sElementToLoad:find("Hold Blue Body") or sElementToLoad:find("Roll Blue Body") or
+	       sElementToLoad:find("Hold Yellow Body") or sElementToLoad:find("Roll Yellow Body") or
+	       sElementToLoad:find("Hold BigRed Body") or sElementToLoad:find("Roll BigRed Body") or
+	       sElementToLoad:find("Hold BigBlue Body") or sElementToLoad:find("Roll BigBlue Body") or
+	       sElementToLoad:find("Hold BigYellow Body") or sElementToLoad:find("Roll BigYellow Body")
+	then
+		-- TODO: better match
+		t = singleSprite(ret.HanubekiExtras.HoldType or HoldBodyRedir[sButtonToLoad], sElementToLoad:lower())
+	elseif sElementToLoad:find("Mine .*cap") then
+		local sizeToLoad = zoomValue < 0.7 and "_half" or "_common"
+		t = singleSprite(sizeToLoad, sElementToLoad:lower())
+	elseif sElementToLoad:find("Mine Body") then
+		local sizeToLoad = zoomValue < 0.7 and "_half" or "_common"
+		t = singleSprite(sizeToLoad, sElementToLoad:lower())
 	elseif sElementToLoad == "Receptor" then
+		if game == "gh" and sButton:find("Strum") then
+			local isFever = false
+
+			t[#t+1] = Def.ActorFrame{
+				OnCommand = function(self) self:xy(80, 56) end,
+				Def.Quad {
+					OnCommand=function(self) 
+						self:zoomto(160, 32):diffuse({0, 0, 0, 0.7})
+					end,
+				},
+				Def.Quad {
+					OnCommand = function(self)
+						self:zoomto(152, 24):diffuse({0, 0.5, 1, 0.5}):cropright(1)
+					end,
+					FeverMessageCommand = function(self, params)
+						if params.pn ~= pn then return end
+						if params.Active then
+							self.Active = true
+							self:linear((self.Amount / 125) * 15):cropright(1)
+						else
+							self.Active = false
+						end
+					end,
+					FeverScoreMessageCommand = function(self, params)
+						if params.pn ~= pn then return end
+						self.Amount = params.Amount
+						self:stoptweening():linear(0.1):cropright(1 - (params.Amount / 125))
+						if not self.Active then
+							if params.Amount >= 50 then
+								self:diffuse({0, 0.5, 1, 1})
+							else
+								self:diffuse({0, 0.5, 1, 0.5}) 
+							end
+						else
+							self:stoptweening():linear((self.Amount / 125) * 15):cropright(1)
+						end
+					end,
+				},
+				Def.BitmapText {
+					Text = "FEVER READY!",
+					Font = "Common Normal",
+					OnCommand = function(self) self:diffusealpha(0):zoom(0.7) end,
+					FeverMessageCommand = function(self, params)
+						if params.pn ~= pn then return end
+						self.Active = params.Active
+						isFever = params.Active
+						if params.Active then
+							self:diffusealpha(0)
+						end
+					end,
+					FeverScoreMessageCommand = function(self, params)
+						if params.pn ~= pn then return end
+						if not self.Active then
+							if params.Amount >= 50 then
+								self:diffusealpha(1):rainbow():settext("FEVER READY!")
+							else
+								self:stopeffect():diffuse({1, 1, 1, 1}):settext(math.floor(params.Amount + 0.5))
+							end
+						end
+					end,
+				},
+			}
+
+			t[#t+1] = Def.ActorFrame {
+				OnCommand = function(self) self:xy(-80, 56) end,
+				Def.Quad {
+					OnCommand = function(self)
+						self:zoomto(160, 32):diffuse({0, 0, 0, 0.7})
+					end,
+				},
+				Def.BitmapText {
+					Text = "1x",
+					Font = "Common Normal",
+					OnCommand = function(self) self:zoom(0.7):halign(0):x(-72) end,
+					ComboChangedMessageCommand = function(self, params)
+						if params.Player ~= pn then return end
+						local curCombo = params.PlayerStageStats:GetCurrentCombo()
+						local percent = 1
+
+						if curCombo >= 30 then percent = 4
+						elseif curCombo >= 20 then percent = 3
+						elseif curCombo >= 10 then percent = 2
+						end
+
+						if isFever then percent = percent * 2 end
+
+						self:settext(percent .. "x")
+					end,
+				},
+				Def.BitmapText {
+					Text = "0",
+					Font = "Common Normal",
+					OnCommand = function(self) self:zoom(0.7):halign(1):x(72) end,
+					ComboChangedMessageCommand = function(self, params)
+						if params.Player ~= pn then return end
+						self:settext(params.PlayerStageStats:GetScore())
+					end,
+				}
+			}
+		end
+
 		if sButtonToLoad == "Pedal" then
-			t[#t+1] = Def.Sprite {
-				Texture = NOTESKIN:GetPath("_common", "underlay foot"),
-				Frames = {{Frame = 0, Delay = 1}},
+			t[#t+1] = singleSprite("_common", "underlay foot") .. {
 				InitCommand = function (self) self:diffusealpha(0.5) end,
 			}
 		elseif sButtonToLoad == "Cymbal" then
 			local cymRot = sButton == "Hi-Hat" and -60 or -45
 
-			t[#t+1] = Def.Sprite {
-				Texture = NOTESKIN:GetPath("_common", "underlay cymbal"),
-				Frames = {{Frame = 0, Delay = 1}},
+			t[#t+1] = singleSprite("_common", "underlay cymbal") .. {
 				InitCommand = function (self) self:diffusealpha(0.5):rotationz(cymRot) end,
 			}
 		end
 
-		t[#t+1] = Def.Sprite {
-			Texture = NOTESKIN:GetPath(TapRedir[sButtonToLoad], "receptor base"),
-			Frames = {{Frame = 0, Delay = 1}},
-			InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ):effectclock("beat"):diffuseramp():effectcolor1({0.8, 0.8, 0.8, 1}):effectcolor2({1, 1, 1, 1}):effectoffset(0.05) end,
-			NoneCommand = function (self) self:finishtweening():zoom(0.85):diffusealpha(0.9):linear(0.1):diffusealpha(1):zoom(1) end,
-		}
+		if not sButton:find("Strum") then
+			t[#t+1] = singleSprite(TapRedir[sButtonToLoad], "receptor base") .. {
+				InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ):effectclock("beat"):diffuseramp():effectcolor1({0.8, 0.8, 0.8, 1}):effectcolor2({1, 1, 1, 1}):effectoffset(0.05) end,
+				NoneCommand = function (self) self:finishtweening():zoom(0.85):diffusealpha(0.9):linear(0.1):diffusealpha(1):zoom(1) end,
+			}
+		end
 
 		if sButton == "Center" and (not GAMESTATE:GetCurrentStyle(pn):GetStepsType():find("StepsType_Smx_")) then
-			t[#t+1] = Def.Sprite {
-				Texture = NOTESKIN:GetPath("_common", "overlay feet"),
-				Frames = {{Frame = 0, Delay = 1}},
+			t[#t+1] = singleSprite("_common", "overlay feet") .. {
 				InitCommand = function (self) self:diffusealpha(0.5) end,
 			}
 		end
 
-		t[#t+1] = Def.Sprite {
-			Texture = NOTESKIN:GetPath(TapRedir[sButtonToLoad], "receptor flash"),
-			Frames = {{Frame = 0, Delay = 1}},
+		t[#t+1] = singleSprite(TapRedir[sButtonToLoad], "receptor flash") .. {
 			InitCommand = function (self) self:blend("BlendMode_Add"):rotationy(rotY):rotationz(rotZ):diffusealpha(0) end,
 			PressCommand = function (self) self:finishtweening():zoom(1):diffusealpha(0.6) end,
 			LiftCommand = function (self) self:finishtweening():decelerate(0.1):diffusealpha(0):zoom(1.2) end,
 			NoneCommand = function (self) self:finishtweening():zoom(0.85):diffusealpha(0.9):linear(0.15):diffusealpha(1):zoom(1) end,
 		}
 	elseif sElementToLoad == "Explosion" then
+		-- [ja] Receptorの明るい色の関数
+		local function BrightColor(col)
+			return {(col[1] + 2) / 3, (col[2] + 2) / 3, (col[3] + 2) / 3, col[4]}
+		end
+
+		-- [ja] glow用コマンド、いちいち全部書き換えるのはめんどいので
 		local glowCommands = function (actor, color)
 			return actor:finishtweening():diffuse(color):sleep(0.1):decelerate(0.2):diffusealpha(0)
 		end
 
-		t[#t+1] = Def.Sprite {
-			Texture = NOTESKIN:GetPath(TapRedir[sButtonToLoad], "glow"),
-			Frames = {{Frame = 0, Delay = 1}},
+		t[#t+1] = singleSprite(TapRedir[sButtonToLoad], "glow") .. {
 			InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ):diffusealpha(0) end,
 			W5Command = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_W5")) end,
 			W4Command = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_W4")) end,
@@ -765,9 +1212,7 @@ local function func()
 			-- BrightCommand = function (self) self:visible(false) end,
 			-- DimCommand = function (self) self:visible(true) end,
 		}
-		t[#t+1] = Def.Sprite {
-			Texture = NOTESKIN:GetPath("_common", "bright"),
-			Frames = {{Frame = 0, Delay = 1}},
+		t[#t+1] = singleSprite("_common", "bright") .. {
 			InitCommand = function (self) self:zoom(zoomValue):diffusealpha(0) end,
 			W5Command = function (self) glowCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_W5"))) end,
 			W4Command = function (self) glowCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_W4"))) end,
@@ -784,18 +1229,14 @@ local function func()
 			BrightCommand = function (self) self:visible(true) end,
 			DimCommand = function (self) self:visible(false) end,
 		}
-		t[#t+1] = Def.Sprite {
-			Texture = NOTESKIN:GetPath("_common", "hold flash"),
-			Frames = {{Frame = 0, Delay = 1}},
+		t[#t+1] = singleSprite("_common", "hold flash") .. {
 			HoldingOnCommand = function (self) self:diffusealpha(1):glowshift():effectcolor1({1, 1, 1, 0}):effectcolor2({1, 1, 1, 0.7}):effectperiod(0.1) end,
 			HoldingOffCommand = function (self) self:diffusealpha(0) end,
 			RollOnCommand = function (self) self:playcommand("HoldingOn") end,
 			RollOffCommand = function (self) self:playcommand("HoldingOff") end,
-			InitCommand = function (self) self:playcommand("HoldingOff"):finishtweening() end,
+			InitCommand = function (self) self:zoom(zoomValue):playcommand("HoldingOff"):finishtweening() end,
 		}
-		t[#t+1] = Def.Sprite {
-			Texture = NOTESKIN:GetPath("_common", "mine explosion"),
-			Frames = {{Frame = 0, Delay = 1}},
+		t[#t+1] = singleSprite("_common", "mine explosion") .. {
 			InitCommand = function (self) self:blend("BlendMode_Add"):zoom(zoomValue):diffusealpha(0) end,
 			HitMineCommand = function (self) self:finishtweening():diffusealpha(1):rotationz(0):linear(0.25):rotationz(90):linear(0.25):rotationz(180):diffusealpha(0) end,
 		}

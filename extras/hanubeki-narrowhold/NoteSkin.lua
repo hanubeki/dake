@@ -1,7 +1,6 @@
 local ret = ... or {}
 
-if ret.HanubekiExtras then
-	ret.HanubekiExtras.HoldType = "_diamond"
-end
+assert(ret.HanubekiExtras)
+ret.HanubekiExtras.HoldType = "_diamond"
 
 return ret
