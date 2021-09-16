@@ -15,14 +15,18 @@ ret.RedirTable =
 {
 	-- Dance (incl. solo and octo), Pump, pAra, Techno, smX, Horizon
 	["Up"]        = game == "para"   and "ParaUp"                                     or     "Up",     -- D-ATXH
-	["Down"]      =                                                                          "Down",   -- D--TXH
+	["Down"]      = game == "para"   and "ParaDown"                                   or     "Down",   -- D--TXH
 	["Left"]      = game == "para"   and "ParaLeft"                                   or     "Left",   -- D-ATXH
 	["Right"]     = game == "para"   and "ParaRight"                                  or     "Right",  -- D-ATXH
 	["UpLeft"]    = game == "para"   and "ParaUpLeft"                                 or   "UpLeft",   -- sPAT-H
 	["UpRight"]   = game == "para"   and "ParaUpRight"                                or   "UpRight",  -- sPAT-H
-	["DownLeft"]  =                                                                      "DownLeft",   -- oP-T-H
-	["DownRight"] =                                                                      "DownRight",  -- oP-T-H
+	["DownLeft"]  = game == "para"   and "ParaDownLeft"                               or "DownLeft",   -- oP-T-H
+	["DownRight"] = game == "para"   and "ParaDownRight"                              or "DownRight",  -- oP-T-H
 	["Center"]    = game == "techno" and "Circle"      or game == "smx" and "Diamond" or     "Center", -- -P-TXH
+	-- TODO: back
+	["BackRight"] = game == "para"   and "ParaBackRight"                              or "DownRight",  -- --A---
+	["Back"]      = game == "para"   and "ParaBack"                                   or     "Down",   -- --A---
+	["BackLeft"]  = game == "para"   and "ParaBackLeft"                               or "DownLeft",   -- --A---
 	-- ez2, ds3ddx, Maniax
 	["FootDown"]      =                                    "Down",  -- 2--
 	["FootUpLeft"]    =                                  "UpLeft",  -- 23-
@@ -127,11 +131,17 @@ local TapRedir = {
 	["Circle"]    = "_circle",
 	["Diamond"]   = "_diamond",
 
-	["ParaLeft"]    = "_paraup",
-	["ParaUpLeft"]  = "_paraupleft",
-	["ParaUp"]      = "_paraup",
-	["ParaUpRight"] = "_paraupleft",
-	["ParaRight"]   = "_paraup",
+	["ParaLeft"]      = "_paraup",
+	["ParaUpLeft"]    = "_paraupleft",
+	["ParaUp"]        = "_paraup",
+	["ParaUpRight"]   = "_paraupleft",
+	["ParaRight"]     = "_paraup",
+	["ParaDownRight"] = "_paraupleft",
+	["ParaDown"]      = "_paraup",
+	["ParaDownLeft"]  = "_paraupleft",
+	["ParaBackRight"] = "_parabackleft",
+	["ParaBack"]      = "_paraback",
+	["ParaBackLeft"]  = "_parabackleft",
 
 	["HandLeft"]  = "_handleft",
 	["HandRight"] = "_handleft",
@@ -205,12 +215,20 @@ local TapRotateZ = {
 	["DownLeft"]  = 270,
 	["DownRight"] = 180,
 
-	["ParaLeft"]    = -90,
-	["ParaUp"]      =   0,
-	["ParaRight"]   =  90,
+	["ParaLeft"]      =  -90,
+	["ParaUp"]        =    0,
+	["ParaRight"]     =   90,
+	["ParaDown"]      =  180,
 
-	["ParaUpLeft"]  =   0,
-	["ParaUpRight"] =  90,
+	["ParaUpLeft"]    =    0,
+	["ParaUpRight"]   =   90,
+	["ParaDownLeft"]  =  270,
+	["ParaDownRight"] =  180,
+
+	["ParaBack"]      = 0,
+
+	["ParaBackLeft"]  =    0,
+	["ParaBackRight"] =  270,
 
 	["HandLeft"]  =   0,
 	["HandRight"] = 180,
@@ -242,11 +260,17 @@ local HoldBodyRedir = {
 	["ParaRight"]   = "_pararight",
 --]]
 
-	["ParaLeft"]    = "_thin",
-	["ParaUpLeft"]  = "_thin",
-	["ParaUp"]      = "_thin",
-	["ParaUpRight"] = "_thin",
-	["ParaRight"]   = "_thin",
+	["ParaLeft"]      = "_thin",
+	["ParaUpLeft"]    = "_thin",
+	["ParaUp"]        = "_thin",
+	["ParaUpRight"]   = "_thin",
+	["ParaRight"]     = "_thin",
+	["ParaDownRight"] = "_thin",
+	["ParaDown"]      = "_thin",
+	["ParaDownLeft"]  = "_thin",
+	["ParaBackRight"] = "_thin",
+	["ParaBack"]      = "_thin",
+	["ParaBackLeft"]  = "_thin",
 
 	["HandLeft"]  = "_handleft",
 	["HandRight"] = "_handright",
@@ -306,11 +330,17 @@ local HoldCapRedir = {
 	["ParaRight"]   = "_pararight",
 --]]
 
-	["ParaLeft"]    = "_thin",
-	["ParaUpLeft"]  = "_thin",
-	["ParaUp"]      = "_thin",
-	["ParaUpRight"] = "_thin",
-	["ParaRight"]   = "_thin",
+	["ParaLeft"]      = "_thin",
+	["ParaUpLeft"]    = "_thin",
+	["ParaUp"]        = "_thin",
+	["ParaUpRight"]   = "_thin",
+	["ParaRight"]     = "_thin",
+	["ParaDownRight"] = "_thin",
+	["ParaDown"]      = "_thin",
+	["ParaDownLeft"]  = "_thin",
+	["ParaBackRight"] = "_thin",
+	["ParaBack"]      = "_thin",
+	["ParaBackLeft"]  = "_thin",
 
 	["DownLeftFoot"]  = "_leftfoot",
 	["AnyLeftFoot"]   = "_leftfoot",
@@ -408,6 +438,9 @@ local ColorTable = {
 		["Up"] = 12,
 		["UpRight"] = 12,
 		["Right"] = 12,
+		["BackRight"] = 0,
+		["Back"] = 0,
+		["BackLeft"] = 0,
 	},
 	["techno"] = {
 		["DownLeft"] = 2,
@@ -592,141 +625,70 @@ local ColorTableMeta = {
 }
 setmetatable(ColorTable, ColorTableMeta)
 
-ret.Redir = function (sButton, sElement)
+ret.Redir = function (sButton, sElement, pn)
 	-- Instead of separate hold heads, use the tap note graphics.
-	if sElement == "Hold Head Inactive" or
-	   sElement == "Hold Head Active" or
-	   sElement == "Roll Head Inactive" or
-	   sElement == "Roll Head Active" or
-	   sElement == "Hold Head 1 Inactive" or
-	   sElement == "Hold Head 1 Active" or
-	   sElement == "Roll Head 1 Inactive" or
-	   sElement == "Roll Head 1 Active" or
+	if sElement:find("Hold Head") or sElement:find("Roll Head") or
 	   sElement == "Tap Fake"
 	then
 		sElement = "Tap Note"
 	end
 
 	-- Instead of separate hold blues, use the tap blue graphics.
-	if sElement == "Hold Blue Inactive" or
-	   sElement == "Hold Blue Active" or
-	   sElement == "Roll Blue Inactive" or
-	   sElement == "Roll Blue Active" or
-	   sElement == "Hold Blue 1 Inactive" or
-	   sElement == "Hold Blue 1 Active" or
-	   sElement == "Roll Blue 1 Inactive" or
-	   sElement == "Roll Blue 1 Active"
-	then
+	if sElement:find("Hold Blue") or sElement:find("Roll Blue") then
 		sElement = "Tap Blue"
 	end
 
 	-- Instead of separate hold yellows, use the tap yellow graphics.
-	if sElement == "Hold Yellow Inactive" or
-	   sElement == "Hold Yellow Active" or
-	   sElement == "Roll Yellow Inactive" or
-	   sElement == "Roll Yellow Active" or
-	   sElement == "Hold Yellow 1 Inactive" or
-	   sElement == "Hold Yellow 1 Active" or
-	   sElement == "Roll Yellow 1 Inactive" or
-	   sElement == "Roll Yellow 1 Active"
-	then
+	if sElement:find("Hold Yellow") or sElement:find("Roll Yellow") then
 		sElement = "Tap Yellow"
 	end
 
 	-- Instead of separate hold heads, use the tap note graphics.
-	if sElement == "Hold BigRed Inactive" or
-	   sElement == "Hold BigRed Active" or
-	   sElement == "Roll BigRed Inactive" or
-	   sElement == "Roll BigRed Active" or
-	   sElement == "Hold BigRed 1 Inactive" or
-	   sElement == "Hold BigRed 1 Active" or
-	   sElement == "Roll BigRed 1 Inactive" or
-	   sElement == "Roll BigRed 1 Active"
-	then
-		sElement = "Tap BigRed Note"
+	if sElement:find("Hold BigRed") or sElement:find("Roll BigRed") then
+		sElement = "Tap BigRed"
 	end
 
 	-- Instead of separate hold blues, use the tap blue graphics.
-	if sElement == "Hold BigBlue Inactive" or
-	   sElement == "Hold BigBlue Active" or
-	   sElement == "Roll BigBlue Inactive" or
-	   sElement == "Roll BigBlue Active" or
-	   sElement == "Hold BigBlue 1 Inactive" or
-	   sElement == "Hold BigBlue 1 Active" or
-	   sElement == "Roll BigBlue 1 Inactive" or
-	   sElement == "Roll BigBlue 1 Active"
-	then
+	if sElement:find("Hold BigBlue") or sElement:find("Roll BigBlue") then
 		sElement = "Tap BigBlue"
 	end
 
 	-- Instead of separate hold yellows, use the tap yellow graphics.
-	if sElement == "Hold BigYellow Inactive" or
-	   sElement == "Hold BigYellow Active" or
-	   sElement == "Roll BigYellow Inactive" or
-	   sElement == "Roll BigYellow Active" or
-	   sElement == "Hold BigYellow 1 Inactive" or
-	   sElement == "Hold BigYellow 1 Active" or
-	   sElement == "Roll BigYellow 1 Inactive" or
-	   sElement == "Roll BigYellow 1 Active"
-	then
+	if sElement:find("Hold BigYellow") or sElement:find("Roll BigYellow") then
 		sElement = "Tap BigYellow"
 	end
 
 	-- Instead of separate hold tapsheads, use the tap taps graphics.
-	if sElement == "Hold Tapshead Inactive" or
-	   sElement == "Hold Tapshead Active" or
-	   sElement == "Roll Tapshead Inactive" or
-	   sElement == "Roll Tapshead Active" or
-	   sElement == "Hold Tapshead 1 Inactive" or
-	   sElement == "Hold Tapshead 1 Active" or
-	   sElement == "Roll Tapshead 1 Inactive" or
-	   sElement == "Roll Tapshead 1 Active"
-	then
+	if sElement:find("Hold Tapshead") or sElement:find("Roll Tapshead") then
 		sElement = "Tap Taps"
 	end
 
 	-- Instead of separate hold hopoheads, use the tap hopo graphics.
-	if sElement == "Hold Hopohead Inactive" or
-	   sElement == "Hold Hopohead Active" or
-	   sElement == "Roll Hopohead Inactive" or
-	   sElement == "Roll Hopohead Active" or
-	   sElement == "Hold Hopohead 1 Inactive" or
-	   sElement == "Hold Hopohead 1 Active" or
-	   sElement == "Roll Hopohead 1 Inactive" or
-	   sElement == "Roll Hopohead 1 Active"
-	then
+	if sElement:find("Hold Hopohead") or sElement:find("Roll Hopohead") then
 		sElement = "Tap Taps"
 	end
 
 	-- Instead of separate hold lifttails, use the tap lift graphics.
-	if sElement == "Hold LiftTail Inactive" or
-	   sElement == "Hold LiftTail Active" or
-	   sElement == "Roll LiftTail Inactive" or
-	   sElement == "Roll LiftTail Active" or
-	   sElement == "Hold LiftTail 1 Inactive" or
-	   sElement == "Hold LiftTail 1 Active" or
-	   sElement == "Roll LiftTail 1 Inactive" or
-	   sElement == "Roll LiftTail 1 Active"
-	then
+	if sElement:find("Hold LiftTail") or sElement:find("Roll LiftTail") then
 		sElement = "Tap Lift"
 	end
 
 	-- Instead of separate mine heads, use the tap mine graphics.
-	if sElement == "Mine Head"
-	then
+	if sElement == "Mine Head" then
 		sElement = "Tap Mine"
 	end
 
 	if game == "taiko" then
-		sElement = string.gsub(sElement, "Roll", "Hold")
-		sElement = string.gsub(sElement, "Inactive", "Active")
+		sElement = sElement:gsub("Roll", "Hold")
+		sElement = sElement:gsub("Inactive", "Active")
 	end
 
 	sButton = ret.RedirTable[sButton] or "Fallback"
 
 	-- Strum width varies with styles.
 	if sButton == "Strum" then
-		sButton = game == "gh" and "StrumLong" or GAMESTATE:GetCurrentStyle(pn):GetName():find("6") and "StrumLong" or "StrumShort"
+		local numColumns = GAMESTATE:GetCurrentStyle(pn):ColumnsPerPlayer()
+		sButton = (numColumns >= 5) and "StrumLong" or "StrumShort"
 	end
 
 	return sButton, sElement
@@ -751,7 +713,7 @@ local function func()
 	local sPlayer = pn
 
 	if game == "taiko" then
-		ret.HanubekiExtras.Flat = true
+		ret.HanubekiExtras.Flat = false
 		ret.HanubekiExtras.Routine = false
 		ret.HanubekiExtras.HoldType = nil
 	end
@@ -770,7 +732,7 @@ local function func()
 		if sButton:find("RightFoot") then
 			sButton = "AnyRightFoot"
 		end
-		--
+
 		if sButton:find("LeftFist") then
 			sButton = "AnyLeftFist"
 		end
@@ -798,7 +760,7 @@ local function func()
 		}
 	end
 
-	local sButtonToLoad, sElementToLoad = ret.Redir(sButton, sElement)
+	local sButtonToLoad, sElementToLoad = ret.Redir(sButton, sElement, pn)
 	assert(sButtonToLoad)
 	assert(sElementToLoad)
 
