@@ -86,15 +86,16 @@ ret.RedirTable =
 	["Strum Up"] = "Strum",
 	["Strum Down"] = "Strum",
 	-- gddm
-	["Crash"] = "Cymbal",
+	["Left Crash"] = "Cymbal",
 	["Hi-Hat"] = "Cymbal",
 	["Hi-Hat Pedal"] = "Pedal",
 	["Snare"] = "Tom",
-	["Tom1"] = "Tom",
+	["High Tom"] = "Tom",
 	["Kick"] = "Pedal",
-	["Tom2"] = "Tom",
-	["Tom3"] = "Tom",
+	["Mid Tom"] = "Tom",
+	["Floor Tom"] = "Tom",
 	["Ride"] = "Cymbal",
+	["Right Crash"] = "Cymbal",
 	--taiko
 	["Main"] = "Main",
 }
@@ -585,15 +586,16 @@ local ColorTable = {
 	},
 --]]
 	["gddm"] = {
-		["Crash"] = 12,
+		["Left Crash"] = 12,
 		["Hi-Hat"] = 2,
 		["Hi-Hat Pedal"] = 12,
 		["Snare"] = 6,
-		["Tom1"] = 4,
+		["High Tom"] = 4,
 		["Kick"] = 8,
-		["Tom2"] = 0,
-		["Tom3"] = 18,
-		["Ride"] = 2,
+		["Mid Tom"] = 0,
+		["Floor Tom"] = 18,
+		["Ride"] = 10,
+		["Right Crash"] = 2,
 	},
 	["taiko"] = {
 		["Main"] = 0,
@@ -625,6 +627,66 @@ local ColorTableMeta = {
 }
 setmetatable(ColorTable, ColorTableMeta)
 
+local TaiTai = {}
+
+function TaiTai.Input(event)
+	if not event.PlayerNumber then return end
+	if ToEnumShortString(event.type) == "FirstPress" and event.PlayerNumber == pn then
+		if TaiTai.Buttons:GetChild("Taiko Drum"):GetChild(event.button) then
+			TaiTai.Buttons:GetChild("Taiko Drum"):GetChild(event.button):stoptweening():queuecommand("Push")
+			TaiTai.Buttons:GetChild("Background"):stoptweening():diffuse(color(Colours[event.button])):queuecommand("Push")
+			if string.find(event.button, "Outside") then
+				TaiTai.Buttons:GetChild("Stick"):play()
+			else
+				TaiTai.Buttons:GetChild("Drum"):play()
+			end
+			
+		end
+	end
+end
+
+local ReceptorGlyphTable = {
+	["beat"] = {
+		["scratch"] = {["texture"] = "_scratch", ["x"] = 0, ["y"] = 44, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {1.0, 0.25, 0, 0}},
+		["Key1"] = {["texture"] = "_keywhite", ["x"] = 0, ["y"] = 48, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {1.0, 0.25, 0, 0}},
+		["Key2"] = {["texture"] = "_keyblue",  ["x"] = 0, ["y"] = 40, ["rot"] = 0, ["diffuse"] = {0.15, 0.15, 0.15, 1}, ["glow"] = {1.0, 0.25, 0, 0}},
+		["Key3"] = {["texture"] = "_keywhite", ["x"] = 0, ["y"] = 48, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {1.0, 0.25, 0, 0}},
+		["Key4"] = {["texture"] = "_keyblue",  ["x"] = 0, ["y"] = 40, ["rot"] = 0, ["diffuse"] = {0.15, 0.15, 0.15, 1}, ["glow"] = {1.0, 0.25, 0, 0}},
+		["Key5"] = {["texture"] = "_keywhite", ["x"] = 0, ["y"] = 48, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {1.0, 0.25, 0, 0}},
+		["Key6"] = {["texture"] = "_keyblue",  ["x"] = 0, ["y"] = 40, ["rot"] = 0, ["diffuse"] = {0.15, 0.15, 0.15, 1}, ["glow"] = {1.0, 0.25, 0, 0}},
+		["Key7"] = {["texture"] = "_keywhite", ["x"] = 0, ["y"] = 48, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {1.0, 0.25, 0, 0}},
+	},
+	["popn"] = {
+		["Left White"]   = {["texture"] = "_burger", ["x"] = 0, ["y"] = 32, ["rot"] = 0, ["diffuse"] = {0.75, 0.75,  0.75, 1.0}},
+		["Left Yellow"]  = {["texture"] = "_burger", ["x"] = 0, ["y"] = 24, ["rot"] = 0, ["diffuse"] = {0.75, 0.75,  0,    1.0}},
+		["Left Green"]   = {["texture"] = "_burger", ["x"] = 0, ["y"] = 32, ["rot"] = 0, ["diffuse"] = {0,    0.5,   0,    1.0}},
+		["Left Blue"]    = {["texture"] = "_burger", ["x"] = 0, ["y"] = 24, ["rot"] = 0, ["diffuse"] = {0,    0.375, 0.75, 1.0}},
+		["Red"]          = {["texture"] = "_burger", ["x"] = 0, ["y"] = 32, ["rot"] = 0, ["diffuse"] = {0.75, 0,     0,    1.0}},
+		["Right Blue"]   = {["texture"] = "_burger", ["x"] = 0, ["y"] = 24, ["rot"] = 0, ["diffuse"] = {0,    0.375, 0.75, 1.0}},
+		["Right Green"]  = {["texture"] = "_burger", ["x"] = 0, ["y"] = 32, ["rot"] = 0, ["diffuse"] = {0,    0.5,   0,    1.0}},
+		["Right Yellow"] = {["texture"] = "_burger", ["x"] = 0, ["y"] = 24, ["rot"] = 0, ["diffuse"] = {0.75, 0.75,  0,    1.0}},
+		["Right White"]  = {["texture"] = "_burger", ["x"] = 0, ["y"] = 32, ["rot"] = 0, ["diffuse"] = {0.75, 0.75,  0.75, 1.0}},
+	},
+	["gddm"] = {
+		["Left Crash"]   = {["texture"] = "_cymbal", ["x"] = 0, ["y"] = 48, ["rot"] = -45, ["diffuse"] = {1,   0,   0.5, 1}},
+		["Hi-Hat"]       = {["texture"] = "_cymbal", ["x"] = 0, ["y"] = 56, ["rot"] = -60, ["diffuse"] = {0,   0.5, 1,   1}},
+		["Hi-Hat Pedal"] = {["texture"] = "_pedal",  ["x"] = 0, ["y"] = 60, ["rot"] = -45, ["diffuse"] = {1,   0.8, 0.9, 1}},
+		["Snare"]        = {["texture"] = "_tom",    ["x"] = 0, ["y"] = 56, ["rot"] =   0, ["diffuse"] = {1,   1,   0,   1}},
+		["High Tom"]     = {["texture"] = "_tom",    ["x"] = 0, ["y"] = 40, ["rot"] =   0, ["diffuse"] = {0,   1,   0,   1}},
+		["Kick"]         = {["texture"] = "_pedal",  ["x"] = 0, ["y"] = 60, ["rot"] =   0, ["diffuse"] = {0.9, 0.8, 1,   1}},
+		["Mid Tom"]      = {["texture"] = "_tom",    ["x"] = 0, ["y"] = 40, ["rot"] =   0, ["diffuse"] = {1,   0,   0,   1}},
+		["Floor Tom"]    = {["texture"] = "_tom",    ["x"] = 0, ["y"] = 56, ["rot"] =   0, ["diffuse"] = {1,   0.5, 0,   1}},
+		["Ride"]         = {["texture"] = "_cymbal", ["x"] = 0, ["y"] = 48, ["rot"] =  60, ["diffuse"] = {0,   1,   1,   1}},
+		["Right Crash"]  = {["texture"] = "_cymbal", ["x"] = 0, ["y"] = 40, ["rot"] =  45, ["diffuse"] = {0,   0.5, 1,   1}},
+	},
+}
+local ReceptorGlyphMeta = {
+	__index = function (table, key, value)
+		return {}
+	end
+}
+setmetatable(ReceptorGlyphTable, ReceptorGlyphMeta)
+
 ret.Redir = function (sButton, sElement, pn)
 	-- Instead of separate hold heads, use the tap note graphics.
 	if sElement:find("Hold Head") or sElement:find("Roll Head") or
@@ -634,27 +696,27 @@ ret.Redir = function (sButton, sElement, pn)
 	end
 
 	-- Instead of separate hold blues, use the tap blue graphics.
-	if sElement:find("Hold Blue") or sElement:find("Roll Blue") then
+	if (sElement:find("Hold Blue") or sElement:find("Roll Blue")) and not (sElement:find(" .*cap") or sElement:find(" Body")) then
 		sElement = "Tap Blue"
 	end
 
 	-- Instead of separate hold yellows, use the tap yellow graphics.
-	if sElement:find("Hold Yellow") or sElement:find("Roll Yellow") then
+	if (sElement:find("Hold Yellow") or sElement:find("Roll Yellow")) and not (sElement:find(" .*cap") or sElement:find(" Body")) then
 		sElement = "Tap Yellow"
 	end
 
 	-- Instead of separate hold heads, use the tap note graphics.
-	if sElement:find("Hold BigRed") or sElement:find("Roll BigRed") then
+	if (sElement:find("Hold BigRed") or sElement:find("Roll BigRed")) and not (sElement:find(" .*cap") or sElement:find(" Body")) then
 		sElement = "Tap BigRed"
 	end
 
 	-- Instead of separate hold blues, use the tap blue graphics.
-	if sElement:find("Hold BigBlue") or sElement:find("Roll BigBlue") then
+	if (sElement:find("Hold BigBlue") or sElement:find("Roll BigBlue")) and not (sElement:find(" .*cap") or sElement:find(" Body")) then
 		sElement = "Tap BigBlue"
 	end
 
 	-- Instead of separate hold yellows, use the tap yellow graphics.
-	if sElement:find("Hold BigYellow") or sElement:find("Roll BigYellow") then
+	if (sElement:find("Hold BigYellow") or sElement:find("Roll BigYellow")) and not (sElement:find(" .*cap") or sElement:find(" Body")) then
 		sElement = "Tap BigYellow"
 	end
 
@@ -688,7 +750,7 @@ ret.Redir = function (sButton, sElement, pn)
 	-- Strum width varies with styles.
 	if sButton == "Strum" then
 		local numColumns = GAMESTATE:GetCurrentStyle(pn):ColumnsPerPlayer()
-		sButton = (numColumns >= 5) and "StrumLong" or "StrumShort"
+		sButton = numColumns >= 5 and "StrumLong" or "StrumShort"
 	end
 
 	return sButton, sElement
@@ -809,7 +871,7 @@ local function func()
 		if sButtonToLoad == "Pedal" then
 			t[#t+1] = singleSprite("_common", "underlay foot")
 		elseif sButtonToLoad == "Cymbal" then
-			local cymRot = sButton == "Hi-Hat" and -60 or -45
+			local cymRot = (sButton == "Hi-Hat" or sButton == "Ride") and -60 or -45
 
 			t[#t+1] = singleSprite("_common", "underlay cymbal") .. {
 				InitCommand = function (self) self:rotationz(cymRot) end,
@@ -1014,6 +1076,40 @@ local function func()
 		local sizeToLoad = zoomValue < 0.7 and "_half" or "_common"
 		t = singleSprite(sizeToLoad, sElementToLoad:lower())
 	elseif sElementToLoad == "Receptor" then
+		if ReceptorGlyphTable[game][sButton] then
+			t[#t+1] = singleSprite(ReceptorGlyphTable[game][sButton].texture, "receptor glyph") .. {
+				InitCommand = function (self) self:xy(ReceptorGlyphTable[game][sButton].x, ReceptorGlyphTable[game][sButton].y):rotationz(ReceptorGlyphTable[game][sButton].rot):diffuse(ReceptorGlyphTable[game][sButton].diffuse) end,
+			}
+
+			if ReceptorGlyphTable[game][sButton].glow then
+				t[#t+1] = singleSprite(ReceptorGlyphTable[game][sButton].texture, "receptor glow") .. {
+					InitCommand = function (self) self:xy(ReceptorGlyphTable[game][sButton].x, ReceptorGlyphTable[game][sButton].y):rotationz(ReceptorGlyphTable[game][sButton].rot):diffuse(ReceptorGlyphTable[game][sButton].glow):diffusealpha(0) end,
+					PressCommand = function (self) self:finishtweening():diffusealpha(1) end,
+					LiftCommand = function (self) self:finishtweening():diffusealpha(1):decelerate(0.2):diffusealpha(0) end,
+				}
+			end
+		end
+
+		if not sButton:find("Strum") then
+			t[#t+1] = singleSprite(TapRedir[sButtonToLoad], "receptor base") .. {
+				InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ):effectclock("beat"):diffuseramp():effectcolor1({0.8, 0.8, 0.8, 1}):effectcolor2({1, 1, 1, 1}):effectoffset(0.05) end,
+				NoneCommand = function (self) self:finishtweening():zoom(0.85):diffusealpha(0.9):linear(0.1):diffusealpha(1):zoom(1) end,
+			}
+		end
+
+		if sButton == "Center" and (not GAMESTATE:GetCurrentStyle(pn):GetStepsType():find("StepsType_Smx_")) then
+			t[#t+1] = singleSprite("_common", "overlay feet") .. {
+				InitCommand = function (self) self:diffusealpha(0.5) end,
+			}
+		end
+
+		t[#t+1] = singleSprite(TapRedir[sButtonToLoad], "receptor flash") .. {
+			InitCommand = function (self) self:blend("BlendMode_Add"):rotationy(rotY):rotationz(rotZ):diffusealpha(0) end,
+			PressCommand = function (self) self:finishtweening():zoom(1):diffusealpha(0.6) end,
+			LiftCommand = function (self) self:finishtweening():decelerate(0.1):diffusealpha(0):zoom(1.2) end,
+			NoneCommand = function (self) self:finishtweening():zoom(0.85):diffusealpha(0.9):linear(0.15):diffusealpha(1):zoom(1) end,
+		}
+
 		if game == "gh" and sButton:find("Strum") then
 			local isFever = false
 
@@ -1115,37 +1211,77 @@ local function func()
 			}
 		end
 
-		if sButtonToLoad == "Pedal" then
-			t[#t+1] = singleSprite("_common", "underlay foot") .. {
-				InitCommand = function (self) self:diffusealpha(0.5) end,
-			}
-		elseif sButtonToLoad == "Cymbal" then
-			local cymRot = sButton == "Hi-Hat" and -60 or -45
+		if game == "taiko" then
+			local taikoDrum = nil
 
-			t[#t+1] = singleSprite("_common", "underlay cymbal") .. {
-				InitCommand = function (self) self:diffusealpha(0.5):rotationz(cymRot) end,
+			local taikoColors = {
+				["Taiko Left Outside"] = {0, 0.5, 1, 1},
+				["Taiko Right Outside"] = {0, 0.5, 1, 1},
+				["Taiko Left Inside"] = {1, 0, 0, 1},
+				["Taiko Right Inside"] = {1, 0, 0, 1},
+			}
+
+			local taikoInput = function(event)
+				if ToEnumShortString(event.type) == "FirstPress" and event.PlayerNumber == pn then
+					if taikoDrum:GetChild("Taiko Drum"):GetChild(event.button) then
+						taikoDrum:GetChild("Taiko Drum"):GetChild(event.button):finishtweening():queuecommand("Push")
+						taikoDrum:GetChild("Background"):finishtweening():diffuse(taikoColors[event.button]):queuecommand("Push")
+			--[[
+						if string.find(event.button, "Outside") then
+							taikoDrum:GetChild("Stick"):play()
+						else
+							taikoDrum:GetChild("Drum"):play()
+						end
+			--]]
+					end
+				end
+			end
+
+			t[#t+1] = Def.ActorFrame {
+				OnCommand = function (self)
+					taikoDrum = self
+					SCREENMAN:GetTopScreen():AddInputCallback(taikoInput)
+				end,
+				Def.ActorFrame {
+					Name = "Taiko Drum",
+					OnCommand = function(self) self:x(-128) end,
+					Def.Sprite {
+						Texture = "_taiko receptor glyph",
+					},
+					Def.Sprite{
+						Name="Taiko Left Outside",
+						Texture="_taiko receptor glow outside",
+						OnCommand=function(self) self:diffuse({1, 1, 1, 0}) end,
+						PushCommand=function(self) self:diffuse(taikoColors["Taiko Left Outside"]):decelerate(0.3):diffuse({1, 1, 1, 0}) end,
+					},
+					Def.Sprite{
+						Name="Taiko Right Outside",
+						Texture="_taiko receptor glow outside",
+						OnCommand=function(self) self:rotationy(180):diffuse({1, 1, 1, 0}) end,
+						PushCommand=function(self) self:diffuse(taikoColors["Taiko Right Outside"]):decelerate(0.3):diffuse({1, 1, 1, 0}) end,
+					},
+					Def.Sprite{
+						Name="Taiko Left Inside",
+						Texture="_taiko receptor glow inside",
+						OnCommand=function(self) self:diffuse({1, 1, 1, 0}) end,
+						PushCommand=function(self) self:diffuse(taikoColors["Taiko Left Inside"]):decelerate(0.3):diffuse({1, 1, 1, 0}) end,
+					},
+					Def.Sprite{
+						Name="Taiko Right Inside",
+						Texture="_taiko receptor glow inside",
+						OnCommand=function(self) self:rotationy(180):diffuse({1, 1, 1, 0}) end,
+						PushCommand=function(self) self:diffuse(taikoColors["Taiko Right Inside"]):decelerate(0.3):diffuse({1, 1, 1, 0}) end,
+					},
+				},
+				Def.Quad {
+					Name="Background",
+					OnCommand = function(self) self:valign(0):xy(256 - 64, -64):scaletoclipped(512, 128):faderight(1):diffusealpha(0) end,
+					PushCommand = function(self) self:diffusealpha(1):decelerate(0.3):diffusealpha(0) end,
+				},
+				-- LoadActor("_taiko sound drum") .. {Name="Drum"},
+				-- LoadActor("_taiko sound stick") .. {Name="Stick"},
 			}
 		end
-
-		if not sButton:find("Strum") then
-			t[#t+1] = singleSprite(TapRedir[sButtonToLoad], "receptor base") .. {
-				InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ):effectclock("beat"):diffuseramp():effectcolor1({0.8, 0.8, 0.8, 1}):effectcolor2({1, 1, 1, 1}):effectoffset(0.05) end,
-				NoneCommand = function (self) self:finishtweening():zoom(0.85):diffusealpha(0.9):linear(0.1):diffusealpha(1):zoom(1) end,
-			}
-		end
-
-		if sButton == "Center" and (not GAMESTATE:GetCurrentStyle(pn):GetStepsType():find("StepsType_Smx_")) then
-			t[#t+1] = singleSprite("_common", "overlay feet") .. {
-				InitCommand = function (self) self:diffusealpha(0.5) end,
-			}
-		end
-
-		t[#t+1] = singleSprite(TapRedir[sButtonToLoad], "receptor flash") .. {
-			InitCommand = function (self) self:blend("BlendMode_Add"):rotationy(rotY):rotationz(rotZ):diffusealpha(0) end,
-			PressCommand = function (self) self:finishtweening():zoom(1):diffusealpha(0.6) end,
-			LiftCommand = function (self) self:finishtweening():decelerate(0.1):diffusealpha(0):zoom(1.2) end,
-			NoneCommand = function (self) self:finishtweening():zoom(0.85):diffusealpha(0.9):linear(0.15):diffusealpha(1):zoom(1) end,
-		}
 	elseif sElementToLoad == "Explosion" then
 		-- [ja] Receptorの明るい色の関数
 		local function BrightColor(col)
