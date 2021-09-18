@@ -594,8 +594,8 @@ local ColorTable = {
 		["Kick"] = 8,
 		["Mid Tom"] = 0,
 		["Floor Tom"] = 18,
-		["Ride"] = 10,
-		["Right Crash"] = 2,
+		["Ride"] = 2,
+		["Right Crash"] = 14,
 	},
 	["taiko"] = {
 		["Main"] = 0,
@@ -668,16 +668,16 @@ local ReceptorGlyphTable = {
 		["Right White"]  = {["texture"] = "_burger", ["x"] = 0, ["y"] = 32, ["rot"] = 0, ["diffuse"] = {0.75, 0.75,  0.75, 1.0}},
 	},
 	["gddm"] = {
-		["Left Crash"]   = {["texture"] = "_cymbal", ["x"] = 0, ["y"] = 48, ["rot"] = -45, ["diffuse"] = {1,   0,   0.5, 1}},
-		["Hi-Hat"]       = {["texture"] = "_cymbal", ["x"] = 0, ["y"] = 56, ["rot"] = -60, ["diffuse"] = {0,   0.5, 1,   1}},
-		["Hi-Hat Pedal"] = {["texture"] = "_pedal",  ["x"] = 0, ["y"] = 60, ["rot"] = -45, ["diffuse"] = {1,   0.8, 0.9, 1}},
-		["Snare"]        = {["texture"] = "_tom",    ["x"] = 0, ["y"] = 56, ["rot"] =   0, ["diffuse"] = {1,   1,   0,   1}},
-		["High Tom"]     = {["texture"] = "_tom",    ["x"] = 0, ["y"] = 40, ["rot"] =   0, ["diffuse"] = {0,   1,   0,   1}},
-		["Kick"]         = {["texture"] = "_pedal",  ["x"] = 0, ["y"] = 60, ["rot"] =   0, ["diffuse"] = {0.9, 0.8, 1,   1}},
-		["Mid Tom"]      = {["texture"] = "_tom",    ["x"] = 0, ["y"] = 40, ["rot"] =   0, ["diffuse"] = {1,   0,   0,   1}},
-		["Floor Tom"]    = {["texture"] = "_tom",    ["x"] = 0, ["y"] = 56, ["rot"] =   0, ["diffuse"] = {1,   0.5, 0,   1}},
-		["Ride"]         = {["texture"] = "_cymbal", ["x"] = 0, ["y"] = 48, ["rot"] =  60, ["diffuse"] = {0,   1,   1,   1}},
-		["Right Crash"]  = {["texture"] = "_cymbal", ["x"] = 0, ["y"] = 40, ["rot"] =  45, ["diffuse"] = {0,   0.5, 1,   1}},
+		["Left Crash"]   = {["texture"] = "_cymbal", ["x"] = 0, ["y"] = 48, ["rot"] = -45, ["diffuse"] = {1,    0,   0.5, 1}},
+		["Hi-Hat"]       = {["texture"] = "_cymbal", ["x"] = 0, ["y"] = 56, ["rot"] = -60, ["diffuse"] = {0,    0.5, 1,   1}},
+		["Hi-Hat Pedal"] = {["texture"] = "_pedal",  ["x"] = 0, ["y"] = 60, ["rot"] = -45, ["diffuse"] = {1,    0.8, 0.9, 1}},
+		["Snare"]        = {["texture"] = "_tom",    ["x"] = 0, ["y"] = 56, ["rot"] =   0, ["diffuse"] = {1,    1,   0,   1}},
+		["High Tom"]     = {["texture"] = "_tom",    ["x"] = 0, ["y"] = 40, ["rot"] =   0, ["diffuse"] = {0,    1,   0,   1}},
+		["Kick"]         = {["texture"] = "_pedal",  ["x"] = 0, ["y"] = 60, ["rot"] =   0, ["diffuse"] = {0.9,  0.8, 1,   1}},
+		["Mid Tom"]      = {["texture"] = "_tom",    ["x"] = 0, ["y"] = 40, ["rot"] =   0, ["diffuse"] = {1,    0,   0,   1}},
+		["Floor Tom"]    = {["texture"] = "_tom",    ["x"] = 0, ["y"] = 56, ["rot"] =   0, ["diffuse"] = {1,    0.5, 0,   1}},
+		["Ride"]         = {["texture"] = "_cymbal", ["x"] = 0, ["y"] = 48, ["rot"] =  45, ["diffuse"] = {0,    0.5, 1,   1}},
+		["Right Crash"]  = {["texture"] = "_cymbal", ["x"] = 0, ["y"] = 40, ["rot"] =  15, ["diffuse"] = {0.75, 1,   0.5, 1}},
 	},
 }
 local ReceptorGlyphMeta = {
@@ -871,7 +871,7 @@ local function func()
 		if sButtonToLoad == "Pedal" then
 			t[#t+1] = singleSprite("_common", "underlay foot")
 		elseif sButtonToLoad == "Cymbal" then
-			local cymRot = (sButton == "Hi-Hat" or sButton == "Ride") and -60 or -45
+			local cymRot = sButton == "Hi-Hat" and -60 or sButton == "Right Crash" and -15 or -45
 
 			t[#t+1] = singleSprite("_common", "underlay cymbal") .. {
 				InitCommand = function (self) self:rotationz(cymRot) end,
