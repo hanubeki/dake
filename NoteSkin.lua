@@ -1163,13 +1163,11 @@ local function func()
 						taikoDrum:GetChild("Taiko Drum"):GetChild(event.button):finishtweening():queuecommand("Push")
 						taikoDrum:GetChild("Background"):finishtweening():diffuse(taikoColors[event.button]):queuecommand("Push")
 
---[[
 						if string.find(event.button, "Outside") then
 							taikoDrum:GetChild("Stick"):play()
 						else
 							taikoDrum:GetChild("Drum"):play()
 						end
-]]
 					end
 				end
 			end
@@ -1215,8 +1213,8 @@ local function func()
 					OnCommand = function(self) self:valign(0):xy(256 - 64, -64):scaletoclipped(512, 128):faderight(1):diffusealpha(0) end,
 					PushCommand = function(self) self:diffusealpha(1):decelerate(0.4):diffusealpha(0) end,
 				},
-				-- LoadActor("_taiko sound drum") .. {Name="Drum"},
-				-- LoadActor("_taiko sound stick") .. {Name="Stick"},
+				LoadActor("_taiko sound drum") .. {Name="Drum"},
+				LoadActor("_taiko sound stick") .. {Name="Stick"},
 			}
 		end
 
