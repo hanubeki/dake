@@ -687,6 +687,73 @@ local ReceptorGlyphMeta = {
 }
 setmetatable(ReceptorGlyphTable, ReceptorGlyphMeta)
 
+local ReceptorLaserTable = {
+	["para"] = {
+		["Left"]      = {["width"] = 48, ["diffuse"] = {1, 0, 0.5, 0.7}},
+		["UpLeft"]    = {["width"] = 48, ["diffuse"] = {1, 0, 0.5, 0.7}},
+		["Up"]        = {["width"] = 48, ["diffuse"] = {1, 0, 0.5, 0.7}},
+		["UpRight"]   = {["width"] = 48, ["diffuse"] = {1, 0, 0.5, 0.7}},
+		["Right"]     = {["width"] = 48, ["diffuse"] = {1, 0, 0.5, 0.7}},
+		["BackRight"] = {["width"] = 48, ["diffuse"] = {1, 0, 0,   0.7}},
+		["Back"]      = {["width"] = 48, ["diffuse"] = {1, 0, 0,   0.7}},
+		["BackLeft"]  = {["width"] = 48, ["diffuse"] = {1, 0, 0,   0.7}},
+	},
+	["maniax"] = {
+		["HandLrLeft"]  = {["width"] = 32, ["diffuse"] = {0, 0.5, 1,   0.7}},
+		["HandUpLeft"]  = {["width"] = 32, ["diffuse"] = {1, 0,   0.5, 0.7}},
+		["HandUpRight"] = {["width"] = 32, ["diffuse"] = {1, 0,   0.5, 0.7}},
+		["HandLrRight"] = {["width"] = 32, ["diffuse"] = {0, 0.5, 1,   0.7}},
+	},
+	["beat"] = {
+		["scratch"] = {["width"] = 60, ["diffuse"] = {0.25, 1, 1, 1}},
+		["Key1"] = {["width"] = 36, ["diffuse"] = {0.25, 0.5, 1, 1}},
+		["Key2"] = {["width"] = 28, ["diffuse"] = {0.5, 0.75, 1, 1}},
+		["Key3"] = {["width"] = 36, ["diffuse"] = {0.25, 0.5, 1, 1}},
+		["Key4"] = {["width"] = 28, ["diffuse"] = {0.5, 0.75, 1, 1}},
+		["Key5"] = {["width"] = 36, ["diffuse"] = {0.25, 0.5, 1, 1}},
+		["Key6"] = {["width"] = 28, ["diffuse"] = {0.5, 0.75, 1, 1}},
+		["Key7"] = {["width"] = 36, ["diffuse"] = {0.25, 0.5, 1, 1}},
+	},
+	["popn"] = {
+		["Left White"]   = {["width"] = 36, ["diffuse"] = {1, 1,    1, 1.0}, ["judgecolored"] = true},
+		["Left Yellow"]  = {["width"] = 28, ["diffuse"] = {1, 1,    0, 1.0}, ["judgecolored"] = true},
+		["Left Green"]   = {["width"] = 36, ["diffuse"] = {0, 0.75, 0, 1.0}, ["judgecolored"] = true},
+		["Left Blue"]    = {["width"] = 28, ["diffuse"] = {0, 0.5,  1, 1.0}, ["judgecolored"] = true},
+		["Red"]          = {["width"] = 36, ["diffuse"] = {1, 0,    0, 1.0}, ["judgecolored"] = true},
+		["Right Blue"]   = {["width"] = 28, ["diffuse"] = {0, 0.5,  1, 1.0}, ["judgecolored"] = true},
+		["Right Green"]  = {["width"] = 36, ["diffuse"] = {0, 0.75, 0, 1.0}, ["judgecolored"] = true},
+		["Right Yellow"] = {["width"] = 28, ["diffuse"] = {1, 1,    0, 1.0}, ["judgecolored"] = true},
+		["Right White"]  = {["width"] = 36, ["diffuse"] = {1, 1,    1, 1.0}, ["judgecolored"] = true},
+	},
+	["gddm"] = {
+		["Left Crash"]   = {["width"] = 60, ["diffuse"] = {1,    0,   0.5, 0.5}},
+		["Hi-Hat"]       = {["width"] = 60, ["diffuse"] = {0,    0.5, 1,   0.5}},
+		["Hi-Hat Pedal"] = {["width"] = 60, ["diffuse"] = {1,    0.8, 0.9, 0.5}},
+		["Snare"]        = {["width"] = 60, ["diffuse"] = {1,    1,   0,   0.5}},
+		["High Tom"]     = {["width"] = 60, ["diffuse"] = {0,    1,   0,   0.5}},
+		["Kick"]         = {["width"] = 60, ["diffuse"] = {0.9,  0.8, 1,   0.5}},
+		["Mid Tom"]      = {["width"] = 60, ["diffuse"] = {1,    0,   0,   0.5}},
+		["Floor Tom"]    = {["width"] = 60, ["diffuse"] = {1,    0.5, 0,   0.5}},
+		["Ride"]         = {["width"] = 60, ["diffuse"] = {0,    0.5, 1,   0.5}},
+		["Right Crash"]  = {["width"] = 60, ["diffuse"] = {0.75, 1,   0.5, 0.5}},
+	},
+	["gdgf"] = {
+		["Fret 1"] = {["width"] = 60, ["diffuse"] = {1,   0,   0,   0.25}},
+		["Fret 2"] = {["width"] = 60, ["diffuse"] = {0,   1,   0,   0.25}},
+		["Fret 3"] = {["width"] = 60, ["diffuse"] = {0,   0.5, 1,   0.25}},
+		["Fret 4"] = {["width"] = 60, ["diffuse"] = {1,   1,   0,   0.25}},
+		["Fret 5"] = {["width"] = 60, ["diffuse"] = {1,   0,   0.5, 0.25}},
+		["Fret 6"] = {["width"] = 60, ["diffuse"] = {0,   1,   0.5, 0.25}},
+		["Strum"]  = {["width"] = 60, ["diffuse"] = {0.5, 0,   1,   0.25}},
+	},
+}
+local ReceptorLaserMeta = {
+	__index = function (table, key, value)
+		return {}
+	end
+}
+setmetatable(ReceptorLaserTable, ReceptorLaserMeta)
+
 ret.Redir = function (sButton, sElement, pn)
 	-- Instead of separate hold heads, use the tap note graphics.
 	if sElement:find("Hold Head") or sElement:find("Roll Head") or
@@ -1154,15 +1221,57 @@ local function func()
 		end
 
 		if ReceptorGlyphTable[game][sButton] then
+			local glyphReverse = GAMESTATE:GetIsFieldReversed()
+
 			t[#t+1] = singleSprite(ReceptorGlyphTable[game][sButton].texture, "receptor glyph") .. {
 				InitCommand = function (self) self:xy(ReceptorGlyphTable[game][sButton].x, ReceptorGlyphTable[game][sButton].y):rotationz(ReceptorGlyphTable[game][sButton].rot):diffuse(ReceptorGlyphTable[game][sButton].diffuse) end,
+				ReverseOnCommand = function (self) self:y(ReceptorGlyphTable[game][sButton].y) end,
+				ReverseOffCommand = function (self) self:y(ReceptorGlyphTable[game][sButton].y * (glyphReverse and -1 or 1)) end,
 			}
 
 			if ReceptorGlyphTable[game][sButton].glow then
 				t[#t+1] = singleSprite(ReceptorGlyphTable[game][sButton].texture, "receptor glow") .. {
 					InitCommand = function (self) self:xy(ReceptorGlyphTable[game][sButton].x, ReceptorGlyphTable[game][sButton].y):rotationz(ReceptorGlyphTable[game][sButton].rot):diffuse(ReceptorGlyphTable[game][sButton].glow):diffusealpha(0) end,
+					ReverseOnCommand = function (self) self:y(ReceptorGlyphTable[game][sButton].y) end,
+					ReverseOffCommand = function (self) self:y(ReceptorGlyphTable[game][sButton].y * (glyphReverse and -1 or 1)) end,
 					PressCommand = function (self) self:finishtweening():diffusealpha(1) end,
 					LiftCommand = function (self) self:finishtweening():diffusealpha(1):decelerate(0.2):diffusealpha(0) end,
+				}
+			end
+		end
+
+		if ReceptorLaserTable[game][sButton] then
+			local reverseLaser = GAMESTATE:GetIsFieldReversed()
+
+			if ReceptorLaserTable[game][sButton].judgecolored then
+				t[#t+1] = Def.Quad {
+					InitCommand = function (self) self:zoomto(ReceptorLaserTable[game][sButton].width, reverseLaser and 256 or -256):valign(1):diffuse(ReceptorLaserTable[game][sButton].diffuse):fadetop(0.8):fadebottom(0.05) end,
+					ReverseOnCommand = function (self) reverseLaser = true end,
+					ReverseOffCommand = function (self) reverseLaser = false end,
+					OnCommand = function(self) self:diffusealpha(0) end,
+					PressCommand = function(self) self:finishtweening():zoomto(ReceptorLaserTable[game][sButton].width, reverseLaser and 256 or -256):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
+					LiftCommand = function(self) self:decelerate(0.2):zoomto(0, reverseLaser and 256 or -256):diffusealpha(0) end,
+					W5Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_W5")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
+					W4Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_W4")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
+					W3Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_W3")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
+					W2Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_W2")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
+					W1Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_W1")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
+					ProW5Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_ProW5")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
+					ProW4Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_ProW4")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
+					ProW3Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_ProW3")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
+					ProW2Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_ProW2")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
+					ProW1Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_ProW1")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
+					-- HeldCommand = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_Held")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
+					NoneCommand = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_Miss")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
+				}
+			else
+				t[#t+1] = Def.Quad {
+					InitCommand = function (self) self:zoomto(ReceptorLaserTable[game][sButton].width, reverseLaser and 256 or -256):valign(1):diffuse(ReceptorLaserTable[game][sButton].diffuse):fadetop(0.8):fadebottom(0.05) end,
+					ReverseOnCommand = function (self) reverseLaser = true end,
+					ReverseOffCommand = function (self) reverseLaser = false end,
+					OnCommand = function(self) self:diffusealpha(0) end,
+					PressCommand = function(self) self:finishtweening():zoomto(ReceptorLaserTable[game][sButton].width, reverseLaser and 256 or -256):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
+					LiftCommand = function(self) self:decelerate(0.2):zoomto(0, reverseLaser and 256 or -256):diffusealpha(0) end,
 				}
 			end
 		end
