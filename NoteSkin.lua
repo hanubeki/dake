@@ -952,7 +952,7 @@ local function func()
 					self:glow({1, 1, 1, 0.85})
 				end
 			end,
-			FeverMessageCommand = function(self, params)
+			FeverMessageCommand = function (self, params)
 				if params.pn ~= pn then return end
 				if tonumber(sEffect) == 0 then
 					if params.Active then
@@ -1157,7 +1157,7 @@ local function func()
 				["Taiko Right Inside"] = {1, 0, 0, 1},
 			}
 
-			local taikoInput = function(event)
+			local taikoInput = function (event)
 				if ToEnumShortString(event.type) == "FirstPress" and event.PlayerNumber == pn then
 					if taikoDrum:GetChild("Taiko Drum"):GetChild(event.button) then
 						taikoDrum:GetChild("Taiko Drum"):GetChild(event.button):finishtweening():queuecommand("Push")
@@ -1179,45 +1179,85 @@ local function func()
 				end,
 				Def.ActorFrame {
 					Name = "Taiko Drum",
-					OnCommand = function(self) self:x(-128) end,
+					OnCommand = function (self) self:x(-128) end,
 					Def.Sprite {
 						Texture = "_taiko receptor glyph",
 					},
 					Def.Sprite{
-						Name="Taiko Left Outside",
-						Texture="_taiko receptor glow outside",
-						OnCommand=function(self) self:diffuse({1, 1, 1, 0}) end,
-						PushCommand=function(self) self:diffuse(taikoColors["Taiko Left Outside"]):decelerate(0.4):diffuse({1, 1, 1, 0}) end,
+						Name = "Taiko Left Outside",
+						Texture = "_taiko receptor glow outside",
+						OnCommand = function (self) self:diffuse({1, 1, 1, 0}) end,
+						PushCommand = function (self) self:diffuse(taikoColors["Taiko Left Outside"]):decelerate(0.4):diffuse({1, 1, 1, 0}) end,
 					},
 					Def.Sprite{
-						Name="Taiko Right Outside",
-						Texture="_taiko receptor glow outside",
-						OnCommand=function(self) self:rotationy(180):diffuse({1, 1, 1, 0}) end,
-						PushCommand=function(self) self:diffuse(taikoColors["Taiko Right Outside"]):decelerate(0.4):diffuse({1, 1, 1, 0}) end,
+						Name = "Taiko Right Outside",
+						Texture = "_taiko receptor glow outside",
+						OnCommand = function (self) self:rotationy(180):diffuse({1, 1, 1, 0}) end,
+						PushCommand = function (self) self:diffuse(taikoColors["Taiko Right Outside"]):decelerate(0.4):diffuse({1, 1, 1, 0}) end,
 					},
 					Def.Sprite{
-						Name="Taiko Left Inside",
-						Texture="_taiko receptor glow inside",
-						OnCommand=function(self) self:diffuse({1, 1, 1, 0}) end,
-						PushCommand=function(self) self:diffuse(taikoColors["Taiko Left Inside"]):decelerate(0.4):diffuse({1, 1, 1, 0}) end,
+						Name = "Taiko Left Inside",
+						Texture = "_taiko receptor glow inside",
+						OnCommand = function (self) self:diffuse({1, 1, 1, 0}) end,
+						PushCommand = function (self) self:diffuse(taikoColors["Taiko Left Inside"]):decelerate(0.4):diffuse({1, 1, 1, 0}) end,
 					},
 					Def.Sprite{
-						Name="Taiko Right Inside",
-						Texture="_taiko receptor glow inside",
-						OnCommand=function(self) self:rotationy(180):diffuse({1, 1, 1, 0}) end,
-						PushCommand=function(self) self:diffuse(taikoColors["Taiko Right Inside"]):decelerate(0.4):diffuse({1, 1, 1, 0}) end,
+						Name = "Taiko Right Inside",
+						Texture = "_taiko receptor glow inside",
+						OnCommand = function (self) self:rotationy(180):diffuse({1, 1, 1, 0}) end,
+						PushCommand = function (self) self:diffuse(taikoColors["Taiko Right Inside"]):decelerate(0.4):diffuse({1, 1, 1, 0}) end,
 					},
 				},
 				Def.Quad {
 					Name="Background",
-					OnCommand = function(self) self:valign(0):xy(256 - 64, -64):scaletoclipped(512, 128):faderight(1):diffusealpha(0) end,
-					PushCommand = function(self) self:diffusealpha(1):decelerate(0.4):diffusealpha(0) end,
+					OnCommand = function (self) self:valign(0):xy(256 - 64, -64):scaletoclipped(512, 128):faderight(1):diffusealpha(0) end,
+					PushCommand = function (self) self:diffusealpha(1):decelerate(0.4):diffusealpha(0) end,
 				},
 				LoadActor("_taiko sound drum") .. {Name="Drum"},
 				LoadActor("_taiko sound stick") .. {Name="Stick"},
 			}
 		end
 
+		if ReceptorLaserTable[game][sButton] then
+			local reverseLaser = false
+			if (GAMESTATE.GetIsFieldReversed) then
+				reverseLaser = GAMESTATE:GetIsFieldReversed()
+			end
+
+			if ReceptorLaserTable[game][sButton].judgecolored then
+				t[#t+1] = Def.Quad {
+					InitCommand = function (self) self:zoomto(ReceptorLaserTable[game][sButton].width, reverseLaser and 256 or -256):valign(1):diffuse(ReceptorLaserTable[game][sButton].diffuse):fadetop(0.8):fadebottom(0.05) end,
+					ReverseOnCommand = function (self) reverseLaser = true end,
+					ReverseOffCommand = function (self) reverseLaser = false end,
+					OnCommand = function (self) self:diffusealpha(0) end,
+					PressCommand = function (self) self:finishtweening():zoomto(ReceptorLaserTable[game][sButton].width, reverseLaser and 256 or -256):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
+					LiftCommand = function (self) self:decelerate(0.2):zoomto(0, reverseLaser and 256 or -256):diffusealpha(0) end,
+					W5Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_W5")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
+					W4Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_W4")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
+					W3Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_W3")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
+					W2Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_W2")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
+					W1Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_W1")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
+					ProW5Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_ProW5")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
+					ProW4Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_ProW4")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
+					ProW3Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_ProW3")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
+					ProW2Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_ProW2")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
+					ProW1Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_ProW1")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
+					-- HeldCommand = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_Held")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
+					NoneCommand = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_Miss")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
+				}
+			else
+				t[#t+1] = Def.Quad {
+					InitCommand = function (self) self:zoomto(ReceptorLaserTable[game][sButton].width, reverseLaser and 256 or -256):valign(1):diffuse(ReceptorLaserTable[game][sButton].diffuse):fadetop(0.8):fadebottom(0.05) end,
+					ReverseOnCommand = function (self) reverseLaser = true end,
+					ReverseOffCommand = function (self) reverseLaser = false end,
+					OnCommand = function (self) self:diffusealpha(0) end,
+					PressCommand = function (self) self:finishtweening():zoomto(ReceptorLaserTable[game][sButton].width, reverseLaser and 256 or -256):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
+					LiftCommand = function (self) self:decelerate(0.2):zoomto(0, reverseLaser and 256 or -256):diffusealpha(0) end,
+				}
+			end
+		end
+
+		-- TODO: move them to ovceptor?
 		if ReceptorGlyphTable[game][sButton] then
 			local glyphReverse = false
 			if (GAMESTATE.GetIsFieldReversed) then
@@ -1237,45 +1277,6 @@ local function func()
 					ReverseOffCommand = function (self) self:y(ReceptorGlyphTable[game][sButton].y * (glyphReverse and -1 or 1)) end,
 					PressCommand = function (self) self:finishtweening():diffusealpha(1) end,
 					LiftCommand = function (self) self:finishtweening():diffusealpha(1):decelerate(0.2):diffusealpha(0) end,
-				}
-			end
-		end
-
-		if ReceptorLaserTable[game][sButton] then
-			local reverseLaser = false
-			if (GAMESTATE.GetIsFieldReversed) then
-				reverseLaser = GAMESTATE:GetIsFieldReversed()
-			end
-
-			if ReceptorLaserTable[game][sButton].judgecolored then
-				t[#t+1] = Def.Quad {
-					InitCommand = function (self) self:zoomto(ReceptorLaserTable[game][sButton].width, reverseLaser and 256 or -256):valign(1):diffuse(ReceptorLaserTable[game][sButton].diffuse):fadetop(0.8):fadebottom(0.05) end,
-					ReverseOnCommand = function (self) reverseLaser = true end,
-					ReverseOffCommand = function (self) reverseLaser = false end,
-					OnCommand = function(self) self:diffusealpha(0) end,
-					PressCommand = function(self) self:finishtweening():zoomto(ReceptorLaserTable[game][sButton].width, reverseLaser and 256 or -256):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
-					LiftCommand = function(self) self:decelerate(0.2):zoomto(0, reverseLaser and 256 or -256):diffusealpha(0) end,
-					W5Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_W5")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
-					W4Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_W4")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
-					W3Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_W3")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
-					W2Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_W2")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
-					W1Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_W1")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
-					ProW5Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_ProW5")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
-					ProW4Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_ProW4")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
-					ProW3Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_ProW3")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
-					ProW2Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_ProW2")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
-					ProW1Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_ProW1")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
-					-- HeldCommand = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_Held")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
-					NoneCommand = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_Miss")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
-				}
-			else
-				t[#t+1] = Def.Quad {
-					InitCommand = function (self) self:zoomto(ReceptorLaserTable[game][sButton].width, reverseLaser and 256 or -256):valign(1):diffuse(ReceptorLaserTable[game][sButton].diffuse):fadetop(0.8):fadebottom(0.05) end,
-					ReverseOnCommand = function (self) reverseLaser = true end,
-					ReverseOffCommand = function (self) reverseLaser = false end,
-					OnCommand = function(self) self:diffusealpha(0) end,
-					PressCommand = function(self) self:finishtweening():zoomto(ReceptorLaserTable[game][sButton].width, reverseLaser and 256 or -256):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
-					LiftCommand = function(self) self:decelerate(0.2):zoomto(0, reverseLaser and 256 or -256):diffusealpha(0) end,
 				}
 			end
 		end
@@ -1304,17 +1305,17 @@ local function func()
 			local isFever = false
 
 			t[#t+1] = Def.ActorFrame{
-				OnCommand = function(self) self:xy(80, 56) end,
+				OnCommand = function (self) self:xy(80, 56) end,
 				Def.Quad {
-					OnCommand=function(self) 
+					OnCommand = function (self) 
 						self:zoomto(160, 32):diffuse({0, 0, 0, 0.7})
 					end,
 				},
 				Def.Quad {
-					OnCommand = function(self)
+					OnCommand = function (self)
 						self:zoomto(152, 24):diffuse({0, 0.5, 1, 0.5}):cropright(1)
 					end,
-					FeverMessageCommand = function(self, params)
+					FeverMessageCommand = function (self, params)
 						if params.pn ~= pn then return end
 						if params.Active then
 							self.Active = true
@@ -1323,7 +1324,7 @@ local function func()
 							self.Active = false
 						end
 					end,
-					FeverScoreMessageCommand = function(self, params)
+					FeverScoreMessageCommand = function (self, params)
 						if params.pn ~= pn then return end
 						self.Amount = params.Amount
 						self:stoptweening():linear(0.1):cropright(1 - (params.Amount / 125))
@@ -1341,8 +1342,8 @@ local function func()
 				Def.BitmapText {
 					Text = "FEVER READY!",
 					Font = "Common Normal",
-					OnCommand = function(self) self:diffusealpha(0):zoom(0.7) end,
-					FeverMessageCommand = function(self, params)
+					OnCommand = function (self) self:diffusealpha(0):zoom(0.7) end,
+					FeverMessageCommand = function (self, params)
 						if params.pn ~= pn then return end
 						self.Active = params.Active
 						isFever = params.Active
@@ -1350,7 +1351,7 @@ local function func()
 							self:diffusealpha(0)
 						end
 					end,
-					FeverScoreMessageCommand = function(self, params)
+					FeverScoreMessageCommand = function (self, params)
 						if params.pn ~= pn then return end
 						if not self.Active then
 							if params.Amount >= 50 then
@@ -1364,17 +1365,17 @@ local function func()
 			}
 
 			t[#t+1] = Def.ActorFrame {
-				OnCommand = function(self) self:xy(-80, 56) end,
+				OnCommand = function (self) self:xy(-80, 56) end,
 				Def.Quad {
-					OnCommand = function(self)
+					OnCommand = function (self)
 						self:zoomto(160, 32):diffuse({0, 0, 0, 0.7})
 					end,
 				},
 				Def.BitmapText {
 					Text = "1x",
 					Font = "Common Normal",
-					OnCommand = function(self) self:zoom(0.7):halign(0):x(-72) end,
-					ComboChangedMessageCommand = function(self, params)
+					OnCommand = function (self) self:zoom(0.7):halign(0):x(-72) end,
+					ComboChangedMessageCommand = function (self, params)
 						if params.Player ~= pn then return end
 						local curCombo = params.PlayerStageStats:GetCurrentCombo()
 						local percent = 1
@@ -1392,8 +1393,8 @@ local function func()
 				Def.BitmapText {
 					Text = "0",
 					Font = "Common Normal",
-					OnCommand = function(self) self:zoom(0.7):halign(1):x(72) end,
-					ComboChangedMessageCommand = function(self, params)
+					OnCommand = function (self) self:zoom(0.7):halign(1):x(72) end,
+					ComboChangedMessageCommand = function (self, params)
 						if params.Player ~= pn then return end
 						self:settext(params.PlayerStageStats:GetScore())
 					end,
