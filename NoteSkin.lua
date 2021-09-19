@@ -1221,7 +1221,10 @@ local function func()
 		end
 
 		if ReceptorGlyphTable[game][sButton] then
-			local glyphReverse = GAMESTATE:GetIsFieldReversed()
+			local glyphReverse = false
+			if (GAMESTATE.GetIsFieldReversed) then
+				glyphReverse = GAMESTATE:GetIsFieldReversed()
+			end
 
 			t[#t+1] = singleSprite(ReceptorGlyphTable[game][sButton].texture, "receptor glyph") .. {
 				InitCommand = function (self) self:xy(ReceptorGlyphTable[game][sButton].x, ReceptorGlyphTable[game][sButton].y):rotationz(ReceptorGlyphTable[game][sButton].rot):diffuse(ReceptorGlyphTable[game][sButton].diffuse) end,
@@ -1241,7 +1244,10 @@ local function func()
 		end
 
 		if ReceptorLaserTable[game][sButton] then
-			local reverseLaser = GAMESTATE:GetIsFieldReversed()
+			local reverseLaser = false
+			if (GAMESTATE.GetIsFieldReversed) then
+				reverseLaser = GAMESTATE:GetIsFieldReversed()
+			end
 
 			if ReceptorLaserTable[game][sButton].judgecolored then
 				t[#t+1] = Def.Quad {
