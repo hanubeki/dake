@@ -380,6 +380,7 @@ local ZoomTable = {
 }
 setmetatable(ZoomTable, FallbackOne)
 
+-- [ja] hanubeki-flat用の色テーブル
 local ColorTable = {
 --[[
 	 0: Red
@@ -627,24 +628,7 @@ local ColorTableMeta = {
 }
 setmetatable(ColorTable, ColorTableMeta)
 
-local TaiTai = {}
-
-function TaiTai.Input(event)
-	if not event.PlayerNumber then return end
-	if ToEnumShortString(event.type) == "FirstPress" and event.PlayerNumber == pn then
-		if TaiTai.Buttons:GetChild("Taiko Drum"):GetChild(event.button) then
-			TaiTai.Buttons:GetChild("Taiko Drum"):GetChild(event.button):stoptweening():queuecommand("Push")
-			TaiTai.Buttons:GetChild("Background"):stoptweening():diffuse(color(Colours[event.button])):queuecommand("Push")
-			if string.find(event.button, "Outside") then
-				TaiTai.Buttons:GetChild("Stick"):play()
-			else
-				TaiTai.Buttons:GetChild("Drum"):play()
-			end
-			
-		end
-	end
-end
-
+-- [ja] Receptorのグリフ用のテーブル
 local ReceptorGlyphTable = {
 	["beat"] = {
 		["scratch"] = {["texture"] = "_scratch", ["x"] = 0, ["y"] = 44, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {1.0, 0.25, 0, 0}},
@@ -687,6 +671,7 @@ local ReceptorGlyphMeta = {
 }
 setmetatable(ReceptorGlyphTable, ReceptorGlyphMeta)
 
+-- [ja] Receptorのレーザー用のテーブル
 local ReceptorLaserTable = {
 	["para"] = {
 		["Left"]      = {["width"] = 48, ["diffuse"] = {1, 0, 0.5, 0.7}},
@@ -1398,7 +1383,7 @@ local function func()
 						if params.Player ~= pn then return end
 						self:settext(params.PlayerStageStats:GetScore())
 					end,
-				}
+				},
 			}
 		end
 	elseif sElementToLoad == "Explosion" then
