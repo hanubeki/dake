@@ -628,6 +628,24 @@ local ColorTableMeta = {
 }
 setmetatable(ColorTable, ColorTableMeta)
 
+local NoteUnderlayTable = {
+	["gddm"] = {
+		["Left Crash"]   = {["texture"] = "cymbal", ["rot"] =   0, ["diffuse"] = {1,    0,   0.5, 1}},
+		["Hi-Hat"]       = {["texture"] = "cymbal", ["rot"] = -60, ["diffuse"] = {0,    0.5, 1,   1}},
+		["Hi-Hat Pedal"] = {["texture"] = "foot",   ["rot"] =   0, ["diffuse"] = {1,    0,   0.5, 1}},
+		["Floor Tom"]    = {["texture"] = "tom",    ["rot"] =   0, ["diffuse"] = {1,    0.5, 0,   1}},
+		["Kick"]         = {["texture"] = "foot",   ["rot"] =   0, ["diffuse"] = {0.5,  0,   1,   1}},
+		["Ride"]         = {["texture"] = "cymbal", ["rot"] =  45, ["diffuse"] = {0,    0.5, 1,   1}},
+		["Right Crash"]  = {["texture"] = "cymbal", ["rot"] =  15, ["diffuse"] = {0.75, 1,   0.5, 1}},
+	},
+}
+local NoteUnderlayMeta = {
+	__index = function (table, key, value)
+		return {}
+	end
+}
+setmetatable(NoteUnderlayTable, NoteUnderlayMeta)
+
 -- [ja] Receptorのグリフ用のテーブル
 local ReceptorGlyphTable = {
 	["beat"] = {
@@ -920,23 +938,10 @@ local function func()
 			color = ColorTable[game][sButton]
 		end
 
-		-- [ja] TODO: 色を付けるように書き換える?
-		if sButtonToLoad == "Pedal" then
-			t[#t+1] = singleSprite("_common", "underlay foot")
-		elseif sButtonToLoad == "Cymbal" then
-			local cymRotTable = {
-				["Left Crash"] = 0,
-				["Hi-Hat"] = -60,
-				["Ride"] = 45,
-				["Right Crash"] = 15,
+		if NoteUnderlayTable[game][sButton] then
+			t[#t+1] = singleSprite("_common", "underlay " .. NoteUnderlayTable[game][sButton].texture) .. {
+				InitCommand = function (self) self:rotationz(NoteUnderlayTable[game][sButton].rot):diffuse(NoteUnderlayTable[game][sButton].diffuse) end,
 			}
-			local cymRot = cymRotTable[sButton] or 0
-
-			t[#t+1] = singleSprite("_common", "underlay cymbal") .. {
-				InitCommand = function (self) self:rotationz(cymRot) end,
-			}
-		elseif sButton == "Floor Tom" then
-			t[#t+1] = singleSprite("_common", "underlay tom")
 		end
 
 		t[#t+1] = colorSprite(TapRedir[sButtonToLoad], sElementToLoad:lower(), color) .. {
