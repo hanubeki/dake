@@ -23,7 +23,7 @@ ret.RedirTable =
 	["DownLeft"]  = game == "para"   and "ParaDownLeft"                               or "DownLeft",   -- oP-T-H
 	["DownRight"] = game == "para"   and "ParaDownRight"                              or "DownRight",  -- oP-T-H
 	["Center"]    = game == "techno" and "Circle"      or game == "smx" and "Diamond" or     "Center", -- -P-TXH
-	-- TODO: back
+	-- para 360
 	["BackRight"] = game == "para"   and "ParaBackRight"                              or "DownRight",  -- --A---
 	["Back"]      = game == "para"   and "ParaBack"                                   or     "Down",   -- --A---
 	["BackLeft"]  = game == "para"   and "ParaBackLeft"                               or "DownLeft",   -- --A---
@@ -1157,7 +1157,7 @@ local function func()
 						taikoDrum:GetChild("Taiko Drum"):GetChild(event.button):finishtweening():queuecommand("Push")
 						taikoDrum:GetChild("Background"):finishtweening():diffuse(taikoColors[event.button]):queuecommand("Push")
 
-						if string.find(event.button, "Outside") then
+						if event.button:find("Outside") then
 							taikoDrum:GetChild("Stick"):play()
 						else
 							taikoDrum:GetChild("Drum"):play()
