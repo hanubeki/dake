@@ -11,12 +11,8 @@ If you are looking for StepMania 5.2 (5.1 alpha) version, see [5.2-stale](https:
 License
 -------
 
-> This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
-> International License. To view a copy of this license,
-> visit http://creativecommons.org/licenses/by-sa/4.0/.
-
-This license is applied except for `_taiko sound drum.ogg` and `_taiko sound stick.ogg`.
-See also `license-extern/index.md`.
+This work is licensed under the Apache License 2.0 except for `_taiko sound drum.ogg` and `_taiko sound stick.ogg`.
+See https://www.apache.org/licenses/LICENSE-2.0.html and `license-extern/index.md`.
 
 Topic at StepMania forum
 ------------------------
