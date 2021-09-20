@@ -1151,11 +1151,18 @@ local function func()
 				["Taiko Right Inside"] = {1, 0, 0, 1},
 			}
 
+			local taikoLaserColors = {
+				["Taiko Left Outside"] = {0.25, 0.75, 1, 0.5},
+				["Taiko Right Outside"] = {0.25, 0.75, 1, 0.5},
+				["Taiko Left Inside"] = {1, 0.75, 0.5, 0.5},
+				["Taiko Right Inside"] = {1, 0.75, 0.5, 0.5},
+			}
+
 			local taikoInput = function (event)
 				if ToEnumShortString(event.type) == "FirstPress" and event.PlayerNumber == pn then
 					if taikoDrum:GetChild("Taiko Drum"):GetChild(event.button) then
 						taikoDrum:GetChild("Taiko Drum"):GetChild(event.button):finishtweening():queuecommand("Push")
-						taikoDrum:GetChild("Background"):finishtweening():diffuse(taikoColors[event.button]):queuecommand("Push")
+						taikoDrum:GetChild("Background"):finishtweening():diffuse(taikoLaserColors[event.button]):queuecommand("Push")
 
 						if event.button:find("Outside") then
 							taikoDrum:GetChild("Stick"):play()
@@ -1205,7 +1212,7 @@ local function func()
 				Def.Quad {
 					Name="Background",
 					OnCommand = function (self) self:valign(0):xy(256 - 64, -64):scaletoclipped(512, 128):faderight(1):diffusealpha(0) end,
-					PushCommand = function (self) self:diffusealpha(1):decelerate(0.4):diffusealpha(0) end,
+					PushCommand = function (self) self:diffusealpha(0.5):decelerate(0.4):diffusealpha(0) end,
 				},
 				LoadActor("_taiko sound drum") .. {Name="Drum"},
 				LoadActor("_taiko sound stick") .. {Name="Stick"},
