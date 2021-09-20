@@ -711,16 +711,16 @@ local ReceptorLaserTable = {
 		["Right White"]  = {["width"] = 36, ["diffuse"] = {1, 1,    1, 1.0}, ["judgecolored"] = true},
 	},
 	["gddm"] = {
-		["Left Crash"]   = {["width"] = 60, ["diffuse"] = {1,    0,   0.5, 0.5}},
-		["Hi-Hat"]       = {["width"] = 60, ["diffuse"] = {0,    0.5, 1,   0.5}},
-		["Hi-Hat Pedal"] = {["width"] = 60, ["diffuse"] = {1,    0.8, 0.9, 0.5}},
-		["Snare"]        = {["width"] = 60, ["diffuse"] = {1,    1,   0,   0.5}},
-		["High Tom"]     = {["width"] = 60, ["diffuse"] = {0,    1,   0,   0.5}},
-		["Kick"]         = {["width"] = 60, ["diffuse"] = {0.9,  0.8, 1,   0.5}},
-		["Mid Tom"]      = {["width"] = 60, ["diffuse"] = {1,    0,   0,   0.5}},
-		["Floor Tom"]    = {["width"] = 60, ["diffuse"] = {1,    0.5, 0,   0.5}},
-		["Ride"]         = {["width"] = 60, ["diffuse"] = {0,    0.5, 1,   0.5}},
-		["Right Crash"]  = {["width"] = 60, ["diffuse"] = {0.75, 1,   0.5, 0.5}},
+		["Left Crash"]   = {["width"] = 60, ["diffuse"] = {1,    0,   0.5, 0.25}, ["pulse"] = true},
+		["Hi-Hat"]       = {["width"] = 60, ["diffuse"] = {0,    0.5, 1,   0.25}, ["pulse"] = true},
+		["Hi-Hat Pedal"] = {["width"] = 60, ["diffuse"] = {1,    0,   0.5, 0.25}, ["pulse"] = true},
+		["Snare"]        = {["width"] = 60, ["diffuse"] = {1,    1,   0,   0.25}, ["pulse"] = true},
+		["High Tom"]     = {["width"] = 60, ["diffuse"] = {0,    1,   0,   0.25}, ["pulse"] = true},
+		["Kick"]         = {["width"] = 60, ["diffuse"] = {0.5,  0,   1,   0.25}, ["pulse"] = true},
+		["Mid Tom"]      = {["width"] = 60, ["diffuse"] = {1,    0,   0,   0.25}, ["pulse"] = true},
+		["Floor Tom"]    = {["width"] = 60, ["diffuse"] = {1,    0.5, 0,   0.25}, ["pulse"] = true},
+		["Ride"]         = {["width"] = 60, ["diffuse"] = {0,    0.5, 1,   0.25}, ["pulse"] = true},
+		["Right Crash"]  = {["width"] = 60, ["diffuse"] = {0.75, 1,   0.5, 0.25}, ["pulse"] = true},
 	},
 	["gdgf"] = {
 		["Fret 1"] = {["width"] = 60, ["diffuse"] = {1,   0,   0,   0.25}},
@@ -920,14 +920,23 @@ local function func()
 			color = ColorTable[game][sButton]
 		end
 
+		-- [ja] TODO: 色を付けるように書き換える?
 		if sButtonToLoad == "Pedal" then
 			t[#t+1] = singleSprite("_common", "underlay foot")
 		elseif sButtonToLoad == "Cymbal" then
-			local cymRot = sButton == "Hi-Hat" and -60 or sButton == "Right Crash" and -15 or -45
+			local cymRotTable = {
+				["Left Crash"] = 0,
+				["Hi-Hat"] = -60,
+				["Ride"] = 45,
+				["Right Crash"] = 15,
+			}
+			local cymRot = cymRotTable[sButton] or 0
 
 			t[#t+1] = singleSprite("_common", "underlay cymbal") .. {
 				InitCommand = function (self) self:rotationz(cymRot) end,
 			}
+		elseif sButton == "Floor Tom" then
+			t[#t+1] = singleSprite("_common", "underlay tom")
 		end
 
 		t[#t+1] = colorSprite(TapRedir[sButtonToLoad], sElementToLoad:lower(), color) .. {
@@ -1209,7 +1218,15 @@ local function func()
 				reverseLaser = GAMESTATE:GetIsFieldReversed()
 			end
 
-			if ReceptorLaserTable[game][sButton].judgecolored then
+			if ReceptorLaserTable[game][sButton].pulse then
+				t[#t+1] = Def.Quad {
+					InitCommand = function (self) self:zoomto(ReceptorLaserTable[game][sButton].width, 0):valign(1):diffuse(ReceptorLaserTable[game][sButton].diffuse):fadebottom(1) end,
+					ReverseOnCommand = function (self) reverseLaser = true end,
+					ReverseOffCommand = function (self) reverseLaser = false end,
+					OnCommand = function (self) self:diffusealpha(0) end,
+					PressCommand = function (self) self:finishtweening():zoomto(ReceptorLaserTable[game][sButton].width, 0):y(0):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]):linear(0.025):zoomto(ReceptorLaserTable[game][sButton].width, reverseLaser and 160 or -160):linear(0.175):y(reverseLaser and -1120 or 1120):linear(0.1):y(reverseLaser and -1760 or 1760):diffusealpha(0) end,
+				}
+			else
 				t[#t+1] = Def.Quad {
 					InitCommand = function (self) self:zoomto(ReceptorLaserTable[game][sButton].width, reverseLaser and 256 or -256):valign(1):diffuse(ReceptorLaserTable[game][sButton].diffuse):fadetop(0.8):fadebottom(0.05) end,
 					ReverseOnCommand = function (self) reverseLaser = true end,
@@ -1217,6 +1234,11 @@ local function func()
 					OnCommand = function (self) self:diffusealpha(0) end,
 					PressCommand = function (self) self:finishtweening():zoomto(ReceptorLaserTable[game][sButton].width, reverseLaser and 256 or -256):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
 					LiftCommand = function (self) self:decelerate(0.2):zoomto(0, reverseLaser and 256 or -256):diffusealpha(0) end,
+				}
+			end
+
+			if ReceptorLaserTable[game][sButton].judgecolored then
+				t[#t] = t[#t] .. {
 					W5Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_W5")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
 					W4Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_W4")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
 					W3Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_W3")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
@@ -1229,15 +1251,6 @@ local function func()
 					ProW1Command = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_ProW1")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
 					-- HeldCommand = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_Held")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
 					NoneCommand = function (self) self:diffuse(JudgmentLineToColor("JudgmentLine_Miss")):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
-				}
-			else
-				t[#t+1] = Def.Quad {
-					InitCommand = function (self) self:zoomto(ReceptorLaserTable[game][sButton].width, reverseLaser and 256 or -256):valign(1):diffuse(ReceptorLaserTable[game][sButton].diffuse):fadetop(0.8):fadebottom(0.05) end,
-					ReverseOnCommand = function (self) reverseLaser = true end,
-					ReverseOffCommand = function (self) reverseLaser = false end,
-					OnCommand = function (self) self:diffusealpha(0) end,
-					PressCommand = function (self) self:finishtweening():zoomto(ReceptorLaserTable[game][sButton].width, reverseLaser and 256 or -256):diffusealpha(ReceptorLaserTable[game][sButton].diffuse[4]) end,
-					LiftCommand = function (self) self:decelerate(0.2):zoomto(0, reverseLaser and 256 or -256):diffusealpha(0) end,
 				}
 			end
 		end
