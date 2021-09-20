@@ -1210,12 +1210,12 @@ local function func()
 					},
 				},
 				Def.Quad {
-					Name="Background",
+					Name = "Background",
 					OnCommand = function (self) self:valign(0):xy(256 - 64, -64):scaletoclipped(512, 128):faderight(1):diffusealpha(0) end,
 					PushCommand = function (self) self:diffusealpha(0.5):decelerate(0.4):diffusealpha(0) end,
 				},
-				LoadActor("_taiko sound drum") .. {Name="Drum"},
-				LoadActor("_taiko sound stick") .. {Name="Stick"},
+				LoadActor("_taiko sound drum") .. {Name = "Drum"},
+				LoadActor("_taiko sound stick") .. {Name = "Stick"},
 			}
 		end
 

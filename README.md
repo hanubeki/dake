@@ -11,10 +11,15 @@ If you are looking for StepMania 5.2 (5.1 alpha) version, see [5.2-stale](https:
 License
 -------
 
-This work is licensed under the Apache License 2.0 except for `_taiko sound drum.ogg` and `_taiko sound stick.ogg`.
-See https://www.apache.org/licenses/LICENSE-2.0.html and `license-extern/index.md`.
+This work is licensed under the Apache License 2.0.
+See https://www.apache.org/licenses/LICENSE-2.0.html.
 
 Topic at StepMania forum
 ------------------------
 
 [NoteSkin hanubeki](http://www.stepmania.com/forums/themes/show/4557)
+
+Credits
+-------
+
+[JFXR](https://github.com/ttencate/jfxr) for creating sound effect.
