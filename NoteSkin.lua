@@ -42,16 +42,16 @@ ret.RedirTable =
 	["HandLrLeft"]    = game == "maniax" and "Ring" or "Circle",    -- 2-M
 	["HandLrRight"]   = game == "maniax" and "Ring" or "Circle",    -- 2-M
 	-- kb7, beat
-	["Key1"]         = game == "kb7" and "Circle" or "KeyWhite",
-	["Key2"]         = game == "kb7" and "Circle" or "KeyBlue",
-	["Key3"]         = game == "kb7" and "Circle" or "KeyWhite",
-	["Key4"]         = game == "kb7" and "Circle" or "KeyBlue",
-	["Key5"]         = game == "kb7" and "Circle" or "KeyWhite",
-	["Key6"]         = game == "kb7" and "Circle" or "KeyBlue",
-	["Key7"]         = game == "kb7" and "Circle" or "KeyWhite",
-	["scratch"]      =                               "Scratch",
-	["scratch up"]   =                               "Scratch",
-	["scratch down"] =                               "Scratch",
+	["Key1"]         = game == "kb7" and "KeyWide" or "KeyWhite",
+	["Key2"]         = game == "kb7" and "KeyWide" or "KeyBlue",
+	["Key3"]         = game == "kb7" and "KeyWide" or "KeyWhite",
+	["Key4"]         = game == "kb7" and "KeyWide" or "KeyBlue",
+	["Key5"]         = game == "kb7" and "KeyWide" or "KeyWhite",
+	["Key6"]         = game == "kb7" and "KeyWide" or "KeyBlue",
+	["Key7"]         = game == "kb7" and "KeyWide" or "KeyWhite",
+	["scratch"]      =                                "Scratch",
+	["scratch up"]   =                                "Scratch",
+	["scratch down"] =                                "Scratch",
 	-- popn
 	["Left White"]   = "BurgerLower",
 	["Left Yellow"]  = "BurgerUpper",
@@ -82,6 +82,10 @@ ret.RedirTable =
 	["Fret 4"] = game == "gdgf" and "Fret" or "Gem",
 	["Fret 5"] = game == "gdgf" and "Fret" or "Gem",
 	["Fret 6"] = game == "gdgf" and "Fret" or "Gem",
+	["open short"] = "OpenShort",
+	["open long"] = "OpenLong",
+	["open six"] = "OpenSix",
+	["wailing"] = "Wailing",
 	["Strum"] = "Strum",
 	["Strum Up"] = "Strum",
 	["Strum Down"] = "Strum",
@@ -156,6 +160,8 @@ local TapRedir = {
 	["KeyBlue"]  = "_keyblue",
 	["Scratch"]  = "_scratch",
 
+	["KeyWide"]  = "_scratch",
+
 	-- ["Burger"] = "_burger",
 	["BurgerLower"] = "_burgerlower",
 	["BurgerUpper"] = "_burgerupper",
@@ -174,10 +180,13 @@ local TapRedir = {
 	["DownRightFoot"] = "_rightfoot",
 
 	["Fret"] = "_scratch",
+	["OpenShort"] = "_openshort",
+	["OpenLong"] = "_openlong",
+	["OpenSix"] = "_opensix",
+	["Wailing"] = "_wailing",
+
 	["Gem"] = "_gem",
-	["Strum"] = "_strumlong",
-	["StrumLong"] = "_strumlong",
-	["StrumShort"] = "_strumshort",
+	["Strum"] = "_strum",
 
 	["Cymbal"] = "_scratch",
 	["Tom"] = "_scratch",
@@ -286,6 +295,8 @@ local HoldBodyRedir = {
 	["Scratch"]  = "_down",
 	-- ["Scratch"]  = "_scratch",
 
+	["KeyWide"]  = "_down",
+
 	-- ["Burger"] = "_key",
 	["BurgerLower"] = "_keywhite",
 	["BurgerUpper"] = "_keyblue",
@@ -305,10 +316,14 @@ local HoldBodyRedir = {
 
 	["Fret"] = "_down",
 	-- ["Fret"] = "_scratch",
+	["OpenShort"] = "_strum",
+	["OpenLong"] = "_strum",
+	["OpenSix"] = "_strum",
+	["Wailing"] = "_down",
+	-- ["wailing"] = "_scratch",
+
 	["Gem"] = "_thin",
 	["Strum"] = "_strum",
-	["StrumLong"] = "_strum",
-	["StrumShort"] = "_strum",
 
 	["Cymbal"] = "_down",
 	["Tom"] = "_down",
@@ -356,10 +371,16 @@ local HoldCapRedir = {
 	["AnyRightFoot"]  = "_rightfoot",
 	["DownRightFoot"] = "_rightfoot",
 
+	["KeyWide"] = "_scratch",
+
 	["Fret"] = "_scratch",
+	["OpenShort"] = "_strum",
+	["OpenLong"] = "_strum",
+	["OpenSix"] = "_strum",
+	["Wailing"] = "_scratch",
+
 	["Gem"] = "_thin",
-	["StrumLong"] = "_strum",
-	["StrumShort"] = "_strum",
+	["Strum"] = "_strum",
 
 	["Cymbal"] = "_scratch",
 	["Tom"] = "_scratch",
@@ -561,8 +582,10 @@ local ColorTable = {
 		["Fret 4"] = 6,
 		["Fret 5"] = 12,
 		["Fret 6"] = 10, -- not in original game
-		["Strum Up"] = 16,
-		["Strum Down"] = 16,
+		["open short"] = 8,
+		["open long"] = 8,
+		["open six"] = 8,
+		["wailing"] = 4,
 	},
 	["gh"] = {
 		["Fret 1"] = 4,
@@ -629,6 +652,9 @@ local ColorTableMeta = {
 setmetatable(ColorTable, ColorTableMeta)
 
 local NoteUnderlayTable = {
+	["gdgf"] = {
+		["wailing"]   = {["texture"] = "guitar", ["rot"] = 0, ["diffuse"] = {0, 1, 0, 0.5}},
+	},
 	["gddm"] = {
 		["Left Crash"]   = {["texture"] = "cymbal", ["rot"] =   0, ["diffuse"] = {1,    0,   0.5, 1}},
 		["Hi-Hat"]       = {["texture"] = "cymbal", ["rot"] = -60, ["diffuse"] = {0,    0.5, 1,   1}},
@@ -728,6 +754,15 @@ local ReceptorLaserTable = {
 		["Right Yellow"] = {["width"] = 28, ["diffuse"] = {1, 1,    0, 1.0}, ["judgecolored"] = true},
 		["Right White"]  = {["width"] = 36, ["diffuse"] = {1, 1,    1, 1.0}, ["judgecolored"] = true},
 	},
+	["kb7"] = {
+		["Key1"] = {["width"] = 60, ["diffuse"] = {0.6,  1,     0.5, 0.7}},
+		["Key2"] = {["width"] = 60, ["diffuse"] = {0.4,  0.4,   1,   0.7}},
+		["Key3"] = {["width"] = 60, ["diffuse"] = {0.6,  1,     0.5, 0.7}},
+		["Key4"] = {["width"] = 60, ["diffuse"] = {1,    0.75,  0.4, 0.7}},
+		["Key5"] = {["width"] = 60, ["diffuse"] = {0.6,  1,     0.5, 0.7}},
+		["Key6"] = {["width"] = 60, ["diffuse"] = {0.4,  0.4,   1,   0.7}},
+		["Key7"] = {["width"] = 60, ["diffuse"] = {0.6,  1,     0.5, 0.7}},
+	},
 	["gddm"] = {
 		["Left Crash"]   = {["width"] = 60, ["diffuse"] = {1,    0,   0.5, 0.25}, ["pulse"] = true},
 		["Hi-Hat"]       = {["width"] = 60, ["diffuse"] = {0,    0.5, 1,   0.25}, ["pulse"] = true},
@@ -797,7 +832,7 @@ ret.Redir = function (sButton, sElement, pn)
 
 	-- Instead of separate hold hopoheads, use the tap hopo graphics.
 	if sElement:find("Hold Hopohead") or sElement:find("Roll Hopohead") then
-		sElement = "Tap Taps"
+		sElement = "Tap Hopo"
 	end
 
 	-- Instead of separate hold lifttails, use the tap lift graphics.
@@ -816,12 +851,6 @@ ret.Redir = function (sButton, sElement, pn)
 	end
 
 	sButton = ret.RedirTable[sButton] or "Fallback"
-
-	-- Strum width varies with styles.
-	if sButton == "Strum" then
-		local numColumns = GAMESTATE:GetCurrentStyle(pn):ColumnsPerPlayer()
-		sButton = numColumns >= 5 and "StrumLong" or "StrumShort"
-	end
 
 	return sButton, sElement
 end
@@ -1056,7 +1085,7 @@ local function func()
 			color = ColorTable[game][sButton]
 		end
 
-		t[#t+1] = colorSprite(sButton:find("Strum") and TapRedir[sButtonToLoad] or "_common", "tap hopo", color) .. {
+		t[#t+1] = colorSprite((sButton:find("Strum") or sButton:find("open")) and TapRedir[sButtonToLoad] or "_common", "tap hopo", color) .. {
 			InitCommand = function (self)
 				self:zoom(zoomValue)
 				if tonumber(sEffect) > 0 then
@@ -1093,7 +1122,7 @@ local function func()
 			color = ColorTable[game][sButton]
 		end
 
-		t[#t+1] = colorSprite(sButton:find("Strum") and TapRedir[sButtonToLoad] or "_common", "tap taps", color) .. {
+		t[#t+1] = colorSprite((sButton:find("Strum") or sButton:find("open")) and TapRedir[sButtonToLoad] or "_common", "tap taps", color) .. {
 			InitCommand = function (self)
 				self:zoom(zoomValue)
 				if tonumber(sEffect) > 0 then
@@ -1168,12 +1197,6 @@ local function func()
 					if taikoDrum:GetChild("Taiko Drum"):GetChild(event.button) then
 						taikoDrum:GetChild("Taiko Drum"):GetChild(event.button):finishtweening():queuecommand("Push")
 						taikoDrum:GetChild("Background"):finishtweening():diffuse(taikoLaserColors[event.button]):queuecommand("Push")
-
-						if event.button:find("Outside") then
-							taikoDrum:GetChild("Stick"):play()
-						else
-							taikoDrum:GetChild("Drum"):play()
-						end
 					end
 				end
 			end
@@ -1219,8 +1242,6 @@ local function func()
 					OnCommand = function (self) self:valign(0):xy(256 - 64, -64):scaletoclipped(512, 128):faderight(1):diffusealpha(0) end,
 					PushCommand = function (self) self:diffusealpha(0.5):decelerate(0.4):diffusealpha(0) end,
 				},
-				LoadActor("_taiko sound drum") .. {Name = "Drum"},
-				LoadActor("_taiko sound stick") .. {Name = "Stick"},
 			}
 		end
 
@@ -1267,38 +1288,14 @@ local function func()
 			end
 		end
 
-		-- TODO: move them to ovceptor?
-		if ReceptorGlyphTable[game][sButton] then
-			local glyphReverse = false
-			if (GAMESTATE.GetIsFieldReversed) then
-				glyphReverse = GAMESTATE:GetIsFieldReversed()
-			end
-
-			t[#t+1] = singleSprite(ReceptorGlyphTable[game][sButton].texture, "receptor glyph") .. {
-				InitCommand = function (self) self:xy(ReceptorGlyphTable[game][sButton].x, ReceptorGlyphTable[game][sButton].y):rotationz(ReceptorGlyphTable[game][sButton].rot):diffuse(ReceptorGlyphTable[game][sButton].diffuse) end,
-				ReverseOnCommand = function (self) self:y(ReceptorGlyphTable[game][sButton].y) end,
-				ReverseOffCommand = function (self) self:y(ReceptorGlyphTable[game][sButton].y * (glyphReverse and -1 or 1)) end,
-			}
-
-			if ReceptorGlyphTable[game][sButton].glow then
-				t[#t+1] = singleSprite(ReceptorGlyphTable[game][sButton].texture, "receptor glow") .. {
-					InitCommand = function (self) self:xy(ReceptorGlyphTable[game][sButton].x, ReceptorGlyphTable[game][sButton].y):rotationz(ReceptorGlyphTable[game][sButton].rot):diffuse(ReceptorGlyphTable[game][sButton].glow):diffusealpha(0) end,
-					ReverseOnCommand = function (self) self:y(ReceptorGlyphTable[game][sButton].y) end,
-					ReverseOffCommand = function (self) self:y(ReceptorGlyphTable[game][sButton].y * (glyphReverse and -1 or 1)) end,
-					PressCommand = function (self) self:finishtweening():diffusealpha(1) end,
-					LiftCommand = function (self) self:finishtweening():diffusealpha(1):decelerate(0.2):diffusealpha(0) end,
-				}
-			end
-		end
-
-		if not sButton:find("Strum") then
+		if not (sButton:find("Strum") or sButton:find("open")) then
 			t[#t+1] = singleSprite(TapRedir[sButtonToLoad], "receptor base") .. {
 				InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ):effectclock("beat"):diffuseramp():effectcolor1({0.8, 0.8, 0.8, 1}):effectcolor2({1, 1, 1, 1}):effectoffset(0.05) end,
 				NoneCommand = function (self) self:finishtweening():zoom(0.85):diffusealpha(0.9):linear(0.1):diffusealpha(1):zoom(1) end,
 			}
 		end
 
-		if sButton == "Center" and (not GAMESTATE:GetCurrentStyle(pn):GetStepsType():find("StepsType_Smx_")) then
+		if sButton == "Center" and (game ~= "smx") then
 			t[#t+1] = singleSprite("_common", "overlay feet") .. {
 				InitCommand = function (self) self:diffusealpha(0.5) end,
 			}
@@ -1410,6 +1407,29 @@ local function func()
 					end,
 				},
 			}
+		end
+	elseif sElementToLoad == "Ovceptor" then
+		if ReceptorGlyphTable[game][sButton] then
+			local glyphReverse = false
+			if (GAMESTATE.GetIsFieldReversed) then
+				glyphReverse = GAMESTATE:GetIsFieldReversed()
+			end
+
+			t[#t+1] = singleSprite(ReceptorGlyphTable[game][sButton].texture, "receptor glyph") .. {
+				InitCommand = function (self) self:xy(ReceptorGlyphTable[game][sButton].x, ReceptorGlyphTable[game][sButton].y):rotationz(ReceptorGlyphTable[game][sButton].rot):diffuse(ReceptorGlyphTable[game][sButton].diffuse) end,
+				ReverseOnCommand = function (self) self:y(ReceptorGlyphTable[game][sButton].y) end,
+				ReverseOffCommand = function (self) self:y(ReceptorGlyphTable[game][sButton].y * (glyphReverse and -1 or 1)) end,
+			}
+
+			if ReceptorGlyphTable[game][sButton].glow then
+				t[#t+1] = singleSprite(ReceptorGlyphTable[game][sButton].texture, "receptor glow") .. {
+					InitCommand = function (self) self:xy(ReceptorGlyphTable[game][sButton].x, ReceptorGlyphTable[game][sButton].y):rotationz(ReceptorGlyphTable[game][sButton].rot):diffuse(ReceptorGlyphTable[game][sButton].glow):diffusealpha(0) end,
+					ReverseOnCommand = function (self) self:y(ReceptorGlyphTable[game][sButton].y) end,
+					ReverseOffCommand = function (self) self:y(ReceptorGlyphTable[game][sButton].y * (glyphReverse and -1 or 1)) end,
+					PressCommand = function (self) self:finishtweening():diffusealpha(1) end,
+					LiftCommand = function (self) self:finishtweening():diffusealpha(1):decelerate(0.2):diffusealpha(0) end,
+				}
+			end
 		end
 	elseif sElementToLoad == "Explosion" then
 		-- [ja] Receptorの明るい色の関数
