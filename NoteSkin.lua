@@ -1292,6 +1292,14 @@ local function func()
 			t[#t+1] = singleSprite(TapRedir[sButtonToLoad], "receptor base") .. {
 				InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ):effectclock("beat"):diffuseramp():effectcolor1({0.8, 0.8, 0.8, 1}):effectcolor2({1, 1, 1, 1}):effectoffset(0.05) end,
 				NoneCommand = function (self) self:finishtweening():zoom(0.85):diffusealpha(0.9):linear(0.1):diffusealpha(1):zoom(1) end,
+				FeverMessageCommand = function(self, params)
+					if params.pn ~= pn then return end
+					if params.Active then
+						self:glow({0, 0.5, 1, 0.7})
+					else
+						self:glow({1, 1, 1, 0})
+					end
+				end,
 			}
 		end
 
