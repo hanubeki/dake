@@ -1451,7 +1451,7 @@ local function func()
 		end
 
 		t[#t+1] = singleSprite(TapRedir[sButtonToLoad], "glow") .. {
-			InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ):diffusealpha(0) end,
+			InitCommand = function (self) self:blend("BlendMode_Add"):rotationy(rotY):rotationz(rotZ):diffusealpha(0) end,
 			W5Command = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_W5")) end,
 			W4Command = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_W4")) end,
 			W3Command = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_W3")) end,
@@ -1463,10 +1463,11 @@ local function func()
 			ProW2Command = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_ProW2")) end,
 			ProW1Command = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_ProW1")) end,
 			HeldCommand = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_Held")) end,
-			JudgmentCommand = function (self) self:finishtweening() end,
+			-- JudgmentCommand = function (self) self:finishtweening() end,
 			-- BrightCommand = function (self) self:visible(false) end,
 			-- DimCommand = function (self) self:visible(true) end,
 		}
+--[[
 		t[#t+1] = singleSprite("_common", "bright") .. {
 			InitCommand = function (self) self:zoom(zoomValue):diffusealpha(0) end,
 			W5Command = function (self) glowCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_W5"))) end,
@@ -1480,10 +1481,32 @@ local function func()
 			ProW2Command = function (self) glowCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_ProW2"))) end,
 			ProW1Command = function (self) glowCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_ProW1"))) end,
 			HeldCommand = function (self) glowCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_Held"))) end,
-			JudgmentCommand = function (self) self:finishtweening() end,
+			-- JudgmentCommand = function (self) self:finishtweening() end,
 			BrightCommand = function (self) self:visible(true) end,
 			DimCommand = function (self) self:visible(false) end,
 		}
+--]]
+
+		-- [ja] ciecle用コマンド、いちいち全部書き換えるのはめんどいので
+		local circleCommands = function (actor, color)
+			-- return actor:finishtweening():zoom(0):diffuse(color):diffusealpha(0):accelerate(0.1):zoom(zoomValue * 1.25):diffusealpha(1):decelerate(0.1):zoom(zoomValue * 2.5):diffusealpha(0)
+			return actor:finishtweening():zoom(0):diffusealpha(0):accelerate(0.1):zoom(zoomValue * 1.25):diffusealpha(1):decelerate(0.1):zoom(zoomValue * 2.5):diffusealpha(0)
+		end
+
+		t[#t+1] = singleSprite("_common", "circle") .. {
+			InitCommand = function (self) self:blend("BlendMode_Add"):zoom(0):diffusealpha(0) end,
+			W3Command = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_W3"))) end,
+			W2Command = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_W2"))) end,
+			W1Command = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_W1"))) end,
+			ProW5Command = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_ProW5"))) end,
+			ProW4Command = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_ProW4"))) end,
+			ProW3Command = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_ProW3"))) end,
+			ProW2Command = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_ProW2"))) end,
+			ProW1Command = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_ProW1"))) end,
+			HeldCommand = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_Held"))) end,
+			-- JudgmentCommand = function (self) self:finishtweening() end,
+		}
+
 		t[#t+1] = singleSprite("_common", "hold flash") .. {
 			HoldingOnCommand = function (self) self:diffusealpha(1):glowshift():effectcolor1({1, 1, 1, 0}):effectcolor2({1, 1, 1, 0.7}):effectperiod(0.1) end,
 			HoldingOffCommand = function (self) self:diffusealpha(0) end,
