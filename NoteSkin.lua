@@ -1487,14 +1487,16 @@ local function func()
 		}
 --]]
 
+		local circleZoom = game == "taiko" and 2 or game == "gh" and 1.5 or 1
+
 		-- [ja] ciecle用コマンド、いちいち全部書き換えるのはめんどいので
 		local circleCommands = function (actor, color)
-			-- return actor:finishtweening():zoom(0):diffuse(color):diffusealpha(0):accelerate(0.1):zoom(zoomValue * 1.25):diffusealpha(1):decelerate(0.1):zoom(zoomValue * 2.5):diffusealpha(0)
-			return actor:finishtweening():zoom(0.5):diffusealpha(0):accelerate(0.1):zoom(1):diffusealpha(1):decelerate(0.1):zoom(1.5):diffusealpha(0)
+			-- return actor:finishtweening():zoom(0.5 * circleZoom):diffuse(color):diffusealpha(0):accelerate(0.1):zoom(1 * circleZoom):diffusealpha(1):decelerate(0.1):zoom(1.5 * circleZoom):diffusealpha(0)
+			return actor:finishtweening():zoom(0.5 * circleZoom):diffusealpha(0):accelerate(0.1):zoom(1 * circleZoom):diffusealpha(1):decelerate(0.1):zoom(1.5 * circleZoom):diffusealpha(0)
 		end
 
 		t[#t+1] = singleSprite("_common", "circle") .. {
-			InitCommand = function (self) self:zoom(0.5):diffusealpha(0) end,
+			InitCommand = function (self) self:zoom(0.5 * circleZoom):diffusealpha(0) end,
 			W3Command = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_W3"))) end,
 			W2Command = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_W2"))) end,
 			W1Command = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_W1"))) end,
