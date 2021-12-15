@@ -41,7 +41,7 @@ ret.RedirTable =
 	["HandUpRight"]   = game == "maniax" and "Ring" or "Circle",    -- 2-M
 	["HandLrLeft"]    = game == "maniax" and "Ring" or "Circle",    -- 2-M
 	["HandLrRight"]   = game == "maniax" and "Ring" or "Circle",    -- 2-M
-	-- kb7, beat
+	-- kb7, be-mu (beat)
 	["Key1"]         = game == "kb7" and "KeyWide" or "KeyWhite",
 	["Key2"]         = game == "kb7" and "KeyWide" or "KeyBlue",
 	["Key3"]         = game == "kb7" and "KeyWide" or "KeyWhite",
@@ -52,7 +52,7 @@ ret.RedirTable =
 	["scratch"]      =                                "Scratch",
 	["scratch up"]   =                                "Scratch",
 	["scratch down"] =                                "Scratch",
-	-- popn
+	-- po-mu (popn)
 	["Left White"]   = "BurgerLower",
 	["Left Yellow"]  = "BurgerUpper",
 	["Left Green"]   = "BurgerLower",
@@ -397,7 +397,9 @@ setmetatable(HoldCapRedir, HoldCapRedirMeta)
 local ZoomTable = {
 	["maniax"] = 1/2,
 	["beat"] = 1/2,
+	["be-mu"] = 1/2,
 	["popn"] = 1/2,
+	["po-mu"] = 1/2,
 }
 setmetatable(ZoomTable, FallbackOne)
 
@@ -540,7 +542,30 @@ local ColorTable = {
 		["scratch up"] = 0,
 		["scratch down"] = 0,
 	},
+	["be-mu"] = {
+		["Key1"] = 16,
+		["Key2"] = 2,
+		["Key3"] = 16,
+		["Key4"] = 2,
+		["Key5"] = 16,
+		["Key6"] = 2,
+		["Key7"] = 16,
+		["scratch"] = 0,
+		["scratch up"] = 0,
+		["scratch down"] = 0,
+	},
 	["popn"] = {
+		["Left White"] = 16,
+		["Left Yellow"] = 6,
+		["Left Green"] = 4,
+		["Left Blue"] = 2,
+		["Red"] = 0,
+		["Right Blue"] = 2,
+		["Right Green"] = 4,
+		["Right Yellow"] = 6,
+		["Right White"] = 16,
+	},
+	["po-mu"] = {
 		["Left White"] = 16,
 		["Left Yellow"] = 6,
 		["Left Green"] = 4,
@@ -684,7 +709,28 @@ local ReceptorGlyphTable = {
 		["Key6"] = {["texture"] = "_keyblue",  ["x"] = 0, ["y"] = 40, ["rot"] = 0, ["diffuse"] = {0.15, 0.15, 0.15, 1}, ["glow"] = {1.0, 0.25, 0, 0}},
 		["Key7"] = {["texture"] = "_keywhite", ["x"] = 0, ["y"] = 48, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {1.0, 0.25, 0, 0}},
 	},
+	["be-mu"] = {
+		["scratch"] = {["texture"] = "_scratch", ["x"] = 0, ["y"] = 44, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {1.0, 0.25, 0, 0}},
+		["Key1"] = {["texture"] = "_keywhite", ["x"] = 0, ["y"] = 48, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {1.0, 0.25, 0, 0}},
+		["Key2"] = {["texture"] = "_keyblue",  ["x"] = 0, ["y"] = 40, ["rot"] = 0, ["diffuse"] = {0.15, 0.15, 0.15, 1}, ["glow"] = {1.0, 0.25, 0, 0}},
+		["Key3"] = {["texture"] = "_keywhite", ["x"] = 0, ["y"] = 48, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {1.0, 0.25, 0, 0}},
+		["Key4"] = {["texture"] = "_keyblue",  ["x"] = 0, ["y"] = 40, ["rot"] = 0, ["diffuse"] = {0.15, 0.15, 0.15, 1}, ["glow"] = {1.0, 0.25, 0, 0}},
+		["Key5"] = {["texture"] = "_keywhite", ["x"] = 0, ["y"] = 48, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {1.0, 0.25, 0, 0}},
+		["Key6"] = {["texture"] = "_keyblue",  ["x"] = 0, ["y"] = 40, ["rot"] = 0, ["diffuse"] = {0.15, 0.15, 0.15, 1}, ["glow"] = {1.0, 0.25, 0, 0}},
+		["Key7"] = {["texture"] = "_keywhite", ["x"] = 0, ["y"] = 48, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {1.0, 0.25, 0, 0}},
+	},
 	["popn"] = {
+		["Left White"]   = {["texture"] = "_burger", ["x"] = 0, ["y"] = 28, ["rot"] = 0, ["diffuse"] = {0.75, 0.75,  0.75, 1.0}},
+		["Left Yellow"]  = {["texture"] = "_burger", ["x"] = 0, ["y"] = 20, ["rot"] = 0, ["diffuse"] = {0.75, 0.75,  0,    1.0}},
+		["Left Green"]   = {["texture"] = "_burger", ["x"] = 0, ["y"] = 28, ["rot"] = 0, ["diffuse"] = {0,    0.5,   0,    1.0}},
+		["Left Blue"]    = {["texture"] = "_burger", ["x"] = 0, ["y"] = 20, ["rot"] = 0, ["diffuse"] = {0,    0.375, 0.75, 1.0}},
+		["Red"]          = {["texture"] = "_burger", ["x"] = 0, ["y"] = 28, ["rot"] = 0, ["diffuse"] = {0.75, 0,     0,    1.0}},
+		["Right Blue"]   = {["texture"] = "_burger", ["x"] = 0, ["y"] = 20, ["rot"] = 0, ["diffuse"] = {0,    0.375, 0.75, 1.0}},
+		["Right Green"]  = {["texture"] = "_burger", ["x"] = 0, ["y"] = 28, ["rot"] = 0, ["diffuse"] = {0,    0.5,   0,    1.0}},
+		["Right Yellow"] = {["texture"] = "_burger", ["x"] = 0, ["y"] = 20, ["rot"] = 0, ["diffuse"] = {0.75, 0.75,  0,    1.0}},
+		["Right White"]  = {["texture"] = "_burger", ["x"] = 0, ["y"] = 28, ["rot"] = 0, ["diffuse"] = {0.75, 0.75,  0.75, 1.0}},
+	},
+	["po-mu"] = {
 		["Left White"]   = {["texture"] = "_burger", ["x"] = 0, ["y"] = 28, ["rot"] = 0, ["diffuse"] = {0.75, 0.75,  0.75, 1.0}},
 		["Left Yellow"]  = {["texture"] = "_burger", ["x"] = 0, ["y"] = 20, ["rot"] = 0, ["diffuse"] = {0.75, 0.75,  0,    1.0}},
 		["Left Green"]   = {["texture"] = "_burger", ["x"] = 0, ["y"] = 28, ["rot"] = 0, ["diffuse"] = {0,    0.5,   0,    1.0}},
@@ -743,7 +789,28 @@ local ReceptorLaserTable = {
 		["Key6"] = {["width"] = 28, ["diffuse"] = {0.5, 0.75, 1, 1}},
 		["Key7"] = {["width"] = 36, ["diffuse"] = {0.25, 0.5, 1, 1}},
 	},
+	["be-mu"] = {
+		["scratch"] = {["width"] = 60, ["diffuse"] = {0.25, 1, 1, 1}},
+		["Key1"] = {["width"] = 36, ["diffuse"] = {0.25, 0.5, 1, 1}},
+		["Key2"] = {["width"] = 28, ["diffuse"] = {0.5, 0.75, 1, 1}},
+		["Key3"] = {["width"] = 36, ["diffuse"] = {0.25, 0.5, 1, 1}},
+		["Key4"] = {["width"] = 28, ["diffuse"] = {0.5, 0.75, 1, 1}},
+		["Key5"] = {["width"] = 36, ["diffuse"] = {0.25, 0.5, 1, 1}},
+		["Key6"] = {["width"] = 28, ["diffuse"] = {0.5, 0.75, 1, 1}},
+		["Key7"] = {["width"] = 36, ["diffuse"] = {0.25, 0.5, 1, 1}},
+	},
 	["popn"] = {
+		["Left White"]   = {["width"] = 36, ["diffuse"] = {1, 1,    1, 1.0}, ["judgecolored"] = true},
+		["Left Yellow"]  = {["width"] = 28, ["diffuse"] = {1, 1,    0, 1.0}, ["judgecolored"] = true},
+		["Left Green"]   = {["width"] = 36, ["diffuse"] = {0, 0.75, 0, 1.0}, ["judgecolored"] = true},
+		["Left Blue"]    = {["width"] = 28, ["diffuse"] = {0, 0.5,  1, 1.0}, ["judgecolored"] = true},
+		["Red"]          = {["width"] = 36, ["diffuse"] = {1, 0,    0, 1.0}, ["judgecolored"] = true},
+		["Right Blue"]   = {["width"] = 28, ["diffuse"] = {0, 0.5,  1, 1.0}, ["judgecolored"] = true},
+		["Right Green"]  = {["width"] = 36, ["diffuse"] = {0, 0.75, 0, 1.0}, ["judgecolored"] = true},
+		["Right Yellow"] = {["width"] = 28, ["diffuse"] = {1, 1,    0, 1.0}, ["judgecolored"] = true},
+		["Right White"]  = {["width"] = 36, ["diffuse"] = {1, 1,    1, 1.0}, ["judgecolored"] = true},
+	},
+	["po-mu"] = {
 		["Left White"]   = {["width"] = 36, ["diffuse"] = {1, 1,    1, 1.0}, ["judgecolored"] = true},
 		["Left Yellow"]  = {["width"] = 28, ["diffuse"] = {1, 1,    0, 1.0}, ["judgecolored"] = true},
 		["Left Green"]   = {["width"] = 36, ["diffuse"] = {0, 0.75, 0, 1.0}, ["judgecolored"] = true},
