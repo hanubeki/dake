@@ -542,7 +542,7 @@ local ColorTable = {
 		["Key1"] = 0, -- L
 		["Key2"] = 14,
 		["Key3"] = 16, -- 1
-		["Key4"] = 12,
+		["Key4"] = 14,
 		["Key5"] = 2, -- 2
 		["Key6"] = 14,
 		["Key7"] = 16, -- 3
@@ -550,7 +550,7 @@ local ColorTable = {
 		["Key9"] = 16, -- 5
 		["Key10"] = 14,
 		["Key11"] = 2, -- 6
-		["Key12"] = 12,
+		["Key12"] = 14,
 		["Key13"] = 16, -- 7
 		["Key14"] = 14,
 		["Key15"] = 0, -- R
@@ -756,29 +756,29 @@ local ReceptorGlyphTable = {
 		["Right White"]  = {["texture"] = "_burger", ["x"] = 0, ["y"] = 28, ["rot"] = 0, ["diffuse"] = {0.75, 0.75,  0.75, 1.0}},
 	},
 	["kb7"] = {
-		["Key1"]  = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {0.2,  0.2,  0.2, 0}},
-		["Key2"]  = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {0,    0.75, 1,    1}, ["glow"] = {0,    0.15, 0.2, 0}},
-		["Key3"]  = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {0.2,  0.2,  0.2, 0}},
-		["Key4"]  = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {1,    0.5,  0,    1}, ["glow"] = {0.2,  0.1,  0,   0}},
-		["Key5"]  = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {0.2,  0.2,  0.2, 0}},
-		["Key6"] = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {0,    0.75, 1,    1}, ["glow"] = {0,    0.15, 0.2, 0}},
-		["Key7"] = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {0.2,  0.2,  0.2, 0}},
+		["Key1"] = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {1, 1,    1, 1}, ["glow"] = {0.2,  0.2,  0.2, 0}},
+		["Key2"] = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {0, 0.75, 1, 1}, ["glow"] = {0,    0.15, 0.2, 0}},
+		["Key3"] = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {1, 1,    1, 1}, ["glow"] = {0.2,  0.2,  0.2, 0}},
+		["Key4"] = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {1, 0.5,  0, 1}, ["glow"] = {0.2,  0.1,  0,   0}},
+		["Key5"] = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {1, 1,    1, 1}, ["glow"] = {0.2,  0.2,  0.2, 0}},
+		["Key6"] = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {0, 0.75, 1, 1}, ["glow"] = {0,    0.15, 0.2, 0}},
+		["Key7"] = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {1, 1,    1, 1}, ["glow"] = {0.2,  0.2,  0.2, 0}},
 	},
 	["kbx"] = {
 		["Key1"]  = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {1,    0.25, 0.25, 1}, ["glow"] = {0.2,  0,    0,   0}},
 		["Key2"]  = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {0.75, 1,    0.5,  1}, ["glow"] = {0.15, 0.2,  0.1, 0}},
 		["Key3"]  = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {0.2,  0.2,  0.2, 0}},
-		["Key4"]  = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {1,    0,    0.5,  1}, ["glow"] = {0.2,  0,    0.1, 0}},
+		["Key4"]  = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {0.75, 1,    0.5,  1}, ["glow"] = {0.15, 0.2,  0.1, 0}},
 		["Key5"]  = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {0,    0.75, 1,    1}, ["glow"] = {0,    0.15, 0.2, 0}},
-		["Key6"]  = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {0.75,  1,   0.5,  1}, ["glow"] = {0.15, 0.2,  0.1, 0}},
+		["Key6"]  = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {0.75, 1,    0.5,  1}, ["glow"] = {0.15, 0.2,  0.1, 0}},
 		["Key7"]  = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {0.2,  0.2,  0.2, 0}},
 		["Key8"]  = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {1,    0.5,  0,    1}, ["glow"] = {0.2,  0.1,  0,   0}},
 		["Key9"]  = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {0.2,  0.2,  0.2, 0}},
 		["Key10"] = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {0.75, 1,    0.5,  1}, ["glow"] = {0.15, 0.2,  0.1, 0}},
 		["Key11"] = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {0,    0.75, 1,    1}, ["glow"] = {0,    0.15, 0.2, 0}},
-		["Key12"] = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {1,    0,    0.5,  1}, ["glow"] = {0.2,  0,    0.1, 0}},
+		["Key12"] = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {0.75, 1,    0.5,  1}, ["glow"] = {0.15, 0.2,  0.1, 0}},
 		["Key13"] = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {0.2,  0.2,  0.2, 0}},
-		["Key14"] = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {0.75,  1,   0.5,  1}, ["glow"] = {0.15, 0.2,  0.1, 0}},
+		["Key14"] = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {0.75, 1,    0.5,  1}, ["glow"] = {0.15, 0.2,  0.1, 0}},
 		["Key15"] = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {1,    0.25, 0.25, 1}, ["glow"] = {0.2,  0,    0,   0}},
 	},
 	["po-mu"] = {
@@ -885,7 +885,7 @@ local ReceptorLaserTable = {
 		["Key1"]  = {["width"] = 60, ["diffuse"] = {1.0,  0.6,  0.4, 0.7}},
 		["Key2"]  = {["width"] = 60, ["diffuse"] = {0.7,  1,    0.4, 0.7}},
 		["Key3"]  = {["width"] = 60, ["diffuse"] = {0.6,  1,    0.5, 0.7}},
-		["Key4"]  = {["width"] = 60, ["diffuse"] = {1,    0.4,  0.7, 0.7}},
+		["Key4"]  = {["width"] = 60, ["diffuse"] = {0.7,  1,    0.4, 0.7}},
 		["Key5"]  = {["width"] = 60, ["diffuse"] = {0.4,  0.4,  1,   0.7}},
 		["Key6"]  = {["width"] = 60, ["diffuse"] = {0.7,  1,    0.4, 0.7}},
 		["Key7"]  = {["width"] = 60, ["diffuse"] = {0.6,  1,    0.5, 0.7}},
@@ -893,7 +893,7 @@ local ReceptorLaserTable = {
 		["Key9"]  = {["width"] = 60, ["diffuse"] = {0.6,  1,    0.5, 0.7}},
 		["Key10"] = {["width"] = 60, ["diffuse"] = {0.7,  1,    0.4, 0.7}},
 		["Key11"] = {["width"] = 60, ["diffuse"] = {0.4,  0.4,  1,   0.7}},
-		["Key12"] = {["width"] = 60, ["diffuse"] = {1,    0.4,  0.7, 0.7}},
+		["Key12"] = {["width"] = 60, ["diffuse"] = {0.7,  1,    0.4, 0.7}},
 		["Key13"] = {["width"] = 60, ["diffuse"] = {0.6,  1,    0.5, 0.7}},
 		["Key14"] = {["width"] = 60, ["diffuse"] = {0.7,  1,    0.4, 0.7}},
 		["Key15"] = {["width"] = 60, ["diffuse"] = {1.0,  0.6,  0.4, 0.7}},
@@ -1162,7 +1162,7 @@ local function func()
 					["Key1"]  = {1,    0.5,  0.5,  1},
 					["Key2"]  = {0.75, 1,    0.5,  1},
 					["Key3"]  = {1,    1,    1,    1},
-					["Key4"]  = {1,    0.5,  0.75, 1},
+					["Key4"]  = {0.75, 1,    0.5,  1},
 					["Key5"]  = {0.5,  0.75, 1,    1},
 					["Key6"]  = {0.75, 1,    0.5,  1},
 					["Key7"]  = {1,    1,    1,    1},
@@ -1170,7 +1170,7 @@ local function func()
 					["Key9"]  = {1,    1,    1,    1},
 					["Key10"] = {0.75, 1,    0.5,  1},
 					["Key11"] = {0.5,  0.75, 1,    1},
-					["Key12"] = {1,    0.5,  0.75, 1},
+					["Key12"] = {0.75, 1,    0.5,  1},
 					["Key13"] = {1,    1,    1,    1},
 					["Key14"] = {0.75, 1,    0.5,  1},
 					["Key15"] = {1,    0.5,  0.5,  1},
@@ -1615,7 +1615,7 @@ local function func()
 				}
 			end
 
-			-- [ja] TODO: kbx以外にも対応させる/
+			-- [ja] TODO: kbx以外にも対応させる?
 			if game:match("^kb[7x]$") then
 				t[#t+1] = Def.Quad {
 					InitCommand = function(self) self:zoomto(64, 48):y(56):valign(0):diffuse({0, 0, 0, 0.5}) end,
