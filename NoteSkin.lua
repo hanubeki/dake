@@ -14,19 +14,19 @@ ret.HanubekiExtras = {}
 ret.RedirTable =
 {
 	-- Dance (incl. solo and octo), Pump, pAra, Techno, smX, Horizon
-	["Up"]        = game == "para"   and "ParaUp"                                     or     "Up",     -- D-ATXH
-	["Down"]      = game == "para"   and "ParaDown"                                   or     "Down",   -- D--TXH
-	["Left"]      = game == "para"   and "ParaLeft"                                   or     "Left",   -- D-ATXH
-	["Right"]     = game == "para"   and "ParaRight"                                  or     "Right",  -- D-ATXH
-	["UpLeft"]    = game == "para"   and "ParaUpLeft"                                 or   "UpLeft",   -- sPAT-H
-	["UpRight"]   = game == "para"   and "ParaUpRight"                                or   "UpRight",  -- sPAT-H
-	["DownLeft"]  = game == "para"   and "ParaDownLeft"                               or "DownLeft",   -- oP-T-H
-	["DownRight"] = game == "para"   and "ParaDownRight"                              or "DownRight",  -- oP-T-H
-	["Center"]    = game == "techno" and "Circle"      or game == "smx" and "Diamond" or     "Center", -- -P-TXH
+	["Up"]        = game == "para"   and "ParaUp"                                       or     "Up",     -- D-ATXH
+	["Down"]      = game == "para"   and "ParaDown"                                     or     "Down",   -- D--TXH
+	["Left"]      = game == "para"   and "ParaLeft"                                     or     "Left",   -- D-ATXH
+	["Right"]     = game == "para"   and "ParaRight"                                    or     "Right",  -- D-ATXH
+	["UpLeft"]    = game == "para"   and "ParaUpLeft"                                   or   "UpLeft",   -- sPAT-H
+	["UpRight"]   = game == "para"   and "ParaUpRight"                                  or   "UpRight",  -- sPAT-H
+	["DownLeft"]  = game == "para"   and "ParaDownLeft"                                 or "DownLeft",   -- oP-T-H
+	["DownRight"] = game == "para"   and "ParaDownRight"                                or "DownRight",  -- oP-T-H
+	["Center"]    = game == "techno" and "Circle"        or game == "smx" and "Diamond" or     "Center", -- -P-TXH
 	-- para 360
-	["BackRight"] = game == "para"   and "ParaBackRight"                              or "DownRight",  -- --A---
-	["Back"]      = game == "para"   and "ParaBack"                                   or     "Down",   -- --A---
-	["BackLeft"]  = game == "para"   and "ParaBackLeft"                               or "DownLeft",   -- --A---
+	["BackRight"] = game == "para"   and "ParaBackRight"                                or "DownRight",  -- --A---
+	["Back"]      = game == "para"   and "ParaBack"                                     or     "Down",   -- --A---
+	["BackLeft"]  = game == "para"   and "ParaBackLeft"                                 or "DownLeft",   -- --A---
 	-- ez2, ds3ddx, Maniax
 	["FootDown"]      =                                    "Down",  -- 2--
 	["FootUpLeft"]    =                                  "UpLeft",  -- 23-
