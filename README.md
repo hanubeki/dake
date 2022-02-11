@@ -1,10 +1,10 @@
 NoteSkin hanubeki
 =================
 
-A simple flat -- but huge -- NoteSkin
+Play more games in single NoteSkin!
 A goal of this noteskin is to support every gametype (except lights).
 
-This noteskin requires Project OutFox 5.3.0 alpha 4.12.0.
+This noteskin requires Project OutFox 5.3.0 alpha 4.13.0.
 
 If you are looking for StepMania 5.x (5.0, 5_1-new, Etterna) version, see commit [98d236bb24](https://github.com/hanubeki/noteskin-hanubeki/tree/98d236bb241b423117f77b0328e1d87ed13f7b23).
 

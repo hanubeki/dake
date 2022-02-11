@@ -7,8 +7,12 @@ Then, copy/move all `hanubeki-*` directories to same place as `hanubeki` noteski
 Child Note Skins
 ----------------
 
+Note that some child noteskins are not available for certain gametypes.
+
+* hanubeki-rhythm: Notes are colored by rhythm
+* hanubeki-solo: Notes are colored by beat
 * hanubeki-flat: Notes are colored by columns
-* hanubeki-edit: Mine is colored by beats
+* hanubeki-edit: Mine is colored by rhythm
 * hanubeki-narrowhold: Holds are narrow
 * hanubeki-thinhold: Holds are thin
 * hanubeki-routine: Not actually working

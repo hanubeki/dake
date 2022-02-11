@@ -4,29 +4,34 @@ local ret = ... or {}
 
 local game = GAMESTATE:GetCurrentGame():GetName()
 
--- [ja] Extras用変数テーブル
+-- Parameters table for extras
+-- Rhythm (bood): colored by rhythm
 -- Flat (bool): colored by column
+-- ColorMine (bool): mines are colored by rhythm
 -- Routine (bool): colored by player number
--- HoldType (string): replace holds by specified name
-ret.HanubekiExtras = {}
+-- HoldType (string): replace hold/roll bodies by specified name
+ret.HanubekiExtras = {
+	["Rhythm"] = game == "dance" or game == "smx",
+	["Flat"] = not (game == "dance" or game == "smx"),
+}
 
--- [ja] 各ボタンのリダイレクトテーブル
+-- Redirect table for buttons
 ret.RedirTable =
 {
-	-- Dance (incl. solo and octo), Pump, pAra, Techno, smX, Horizon
-	["Up"]        = game == "para"   and "ParaUp"                                       or     "Up",     -- D-ATXH
-	["Down"]      = game == "para"   and "ParaDown"                                     or     "Down",   -- D--TXH
-	["Left"]      = game == "para"   and "ParaLeft"                                     or     "Left",   -- D-ATXH
-	["Right"]     = game == "para"   and "ParaRight"                                    or     "Right",  -- D-ATXH
-	["UpLeft"]    = game == "para"   and "ParaUpLeft"                                   or   "UpLeft",   -- sPAT-H
-	["UpRight"]   = game == "para"   and "ParaUpRight"                                  or   "UpRight",  -- sPAT-H
-	["DownLeft"]  = game == "para"   and "ParaDownLeft"                                 or "DownLeft",   -- oP-T-H
-	["DownRight"] = game == "para"   and "ParaDownRight"                                or "DownRight",  -- oP-T-H
-	["Center"]    = game == "techno" and "Circle"        or game == "smx" and "Diamond" or     "Center", -- -P-TXH
+	-- Dance (incl. solo and octo), Pump, pAra, Techno, smX, Horizon, Stepstage
+	["Up"]        = game == "para"   and "ParaUp"                                                                               or     "Up",     -- D-ATXH-
+	["Down"]      = game == "para"   and "ParaDown"                                                                             or     "Down",   -- D--TXH-
+	["Left"]      = game == "para"   and "ParaLeft"                                     or game == "stepstage" and "StepLeft"   or     "Left",   -- D-ATXHS
+	["Right"]     = game == "para"   and "ParaRight"                                    or game == "stepstage" and "StepRight"  or     "Right",  -- D-ATXHS
+	["UpLeft"]    = game == "para"   and "ParaUpLeft"                                                                           or   "UpLeft",   -- sPAT-H-
+	["UpRight"]   = game == "para"   and "ParaUpRight"                                                                          or   "UpRight",  -- sPAT-H-
+	["DownLeft"]  = game == "para"   and "ParaDownLeft"                                                                         or "DownLeft",   -- oP-T-H-
+	["DownRight"] = game == "para"   and "ParaDownRight"                                                                        or "DownRight",  -- oP-T-H-
+	["Center"]    = game == "techno" and "Circle"        or game == "smx" and "Diamond" or game == "stepstage" and "StepCenter" or     "Center", -- -P-TXHS
 	-- para 360
-	["BackRight"] = game == "para"   and "ParaBackRight"                                or "DownRight",  -- --A---
-	["Back"]      = game == "para"   and "ParaBack"                                     or     "Down",   -- --A---
-	["BackLeft"]  = game == "para"   and "ParaBackLeft"                                 or "DownLeft",   -- --A---
+	["BackRight"] = game == "para"   and "ParaBackRight"                                                                        or "DownRight",  -- --A----
+	["Back"]      = game == "para"   and "ParaBack"                                                                             or     "Down",   -- --A----
+	["BackLeft"]  = game == "para"   and "ParaBackLeft"                                                                         or "DownLeft",   -- --A----
 	-- ez2, ds3ddx, Maniax
 	["FootDown"]      =                                    "Down",  -- 2--
 	["FootUpLeft"]    =                                  "UpLeft",  -- 23-
@@ -130,7 +135,7 @@ local FallbackOne = {
 	end
 }
 
--- [ja] Tap Note/Hold Head用のリダイレクトテーブル
+-- Redirect table for Tap Note/Hold Head
 local TapRedir = {
 	["Up"]        = "_down",
 	["Down"]      = "_down",
@@ -163,14 +168,12 @@ local TapRedir = {
 
 	["Ring"] = "_ring",
 
-	-- ["Key"]      = "_key",
 	["KeyWhite"] = "_keywhite",
 	["KeyBlue"]  = "_keyblue",
 	["Scratch"]  = "_scratch",
 
 	["KeyWide"]  = "_scratch",
 
-	-- ["Burger"] = "_burger",
 	["BurgerLower"] = "_burgerlower",
 	["BurgerUpper"] = "_burgerupper",
 
@@ -201,10 +204,14 @@ local TapRedir = {
 	["Pedal"] = "_scratch",
 
 	["Main"] = "_main",
+
+	["StepLeft"]   = "_stepleft",
+	["StepCenter"] = "_stepcenter",
+	["StepRight"]  = "_stepleft",
 }
 setmetatable(TapRedir, Fallback)
 
--- [ja] Tap Note/Hold Head用の反転テーブル
+-- Flip table for Tap Note/Hold Head
 local TapRotateY = {
 	["DownLeftFoot"]  = 180,
 	["AnyLeftFoot"]   = 180,
@@ -218,10 +225,12 @@ local TapRotateY = {
 	["UpRightFoot"]   =   0,
 	["AnyRightFoot"]  =   0,
 	["DownRightFoot"] =   0,
+	["StepLeft"]      =   0,
+	["StepRight"]     = 180,
 }
 setmetatable(TapRotateY, FallbackZero)
 
--- [ja] Tap Note/Hold Head用の回転テーブル
+-- Rotation table for Tap Note/Hold Head
 local TapRotateZ = {
 	["Up"]        = 180,
 	["Down"]      =   0,
@@ -255,7 +264,16 @@ local TapRotateZ = {
 }
 setmetatable(TapRotateZ, FallbackZero)
 
--- [ja] Hold Body用のリダイレクトテーブル
+-- Rotation table for Tap Note/Hold Head
+local WailRotateZ = {
+	["Tap Wail Up"] = 0,
+	["Tap Wail Down"] = 180,
+	["Tap Wail Forward"] = -90,
+	["Tap Wail Backward"] = 90,
+}
+setmetatable(WailRotateZ, FallbackZero)
+
+-- Redirect table for Hold Body
 local HoldBodyRedir = {
 	["Up"]        = "_down",
 	["Down"]      = "_down",
@@ -297,15 +315,12 @@ local HoldBodyRedir = {
 
 	["Ring"] = "_ring",
 
-	-- ["Key"]      = "_key",
 	["KeyWhite"] = "_keywhite",
 	["KeyBlue"]  = "_keyblue",
 	["Scratch"]  = "_down",
-	-- ["Scratch"]  = "_scratch",
 
 	["KeyWide"]  = "_down",
 
-	-- ["Burger"] = "_key",
 	["BurgerLower"] = "_keywhite",
 	["BurgerUpper"] = "_keyblue",
 
@@ -323,12 +338,10 @@ local HoldBodyRedir = {
 	["DownRightFoot"] = "_rightfoot",
 
 	["Fret"] = "_down",
-	-- ["Fret"] = "_scratch",
 	["OpenShort"] = "_strum",
 	["OpenLong"] = "_strum",
 	["OpenSix"] = "_strum",
 	["Wailing"] = "_down",
-	-- ["wailing"] = "_scratch",
 
 	["Gem"] = "_thin",
 	["Strum"] = "_strum",
@@ -336,15 +349,16 @@ local HoldBodyRedir = {
 	["Cymbal"] = "_down",
 	["Tom"] = "_down",
 	["Pedal"] = "_down",
-	-- ["Cymbal"] = "_scratch",
-	-- ["Tom"] = "_scratch",
-	-- ["Pedal"] = "_scratch",
 
 	["Main"] = "_main",
+
+	["StepLeft"]   = "_step",
+	["StepCenter"] = "_step",
+	["StepRight"]  = "_step",
 }
 setmetatable(HoldBodyRedir, Fallback)
 
--- [ja] Hold TopCap/BottomCap用のリダイレクトテーブル
+-- Redirect table for Hold TopCap/BottomCap
 local HoldCapRedir = {
 --[[
 	["ParaLeft"]    = "_paraleft",
@@ -393,6 +407,10 @@ local HoldCapRedir = {
 	["Cymbal"] = "_scratch",
 	["Tom"] = "_scratch",
 	["Pedal"] = "_scratch",
+
+	["StepLeft"]   = "_step",
+	["StepCenter"] = "_step",
+	["StepRight"]  = "_step",
 }
 local HoldCapRedirMeta = {
 	__index = function (table, key, value)
@@ -401,7 +419,7 @@ local HoldCapRedirMeta = {
 }
 setmetatable(HoldCapRedir, HoldCapRedirMeta)
 
--- [ja] 共通画像の各Game用の拡大テーブル
+-- Zoom table for common graphics in games
 local ZoomTable = {
 	["maniax"] = 1/2,
 	["beat"] = 1/2,
@@ -411,8 +429,40 @@ local ZoomTable = {
 }
 setmetatable(ZoomTable, FallbackOne)
 
--- [ja] hanubeki-flat用の色テーブル
-local ColorTable = {
+-- Color table for rhythm
+local RhythmColors = {
+--[[
+	 0: Red
+	 2: Blue
+	 4: Green
+	 6: Yellow
+	 8: Violet
+	10: Teal
+	12: Magenta
+	14: Seafoam
+	16: Gray
+	18: Orange
+	20: Reserved
+	22: Reserved
+	24: Reserved
+	26: Reserved
+	28: Reserved
+	30: Reserved
+--]]
+	["4th"] = 0,
+	["8th"] = 2,
+	["12th"] = 4,
+	["16th"] = 6,
+	["24th"] = 8,
+	["32nd"] = 10,
+	["48th"] = 12,
+	["64th"] = 14,
+	["192nd"] = 16,
+}
+setmetatable(RhythmColors, FallbackZero)
+
+-- Color table for column
+local ColumnColors = {
 --[[
 	 0: Red
 	 2: Blue
@@ -674,6 +724,11 @@ local ColorTable = {
 	["taiko"] = {
 		["Main"] = 0,
 	},
+	["stepstage"] = {
+		["Left"] = 0,
+		["Center"] = 0,
+		["Right"] = 0,
+	},
 	["lights"] = { -- isn't game
 		["MarqueeUpLeft"] = 0,
 		["MarqueeUpRight"] = 0,
@@ -692,14 +747,14 @@ local ColorTable = {
 		["PlayerNumber_P5"] = 8,
 	},
 }
-local ColorTableMeta = {
+local ColumnColorsMeta = {
 	__index = function (table, key, value)
 		local dummy = {}
 		setmetatable(dummy, FallbackZero)
 		return dummy
 	end
 }
-setmetatable(ColorTable, ColorTableMeta)
+setmetatable(ColumnColors, ColumnColorsMeta)
 
 local NoteUnderlayTable = {
 	["gdgf"] = {
@@ -722,7 +777,7 @@ local NoteUnderlayMeta = {
 }
 setmetatable(NoteUnderlayTable, NoteUnderlayMeta)
 
--- [ja] Receptorのグリフ用のテーブル
+-- Table for receptor glyph
 local ReceptorGlyphTable = {
 	["beat"] = {
 		["scratch"] = {["texture"] = "_scratch", ["x"] = 0, ["y"] = 44, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {1, 0.25, 0, 0}},
@@ -812,7 +867,7 @@ local ReceptorGlyphMeta = {
 }
 setmetatable(ReceptorGlyphTable, ReceptorGlyphMeta)
 
--- [ja] Receptorのレーザー用のテーブル
+-- Table for receptor laser
 local ReceptorLaserTable = {
 	["para"] = {
 		["Left"]      = {["width"] = 48, ["diffuse"] = {1, 0, 0.5, 0.7}},
@@ -927,12 +982,17 @@ local ReceptorLaserMeta = {
 }
 setmetatable(ReceptorLaserTable, ReceptorLaserMeta)
 
-ret.Redir = function (sButton, sElement, pn)
+ret.Redir = function (sButton, sElement)
 	-- Instead of separate hold heads, use the tap note graphics.
 	if sElement:find("Hold Head") or sElement:find("Roll Head") or
 	   sElement == "Tap Fake"
 	then
 		sElement = "Tap Note"
+	end
+
+	-- Instead of separate hold red, use the tap red graphics.
+	if (sElement:find("Hold Red") or sElement:find("Roll Red")) and not (sElement:find(" .*cap") or sElement:find(" Body")) then
+		sElement = "Tap Red"
 	end
 
 	-- Instead of separate hold blues, use the tap blue graphics.
@@ -960,6 +1020,19 @@ ret.Redir = function (sButton, sElement, pn)
 		sElement = "Tap BigYellow"
 	end
 
+	-- Instead of separate hold jumps, use the tap jump graphics.
+	if sElement:find("Hold Jump") or sElement:find("Roll Jump") then
+		if sElement:find("Red") then
+			sElement = "Jump Red"
+		elseif sElement:find("Blue") then
+			sElement = "Jump Red"
+		elseif sElement:find("Yellow") then
+			sElement = "Jump Red"
+		else
+			sElement = "Jump Note"
+		end
+	end
+
 	-- Instead of separate hold tapsheads, use the tap taps graphics.
 	if sElement:find("Hold Tapshead") or sElement:find("Roll Tapshead") then
 		sElement = "Tap Taps"
@@ -985,6 +1058,16 @@ ret.Redir = function (sButton, sElement, pn)
 		sElement = sElement:gsub("Inactive", "Active")
 	end
 
+	if game == "stepstage" then
+		if sElement:find("Hold") then
+			sElement = sElement:gsub("Inactive", "Active")
+		end
+
+		if sElement:find("Roll") then
+			sElement = sElement:gsub(" Red", ""):gsub(" Blue", ""):gsub(" Yellow", "")
+		end
+	end
+
 	sButton = ret.RedirTable[sButton] or "Fallback"
 
 	return sButton, sElement
@@ -1005,12 +1088,21 @@ local function func()
 	local sButton = Var "Button"
 	local sGameButton = INPUTFILTER:GameButtonToKeyMapped(Var "GameButton", Var "Player")
 	local sElement = Var "Element"
+	local sColor = Var "Color"
 	local sEffect = Var "Effect"
 	local pn = Var "Player" or GAMESTATE:GetMasterPlayerNumber()
 	local sPlayer = pn
 
 	if game == "taiko" then
+		ret.HanubekiExtras.Rhythm = false
 		ret.HanubekiExtras.Flat = false
+		ret.HanubekiExtras.ColorMine = false
+		ret.HanubekiExtras.Routine = false
+		ret.HanubekiExtras.HoldType = nil
+	elseif game == "stepstage" then
+		ret.HanubekiExtras.Rhythm = false
+		ret.HanubekiExtras.Flat = false
+		ret.HanubekiExtras.ColorMine = false
 		ret.HanubekiExtras.Routine = false
 		ret.HanubekiExtras.HoldType = nil
 	end
@@ -1057,7 +1149,7 @@ local function func()
 		}
 	end
 
-	local sButtonToLoad, sElementToLoad = ret.Redir(sButton, sElement, pn)
+	local sButtonToLoad, sElementToLoad = ret.Redir(sButton, sElement)
 	assert(sButtonToLoad)
 	assert(sElementToLoad)
 
@@ -1070,13 +1162,81 @@ local function func()
 	local rotZ = TapRotateZ[sButtonToLoad]
 	local zoomValue = ZoomTable[game]
 
-	-- [ja] Sprite読み込み用関数
+	-- Functions to load Sprite
 	local function singleSprite (button, element)
 		return Def.Sprite {
 			Texture = NOTESKIN:GetPath(button, element),
 			Frames = {{Frame = 0, Delay = 1}},
 		}
 	end
+
+	local GHEffects = {
+		["StarInit"] = function (self, params)
+			self:visible(false)
+		end,
+	}
+	local GHEffectsMeta = {
+		__index = function (table, key, value)
+			return function(self, params) end
+		end
+	}
+
+	if game == "gh" then
+		GHEffects.Init = function (self, params)
+			if tonumber(sEffect) > 0 then
+				self:visible(false)
+			else
+				self:visible(true)
+			end
+		end
+
+		GHEffects.Fever = function (self, params)
+			if params.pn ~= pn then return end
+			if tonumber(sEffect) == 0 then
+				if params.Active then
+					self:glow({0, 0.5, 1, 0.7})
+				else
+					self:glow({1, 1, 1, 0})
+				end
+			end
+		end
+
+		GHEffects.FeverMissed = function(self, params)
+			if params.pn ~= pn then return end
+			if tonumber(sEffect) > 0 then
+				if params.Missed then
+					self:visible(true)
+				else
+					self:visible(false)
+				end
+			end
+		end
+
+		GHEffects.StarInit = function (self, params)
+			if tonumber(sEffect) > 0 then
+				self:visible(true)
+			else
+				self:visible(false)
+			end
+
+			if not sButton:find("Strum") then
+				self:spin():effectclock("beat"):effectmagnitude(0, 0, 60)
+			end
+		end
+
+		GHEffects.StarMissed = function(self, params)
+			if params.pn ~= pn then return end
+			if tonumber(sEffect) > 0 then
+				if params.Missed then
+					self:visible(false)
+				else
+					self:visible(true)
+				end
+			end
+		end
+	end
+
+	setmetatable(GHEffects, GHEffectsMeta)
 
 	local function colorSprite (button, element, color)
 		return Def.Sprite {
@@ -1085,10 +1245,12 @@ local function func()
 		}
 	end
 
-
 	local t = Def.ActorFrame {}
 
 	if sElementToLoad == "Tap Note" or
+	   sElementToLoad == "Tap Hopo" or
+	   sElementToLoad == "Tap Taps" or
+	   sElementToLoad == "Tap Red" or
 	   sElementToLoad == "Tap Blue" or
 	   sElementToLoad == "Tap Yellow" or
 	   sElementToLoad == "Tap BigRed" or
@@ -1097,10 +1259,14 @@ local function func()
 	then
 		local color = 0
 
-		if ret.HanubekiExtras.Routine then
-			color = ColorTable["Routine"][sPlayer]
-		elseif ret.HanubekiExtras.Flat then
-			color = ColorTable[game][sButton]
+		if sButton ~= "wailing" then
+			if ret.HanubekiExtras.Routine then
+				color = ColumnColors["Routine"][sPlayer]
+			elseif ret.HanubekiExtras.Rhythm then
+				color = RhythmColors[sColor]
+			elseif ret.HanubekiExtras.Flat then
+				color = ColumnColors[game][sButton]
+			end
 		end
 
 		if NoteUnderlayTable[game][sButton] then
@@ -1109,34 +1275,51 @@ local function func()
 			}
 		end
 
-		t[#t+1] = colorSprite(TapRedir[sButtonToLoad], sElementToLoad:lower(), color) .. {
+		local tapNote = sElementToLoad:lower()
+
+		if sElementToLoad == "Tap Hopo" then
+			tapNote = "tap note"
+		elseif sElementToLoad == "Tap Taps" then
+			tapNote = "tap note"
+		end
+
+		t[#t+1] = colorSprite(TapRedir[sButtonToLoad], tapNote, color) .. {
 			InitCommand = function (self)
 				self:rotationy(rotY):rotationz(rotZ)
-				if tonumber(sEffect) > 0 then
-					self:glow({1, 1, 1, 0.85})
-				end
+				GHEffects.Init(self, {})
 			end,
-			FeverMessageCommand = function (self, params)
-				if params.pn ~= pn then return end
-				if tonumber(sEffect) == 0 then
-					if params.Active then
-						self:glow({0, 0.5, 1, 0.7})
-					else
-						self:glow({1, 1, 1, 0})
-					end
-				end
-			end,
-			FeverMissedMessageCommand = function(self, params)
-				if params.pn ~= pn then return end
-				if tonumber(sEffect) > 0 then
-					if params.Missed then
-						self:glow({1, 1, 1, 0})
-					else
-						self:glow({1, 1, 1, 0.5})
-					end
-				end
-			end,
+			FeverMessageCommand = GHEffects.Fever,
+			FeverMissedMessageCommand = GHEffects.FeverMissed,
 		}
+
+		t[#t+1] = colorSprite(sButton:find("Strum") and "_strum" or "_common", "tap star", color) .. {
+			InitCommand = function (self)
+				self:z(-4):glow({0.5, 1, 1, 1})
+				GHEffects.StarInit(self, {})
+			end,
+			FeverMissedMessageCommand = GHEffects.StarMissed,
+		}
+
+		t[#t+1] = colorSprite(sButton:find("Strum") and "_strum" or "_common", "tap star", color) .. {
+			InitCommand = function (self)
+				GHEffects.StarInit(self, {})
+			end,
+			FeverMissedMessageCommand = GHEffects.StarMissed,
+		}
+
+		if sElementToLoad == "Tap Hopo" then
+			t[#t+1] = singleSprite(sButton:find("Strum") and "_strum" or "_common", "overlay hopo") .. {
+				InitCommand = function (self)
+					self:z(8)
+				end,
+			}
+		elseif sElementToLoad == "Tap Taps" then
+			t[#t+1] = singleSprite(sButton:find("Strum") and "_strum" or "_common", "overlay taps") .. {
+				InitCommand = function (self)
+					self:z(8)
+				end,
+			}
+		end
 
 		if sButton == "Center" and (game == "pump" or game == "techno") then
 			t[#t+1] = singleSprite("_common", "overlay feet")
@@ -1147,7 +1330,7 @@ local function func()
 		end
 
 		if game:match("^kb[7x]$") then
-			-- [ja] 仮
+			-- Guidelines for kbx, work in progress
 			local guidelineColors = {
 				["kb7"] = {
 					["Key1"] = {1,   1,    1,   1},
@@ -1177,7 +1360,7 @@ local function func()
 				},
 			}
 
-			-- [ja] TODO: heightをスクロールBPMの0.5倍にする予定
+			-- TODO: make guideline height 1.5x of scroll BPM
 			t[#t+1] = Def.Quad {
 				InitCommand = function (self) self:zoomto(4, 192):halign(0):x(-32):diffuse(guidelineColors[game][sButton]):faderight(0.25):fadetop(0.5):fadebottom(0.5) end,
 			}
@@ -1185,34 +1368,75 @@ local function func()
 				InitCommand = function (self) self:zoomto(4, 192):halign(1):x(32):diffuse(guidelineColors[game][sButton]):fadeleft(0.25):fadetop(0.5):fadebottom(0.5) end,
 			}
 		end
+	elseif sElementToLoad == "Jump Note" or
+		sElementToLoad == "Jump Red" or
+		sElementToLoad == "Jump Blue" or
+		sElementToLoad == "Jump Yellow" or
+		sElementToLoad == "Jump BigRed" or
+		sElementToLoad == "Jump BigBlue" or
+		sElementToLoad == "Jump BigYellow"
+	 then
+		local color = 0
+
+		if sButton ~= "wailing" then
+			if ret.HanubekiExtras.Routine then
+				color = ColumnColors["Routine"][sPlayer]
+			elseif ret.HanubekiExtras.Rhythm then
+				color = RhythmColors[sColor]
+			elseif ret.HanubekiExtras.Flat then
+				color = ColumnColors[game][sButton]
+			end
+		end
+
+		local bodyAlign = 0.5
+
+		if sButtonToLoad == "StepLeft" then
+			bodyAlign = 0
+		elseif sButtonToLoad == "StepRight" then
+			bodyAlign = 1
+		end
+
+		local bodyZoom = 1
+
+		if sButtonToLoad == "StepLeft" or sButtonToLoad == "StepRight" or sButtonToLoad == "StepCenter" then
+			bodyZoom = 0.75
+		end
+
+		local tapNote = "Tap Note"
+		if sElementToLoad:find("Red") then
+			tapNote = "Tap Red"
+		elseif sElementToLoad:find("Blue") then
+			tapNote = "Tap Blue"
+		elseif sElementToLoad:find("Yellow") then
+			tapNote = "Tap Yellow"
+		end
+
+		t[#t+1] = singleSprite(TapRedir[sButtonToLoad], sElementToLoad:lower()) .. {
+			InitCommand = function (self) self:halign(bodyAlign):zoomx(bodyZoom) end
+		}
+
+		t[#t+1] = colorSprite(TapRedir[sButtonToLoad], tapNote:lower(), color) .. {
+			InitCommand = function (self)
+				self:rotationy(rotY):rotationz(rotZ)
+				GHEffects.Init(self, {})
+			end,
+			FeverMessageCommand = GHEffects.Fever,
+			FeverMissedMessageCommand = GHEffects.FeverMissed,
+		}
 	elseif sElementToLoad == "Tap Mine" then
-		t[#t+1] = singleSprite("_common", "mine base") .. {
+		local color = 0
+
+		if ret.HanubekiExtras.ColorMine then
+			color = RhythmColors[sColor]
+		end
+
+		t[#t+1] = colorSprite("_common", "mine base", color) .. {
 			InitCommand = function (self)
 				self:zoom(zoomValue)
-				if tonumber(sEffect) > 0 then
-					self:glow({1, 1, 1, 0.85})
-				end
+				GHEffects.Init(self, {})
 			end,
-			FeverMessageCommand = function(self, params)
-				if params.pn ~= pn then return end
-				if tonumber(sEffect) == 0 then
-					if params.Active then
-						self:glow({0, 0.5, 1, 0.7})
-					else
-						self:glow({1, 1, 1, 0})
-					end
-				end
-			end,
-			FeverMissedMessageCommand = function(self, params)
-				if params.pn ~= pn then return end
-				if tonumber(sEffect) > 0 then
-					if params.Missed then
-						self:glow({1, 1, 1, 0})
-					else
-						self:glow({1, 1, 1, 0.5})
-					end
-				end
-			end,
+			FeverMessageCommand = GHEffects.Fever,
+			FeverMissedMessageCommand = GHEffects.FeverMissed,
 		}
 		t[#t+1] = singleSprite("_common", "mine parts") .. {
 			InitCommand = function (self) self:zoom(zoomValue):spin():effectclock("beat"):effectmagnitude(0, 0, -60) end,
@@ -1227,106 +1451,23 @@ local function func()
 		t[#t+1] = singleSprite("_common", "tap lift") .. {
 			InitCommand = function (self)
 				self:zoom(zoomValue)
-				if tonumber(sEffect) > 0 then
-					self:glow({1, 1, 1, 0.85})
-				end
+				GHEffects.Init(self, {})
 			end,
-			FeverMessageCommand = function(self, params)
-				if params.pn ~= pn then return end
-				if tonumber(sEffect) == 0 then
-					if params.Active then
-						self:glow({0, 0.5, 1, 0.7})
-					else
-						self:glow({1, 1, 1, 0})
-					end
-				end
-			end,
-			FeverMissedMessageCommand = function(self, params)
-				if params.pn ~= pn then return end
-				if tonumber(sEffect) > 0 then
-					if params.Missed then
-						self:glow({1, 1, 1, 0})
-					else
-						self:glow({1, 1, 1, 0.5})
-					end
-				end
-			end,
+			FeverMessageCommand = GHEffects.Fever,
+			FeverMissedMessageCommand = GHEffects.FeverMissed,
 		}
-	elseif sElementToLoad == "Tap Hopo" then
-		local color = 0
+	elseif sElementToLoad:find("Tap Wail") then
+		local rotZ = WailRotateZ[sElementToLoad]
 
-		if ret.HanubekiExtras.Routine then
-			color = ColorTable["Routine"][pn]
-		elseif ret.HanubekiExtras.Flat then
-			color = ColorTable[game][sButton]
-		end
-
-		t[#t+1] = colorSprite((sButton:find("Strum") or sButton:find("open")) and TapRedir[sButtonToLoad] or "_common", "tap hopo", color) .. {
-			InitCommand = function (self)
-				self:zoom(zoomValue)
-				if tonumber(sEffect) > 0 then
-					self:glow({1, 1, 1, 0.85})
-				end
-			end,
-			FeverMessageCommand = function(self, params)
-				if params.pn ~= pn then return end
-				if tonumber(sEffect) == 0 then
-					if params.Active then
-						self:glow({0, 0.5, 1, 0.7})
-					else
-						self:glow({1, 1, 1, 0})
-					end
-				end
-			end,
-			FeverMissedMessageCommand = function(self, params)
-				if params.pn ~= pn then return end
-				if tonumber(sEffect) > 0 then
-					if params.Missed then
-						self:glow({1, 1, 1, 0})
-					else
-						self:glow({1, 1, 1, 0.5})
-					end
-				end
-			end,
+		t[#t+1] = singleSprite("_common", "underlay guitar") .. {
+			InitCommand = function (self) self:diffuse({0, 1, 0, 0.5}) end,
 		}
-	elseif sElementToLoad == "Tap Taps" then
-		local color = 0
 
-		if ret.HanubekiExtras.Routine then
-			color = ColorTable["Routine"][pn]
-		elseif ret.HanubekiExtras.Flat then
-			color = ColorTable[game][sButton]
-		end
-
-		t[#t+1] = colorSprite((sButton:find("Strum") or sButton:find("open")) and TapRedir[sButtonToLoad] or "_common", "tap taps", color) .. {
-			InitCommand = function (self)
-				self:zoom(zoomValue)
-				if tonumber(sEffect) > 0 then
-					self:glow({1, 1, 1, 0.85})
-				end
-			end,
-			FeverMessageCommand = function(self, params)
-				if params.pn ~= pn then return end
-				if tonumber(sEffect) == 0 then
-					if params.Active then
-						self:glow({0, 0.5, 1, 0.7})
-					else
-						self:glow({1, 1, 1, 0})
-					end
-				end
-			end,
-			FeverMissedMessageCommand = function(self, params)
-				if params.pn ~= pn then return end
-				if tonumber(sEffect) > 0 then
-					if params.Missed then
-						self:glow({1, 1, 1, 0})
-					else
-						self:glow({1, 1, 1, 0.5})
-					end
-				end
-			end,
+		t[#t+1] = singleSprite("_wailing", "tap wail up") .. {
+			InitCommand = function (self) self:rotationz(rotZ) end,
 		}
 	elseif sElementToLoad:find("Hold .*cap") or sElementToLoad:find("Roll .*cap") or
+	       sElementToLoad:find("Hold Red .*cap") or sElementToLoad:find("Roll Red .*cap") or
 	       sElementToLoad:find("Hold Blue .*cap") or sElementToLoad:find("Roll Blue .*cap") or
 	       sElementToLoad:find("Hold Yellow .*cap") or sElementToLoad:find("Roll Yellow .*cap") or
 	       sElementToLoad:find("Hold BigRed .*cap") or sElementToLoad:find("Roll BigRed .*cap") or
@@ -1336,6 +1477,7 @@ local function func()
 		-- TODO: better match
 		t = singleSprite(ret.HanubekiExtras.HoldType or HoldCapRedir[sButtonToLoad], sElementToLoad:lower())
 	elseif sElementToLoad:find("Hold Body") or sElementToLoad:find("Roll Body") or
+	       sElementToLoad:find("Hold Red Body") or sElementToLoad:find("Roll Red Body") or
 	       sElementToLoad:find("Hold Blue Body") or sElementToLoad:find("Roll Blue Body") or
 	       sElementToLoad:find("Hold Yellow Body") or sElementToLoad:find("Roll Yellow Body") or
 	       sElementToLoad:find("Hold BigRed Body") or sElementToLoad:find("Roll BigRed Body") or
@@ -1479,18 +1621,20 @@ local function func()
 			}
 		end
 
-		if sButton == "Center" and (game ~= "smx") then
+		if sButton == "Center" and (game == "pump" or game == "techno") then
 			t[#t+1] = singleSprite("_common", "overlay feet") .. {
 				InitCommand = function (self) self:diffusealpha(0.5) end,
 			}
 		end
 
-		t[#t+1] = singleSprite(TapRedir[sButtonToLoad], "receptor flash") .. {
-			InitCommand = function (self) self:blend("BlendMode_Add"):rotationy(rotY):rotationz(rotZ):diffusealpha(0) end,
-			PressCommand = function (self) self:finishtweening():zoom(1):diffusealpha(0.6) end,
-			LiftCommand = function (self) self:finishtweening():decelerate(0.1):diffusealpha(0):zoom(1.2) end,
-			NoneCommand = function (self) self:finishtweening():zoom(0.85):diffusealpha(0.9):linear(0.15):diffusealpha(1):zoom(1) end,
-		}
+		if sButton ~= "wailing" then
+			t[#t+1] = singleSprite(TapRedir[sButtonToLoad], "receptor flash") .. {
+				InitCommand = function (self) self:blend("BlendMode_Add"):rotationy(rotY):rotationz(rotZ):diffusealpha(0) end,
+				PressCommand = function (self) self:finishtweening():zoom(1):diffusealpha(0.6) end,
+				LiftCommand = function (self) self:finishtweening():decelerate(0.1):diffusealpha(0):zoom(1.2) end,
+				NoneCommand = function (self) self:finishtweening():zoom(0.85):diffusealpha(0.9):linear(0.15):diffusealpha(1):zoom(1) end,
+			}
+		end
 
 		if game == "gh" and sButton:find("Strum") then
 			local isFever = false
@@ -1615,7 +1759,7 @@ local function func()
 				}
 			end
 
-			-- [ja] TODO: kbx以外にも対応させる?
+			-- TODO: support other than kbx?
 			if game:match("^kb[7x]$") then
 				t[#t+1] = Def.Quad {
 					InitCommand = function(self) self:zoomto(64, 48):y(56):valign(0):diffuse({0, 0, 0, 0.5}) end,
@@ -1629,86 +1773,104 @@ local function func()
 			end
 		end
 	elseif sElementToLoad == "Explosion" then
-		-- [ja] Receptorの明るい色の関数
+		-- Function for bright color
 		local function BrightColor(col)
 			return {(col[1] + 2) / 3, (col[2] + 2) / 3, (col[3] + 2) / 3, col[4]}
 		end
 
-		-- [ja] glow用コマンド、いちいち全部書き換えるのはめんどいので
+		-- Function for glow actor commands
 		local glowCommands = function (actor, color)
 			return actor:finishtweening():diffuse(color):sleep(0.1):decelerate(0.2):diffusealpha(0)
 		end
 
-		t[#t+1] = singleSprite(TapRedir[sButtonToLoad], "glow") .. {
-			InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ):diffusealpha(0) end,
-			W5Command = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_W5")) end,
-			W4Command = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_W4")) end,
-			W3Command = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_W3")) end,
-			W2Command = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_W2")) end,
-			W1Command = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_W1")) end,
-			ProW5Command = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_ProW5")) end,
-			ProW4Command = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_ProW4")) end,
-			ProW3Command = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_ProW3")) end,
-			ProW2Command = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_ProW2")) end,
-			ProW1Command = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_ProW1")) end,
-			HeldCommand = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_Held")) end,
-			-- JudgmentCommand = function (self) self:finishtweening() end,
-			-- BrightCommand = function (self) self:visible(false) end,
-			-- DimCommand = function (self) self:visible(true) end,
-		}
+		if sButton ~= "wailing" then
+			t[#t+1] = singleSprite(TapRedir[sButtonToLoad], "glow") .. {
+				InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ):diffusealpha(0) end,
+				W5Command = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_W5")) end,
+				W4Command = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_W4")) end,
+				W3Command = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_W3")) end,
+				W2Command = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_W2")) end,
+				W1Command = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_W1")) end,
+				ProW5Command = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_ProW5")) end,
+				ProW4Command = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_ProW4")) end,
+				ProW3Command = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_ProW3")) end,
+				ProW2Command = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_ProW2")) end,
+				ProW1Command = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_ProW1")) end,
+				HeldCommand = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_Held")) end,
+				-- JudgmentCommand = function (self) self:finishtweening() end,
+				-- BrightCommand = function (self) self:visible(false) end,
+				-- DimCommand = function (self) self:visible(true) end,
+			}
+
 --[[
-		t[#t+1] = singleSprite("_common", "bright") .. {
-			InitCommand = function (self) self:zoom(zoomValue):diffusealpha(0) end,
-			W5Command = function (self) glowCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_W5"))) end,
-			W4Command = function (self) glowCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_W4"))) end,
-			W3Command = function (self) glowCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_W3"))) end,
-			W2Command = function (self) glowCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_W2"))) end,
-			W1Command = function (self) glowCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_W1"))) end,
-			ProW5Command = function (self) glowCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_ProW5"))) end,
-			ProW4Command = function (self) glowCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_ProW4"))) end,
-			ProW3Command = function (self) glowCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_ProW3"))) end,
-			ProW2Command = function (self) glowCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_ProW2"))) end,
-			ProW1Command = function (self) glowCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_ProW1"))) end,
-			HeldCommand = function (self) glowCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_Held"))) end,
-			-- JudgmentCommand = function (self) self:finishtweening() end,
-			BrightCommand = function (self) self:visible(true) end,
-			DimCommand = function (self) self:visible(false) end,
-		}
+			t[#t+1] = singleSprite("_common", "bright") .. {
+				InitCommand = function (self) self:zoom(zoomValue):diffusealpha(0) end,
+				W5Command = function (self) glowCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_W5"))) end,
+				W4Command = function (self) glowCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_W4"))) end,
+				W3Command = function (self) glowCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_W3"))) end,
+				W2Command = function (self) glowCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_W2"))) end,
+				W1Command = function (self) glowCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_W1"))) end,
+				ProW5Command = function (self) glowCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_ProW5"))) end,
+				ProW4Command = function (self) glowCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_ProW4"))) end,
+				ProW3Command = function (self) glowCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_ProW3"))) end,
+				ProW2Command = function (self) glowCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_ProW2"))) end,
+				ProW1Command = function (self) glowCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_ProW1"))) end,
+				HeldCommand = function (self) glowCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_Held"))) end,
+				-- JudgmentCommand = function (self) self:finishtweening() end,
+				BrightCommand = function (self) self:visible(true) end,
+				DimCommand = function (self) self:visible(false) end,
+			}
 --]]
 
-		local circleZoom = game == "taiko" and 2 or game == "gh" and 1.5 or 1
+			local circleZoom = game == "taiko" and 2 or game == "gh" and 1.5 or 1
 
-		-- [ja] ciecle用コマンド、いちいち全部書き換えるのはめんどいので
-		local circleCommands = function (actor, color)
-			-- return actor:finishtweening():zoom(0.5 * circleZoom):diffuse(color):diffusealpha(0):accelerate(0.1):zoom(1 * circleZoom):diffusealpha(1):decelerate(0.1):zoom(1.5 * circleZoom):diffusealpha(0)
-			return actor:finishtweening():zoom(0.5 * circleZoom):diffusealpha(0):accelerate(0.1):zoom(1 * circleZoom):diffusealpha(1):decelerate(0.1):zoom(1.5 * circleZoom):diffusealpha(0)
+			-- Function for circle actor commands
+			local circleCommands = function (actor, color)
+				-- return actor:finishtweening():zoom(0.5 * circleZoom):diffuse(color):diffusealpha(0):accelerate(0.1):zoom(1 * circleZoom):diffusealpha(1):decelerate(0.1):zoom(1.5 * circleZoom):diffusealpha(0)
+				return actor:finishtweening():zoom(0.5 * circleZoom):diffusealpha(0):accelerate(0.1):zoom(1 * circleZoom):diffusealpha(1):decelerate(0.1):zoom(1.5 * circleZoom):diffusealpha(0)
+			end
+
+			local circlePositions = {
+				["Strum"] = {-128, -64, 0, 64, 128},
+				["OpenShort"] = {-64, 0, 64},
+				["OpenLong"] = {-128, -64, 0, 64, 128},
+				["OpenSix"] = {-160, -96, -32, 32, 96, 160},
+			}
+			local circlePositionsMeta = {
+				__index = function (table, key, value)
+					return {0}
+				end
+			}
+			setmetatable(circlePositions, circlePositionsMeta)
+
+			for _, cur_x in pairs(circlePositions[sButtonToLoad]) do
+				t[#t+1] = singleSprite("_common", "circle") .. {
+					InitCommand = function (self) self:x(cur_x):zoom(0.5 * circleZoom):diffusealpha(0) end,
+					W3Command = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_W3"))) end,
+					W2Command = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_W2"))) end,
+					W1Command = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_W1"))) end,
+					ProW5Command = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_ProW5"))) end,
+					ProW4Command = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_ProW4"))) end,
+					ProW3Command = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_ProW3"))) end,
+					ProW2Command = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_ProW2"))) end,
+					ProW1Command = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_ProW1"))) end,
+					HeldCommand = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_Held"))) end,
+					-- JudgmentCommand = function (self) self:finishtweening() end,
+				}
+			end
+
+			t[#t+1] = singleSprite("_common", "hold flash") .. {
+				HoldingOnCommand = function (self) self:diffusealpha(1):glowshift():effectcolor1({1, 1, 1, 0}):effectcolor2({1, 1, 1, 0.7}):effectperiod(0.1) end,
+				HoldingOffCommand = function (self) self:diffusealpha(0) end,
+				RollOnCommand = function (self) self:playcommand("HoldingOn") end,
+				RollOffCommand = function (self) self:playcommand("HoldingOff") end,
+				InitCommand = function (self) self:zoom(zoomValue):playcommand("HoldingOff"):finishtweening() end,
+			}
+			t[#t+1] = singleSprite("_common", "mine explosion") .. {
+				InitCommand = function (self) self:blend("BlendMode_Add"):zoom(zoomValue):diffusealpha(0) end,
+				HitMineCommand = function (self) self:finishtweening():diffusealpha(1):rotationz(0):linear(0.25):rotationz(90):linear(0.25):rotationz(180):diffusealpha(0) end,
+			}
 		end
-
-		t[#t+1] = singleSprite("_common", "circle") .. {
-			InitCommand = function (self) self:zoom(0.5 * circleZoom):diffusealpha(0) end,
-			W3Command = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_W3"))) end,
-			W2Command = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_W2"))) end,
-			W1Command = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_W1"))) end,
-			ProW5Command = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_ProW5"))) end,
-			ProW4Command = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_ProW4"))) end,
-			ProW3Command = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_ProW3"))) end,
-			ProW2Command = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_ProW2"))) end,
-			ProW1Command = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_ProW1"))) end,
-			HeldCommand = function (self) circleCommands(self, BrightColor(JudgmentLineToColor("JudgmentLine_Held"))) end,
-			-- JudgmentCommand = function (self) self:finishtweening() end,
-		}
-
-		t[#t+1] = singleSprite("_common", "hold flash") .. {
-			HoldingOnCommand = function (self) self:diffusealpha(1):glowshift():effectcolor1({1, 1, 1, 0}):effectcolor2({1, 1, 1, 0.7}):effectperiod(0.1) end,
-			HoldingOffCommand = function (self) self:diffusealpha(0) end,
-			RollOnCommand = function (self) self:playcommand("HoldingOn") end,
-			RollOffCommand = function (self) self:playcommand("HoldingOff") end,
-			InitCommand = function (self) self:zoom(zoomValue):playcommand("HoldingOff"):finishtweening() end,
-		}
-		t[#t+1] = singleSprite("_common", "mine explosion") .. {
-			InitCommand = function (self) self:blend("BlendMode_Add"):zoom(zoomValue):diffusealpha(0) end,
-			HitMineCommand = function (self) self:finishtweening():diffusealpha(1):rotationz(0):linear(0.25):rotationz(90):linear(0.25):rotationz(180):diffusealpha(0) end,
-		}
 	end
 
 	return t
