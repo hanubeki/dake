@@ -442,7 +442,7 @@ local RhythmColors = {
 	14: Seafoam
 	16: Gray
 	18: Orange
-	20: Reserved
+	20: Cyan
 	22: Reserved
 	24: Reserved
 	26: Reserved
