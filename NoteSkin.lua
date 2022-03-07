@@ -120,19 +120,19 @@ ret.RedirTable =
 local Fallback = {
 	__index = function (table, key, value)
 		return "_fallback"
-	end
+	end,
 }
 
 local FallbackZero = {
 	__index = function (table, key, value)
 		return 0
-	end
+	end,
 }
 
 local FallbackOne = {
 	__index = function (table, key, value)
 		return 1
-	end
+	end,
 }
 
 -- Redirect table for Tap Note/Hold Head
@@ -415,7 +415,7 @@ local HoldCapRedir = {
 local HoldCapRedirMeta = {
 	__index = function (table, key, value)
 		return "_" .. key:lower()
-	end
+	end,
 }
 setmetatable(HoldCapRedir, HoldCapRedirMeta)
 
@@ -779,7 +779,7 @@ local ColumnColorsMeta = {
 		local dummy = {}
 		setmetatable(dummy, FallbackZero)
 		return dummy
-	end
+	end,
 }
 setmetatable(ColumnColors, ColumnColorsMeta)
 
@@ -890,7 +890,7 @@ local ReceptorGlyphTable = {
 local ReceptorGlyphMeta = {
 	__index = function (table, key, value)
 		return {}
-	end
+	end,
 }
 setmetatable(ReceptorGlyphTable, ReceptorGlyphMeta)
 
@@ -1005,7 +1005,7 @@ local ReceptorLaserTable = {
 local ReceptorLaserMeta = {
 	__index = function (table, key, value)
 		return {}
-	end
+	end,
 }
 setmetatable(ReceptorLaserTable, ReceptorLaserMeta)
 
@@ -1172,7 +1172,7 @@ local function func()
 		-- a dummy actor.
 		local t = Var "SpriteOnly" and LoadActor("_blank") or Def.Actor {}
 		return t .. {
-			InitCommand = function (self) self:visible(false) end
+			InitCommand = function (self) self:visible(false) end,
 		}
 	end
 
@@ -1206,14 +1206,12 @@ local function func()
 
 	-- Commands for gh effects
 	local GHEffects = {
-		["StarInit"] = function (self, params)
-			self:visible(false)
-		end,
+		["StarInit"] = function (self, params) self:visible(false) end,
 	}
 	local GHEffectsMeta = {
 		__index = function (table, key, value)
-			return function(self, params) end
-		end
+			return function (self, params) end
+		end,
 	}
 
 	if game == "gh" then
@@ -1236,7 +1234,7 @@ local function func()
 			end
 		end
 
-		GHEffects.FeverMissed = function(self, params)
+		GHEffects.FeverMissed = function (self, params)
 			if params.pn ~= pn then return end
 			if tonumber(sEffect) > 0 then
 				if params.Missed then
@@ -1259,7 +1257,7 @@ local function func()
 			end
 		end
 
-		GHEffects.StarMissed = function(self, params)
+		GHEffects.StarMissed = function (self, params)
 			if params.pn ~= pn then return end
 			if tonumber(sEffect) > 0 then
 				if params.Missed then
@@ -1338,15 +1336,11 @@ local function func()
 
 			if sElementToLoad == "Tap Hopo" then
 				t[#t+1] = singleSprite(sButton:find("Strum") and "_strum" or "_common", "overlay hopo") .. {
-					InitCommand = function (self)
-						self:z(8)
-					end,
+					InitCommand = function (self) self:z(8) end,
 				}
 			elseif sElementToLoad == "Tap Taps" then
 				t[#t+1] = singleSprite(sButton:find("Strum") and "_strum" or "_common", "overlay taps") .. {
-					InitCommand = function (self)
-						self:z(8)
-					end,
+					InitCommand = function (self) self:z(8) end,
 				}
 			end
 		end
@@ -1442,16 +1436,12 @@ local function func()
 		end
 
 		t[#t+1] = singleSprite(TapRedir[sButtonToLoad], sElementToLoad:lower()) .. {
-			InitCommand = function (self) self:halign(bodyAlign):zoomx(bodyZoom) end
+			InitCommand = function (self) self:halign(bodyAlign):zoomx(bodyZoom) end,
 		}
 
 		t[#t+1] = colorSprite(TapRedir[sButtonToLoad], tapNote:lower(), color) .. {
-			InitCommand = function (self)
-				self:rotationy(rotY):rotationz(rotZ)
-				GHEffects.Init(self, {})
-			end,
+			InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ) end,
 			FeverMessageCommand = GHEffects.Fever,
-			FeverMissedMessageCommand = GHEffects.FeverMissed,
 		}
 	elseif sElementToLoad == "Tap Mine" then
 		local color = 0
@@ -1461,12 +1451,8 @@ local function func()
 		end
 
 		t[#t+1] = colorSprite("_common", "mine base", color) .. {
-			InitCommand = function (self)
-				self:zoom(zoomValue)
-				GHEffects.Init(self, {})
-			end,
+			InitCommand = function (self) self:zoom(zoomValue) end,
 			FeverMessageCommand = GHEffects.Fever,
-			FeverMissedMessageCommand = GHEffects.FeverMissed,
 		}
 		t[#t+1] = singleSprite("_common", "mine parts") .. {
 			InitCommand = function (self) self:zoom(zoomValue):spin():effectclock("beat"):effectmagnitude(0, 0, -60) end,
@@ -1479,12 +1465,8 @@ local function func()
 		}
 	elseif sElementToLoad == "Tap Lift" then
 		t[#t+1] = singleSprite("_common", "tap lift") .. {
-			InitCommand = function (self)
-				self:zoom(zoomValue)
-				GHEffects.Init(self, {})
-			end,
+			InitCommand = function (self) self:zoom(zoomValue) end,
 			FeverMessageCommand = GHEffects.Fever,
-			FeverMissedMessageCommand = GHEffects.FeverMissed,
 		}
 	elseif sElementToLoad:find("Tap Wail") then
 		local rotZ = WailRotateZ[sElementToLoad]
@@ -1504,7 +1486,6 @@ local function func()
 	       sElementToLoad:find("Hold BigBlue .*cap") or sElementToLoad:find("Roll BigBlue .*cap") or
 	       sElementToLoad:find("Hold BigYellow .*cap") or sElementToLoad:find("Roll BigYellow .*cap")
 	then
-		-- TODO: better match
 		t = singleSprite(HoldCapRedir[ret.HanubekiExtras.HoldType or sButtonToLoad], sElementToLoad:lower())
 	elseif sElementToLoad:find("Hold Body") or sElementToLoad:find("Roll Body") or
 	       sElementToLoad:find("Hold Red Body") or sElementToLoad:find("Roll Red Body") or
@@ -1514,7 +1495,6 @@ local function func()
 	       sElementToLoad:find("Hold BigBlue Body") or sElementToLoad:find("Roll BigBlue Body") or
 	       sElementToLoad:find("Hold BigYellow Body") or sElementToLoad:find("Roll BigYellow Body")
 	then
-		-- TODO: better match
 		t = singleSprite(HoldBodyRedir[ret.HanubekiExtras.HoldType or sButtonToLoad], sElementToLoad:lower())
 	elseif sElementToLoad:find("Mine .*cap") then
 		local sizeToLoad = zoomValue < 0.7 and "_half" or "_common"
@@ -1587,7 +1567,7 @@ local function func()
 				},
 				Def.Quad {
 					Name = "Background",
-					OnCommand = function (self) self:valign(0):xy(256 - 64, -64):scaletoclipped(512, 128):faderight(1):diffusealpha(0) end,
+					OnCommand = function (self) self:halign(0):valign(0):xy(-64, -64):scaletoclipped(512, 128):faderight(1):diffusealpha(0) end,
 					PushCommand = function (self) self:diffusealpha(0.5):decelerate(0.4):diffusealpha(0) end,
 				},
 			}
@@ -1640,7 +1620,7 @@ local function func()
 			t[#t+1] = singleSprite(TapRedir[sButtonToLoad], "receptor base") .. {
 				InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ):effectclock("beat"):diffuseramp():effectcolor1({0.8, 0.8, 0.8, 1}):effectcolor2({1, 1, 1, 1}):effectoffset(0.05) end,
 				NoneCommand = function (self) self:finishtweening():zoom(0.85):diffusealpha(0.9):linear(0.1):diffusealpha(1):zoom(1) end,
-				FeverMessageCommand = function(self, params)
+				FeverMessageCommand = function (self, params)
 					if params.pn ~= pn then return end
 					if params.Active then
 						self:glow({0, 0.5, 1, 0.7})
@@ -1672,14 +1652,10 @@ local function func()
 			t[#t+1] = Def.ActorFrame{
 				OnCommand = function (self) self:xy(80, 56) end,
 				Def.Quad {
-					OnCommand = function (self) 
-						self:zoomto(160, 32):diffuse({0, 0, 0, 0.7})
-					end,
+					OnCommand = function (self) self:zoomto(160, 32):diffuse({0, 0, 0, 0.7}) end,
 				},
 				Def.Quad {
-					OnCommand = function (self)
-						self:zoomto(152, 24):diffuse({0, 0.5, 1, 0.5}):cropright(1)
-					end,
+					OnCommand = function (self) self:zoomto(152, 24):diffuse({0, 0.5, 1, 0.5}):cropright(1) end,
 					FeverMessageCommand = function (self, params)
 						if params.pn ~= pn then return end
 						if params.Active then
@@ -1732,9 +1708,7 @@ local function func()
 			t[#t+1] = Def.ActorFrame {
 				OnCommand = function (self) self:xy(-80, 56) end,
 				Def.Quad {
-					OnCommand = function (self)
-						self:zoomto(160, 32):diffuse({0, 0, 0, 0.7})
-					end,
+					OnCommand = function (self) self:zoomto(160, 32):diffuse({0, 0, 0, 0.7}) end,
 				},
 				Def.BitmapText {
 					Text = "1x",
@@ -1794,7 +1768,7 @@ local function func()
 				sGameButton = sGameButton:gsub("Key ", "")
 
 				t[#t+1] = Def.Quad {
-					InitCommand = function(self) self:zoomto(64, 48):y(56):valign(0):diffuse({0, 0, 0, 0.5}) end,
+					InitCommand = function (self) self:zoomto(64, 48):y(56):valign(0):diffuse({0, 0, 0, 0.5}) end,
 					ReverseOnCommand = function (self) self:y(56):valign(0) end,
 					ReverseOffCommand = function (self) self:y(-56):valign(1) end,
 				}
@@ -1805,7 +1779,7 @@ local function func()
 					t[#t+1] = Def.Sprite {
 						Texture = NOTESKIN:GetPath("_common","buttons/" .. sGameButton),
 						Text = sGameButton,
-						InitCommand = function(self) self:y(76) end,
+						InitCommand = function (self) self:y(76) end,
 						ReverseOnCommand = function (self) self:y(76) end,
 						ReverseOffCommand = function (self) self:y(-76) end,
 					}
@@ -1815,7 +1789,7 @@ local function func()
 					t[#t+1] = Def.BitmapText {
 						Font = "Common Normal",
 						Text = sGameButton,
-						InitCommand = function(self) self:y(76):zoom(0.7) end,
+						InitCommand = function (self) self:y(76):zoom(0.7) end,
 						ReverseOnCommand = function (self) self:y(76) end,
 						ReverseOffCommand = function (self) self:y(-76) end,
 					}
@@ -1889,7 +1863,7 @@ local function func()
 			local circlePositionsMeta = {
 				__index = function (table, key, value)
 					return {0}
-				end
+				end,
 			}
 			setmetatable(circlePositions, circlePositionsMeta)
 
