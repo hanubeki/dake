@@ -6,7 +6,7 @@ A goal of this noteskin is to support every gametype (except lights).
 
 This noteskin requires Project OutFox 5.3.0 alpha 4.13.0.
 
-If you are looking for StepMania 5.x (5.0, 5_1-new, Etterna) version, see tag [pre-outfox](https://github.com/hanubeki/dake/releases/tag/pre-outfox).
+If you are looking for StepMania 5.x (5.0, 5_1-new, Etterna) version, see tag [pre-outfox](https://github.com/hanubeki/dake/tree/pre-outfox).
 
 If you are looking for StepMania 5.2 (5.1 alpha) version, see tag [5.2-stale](https://github.com/hanubeki/dake/tree/5.2-stale).
 
