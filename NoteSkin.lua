@@ -758,7 +758,7 @@ setmetatable(ColumnColors, ColumnColorsMeta)
 
 local NoteUnderlayTable = {
 	["gdgf"] = {
-		["wailing"]   = {["texture"] = "guitar", ["rot"] = 0, ["diffuse"] = {0, 1, 0, 0.5}},
+		["wailing"]   = {["texture"] = "guitar", ["rot"] = 0, ["diffuse"] = {0.5, 0.5, 0.5, 1}},
 	},
 	["gddm"] = {
 		["Left Crash"]   = {["texture"] = "cymbal", ["rot"] =   0, ["diffuse"] = {1,    0,   0.5, 1}},
