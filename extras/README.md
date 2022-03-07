@@ -15,4 +15,3 @@ Note that some child noteskins are not available for certain gametypes.
 * hanubeki-edit: Mine is colored by rhythm
 * hanubeki-narrowhold: Holds are narrow
 * hanubeki-thinhold: Holds are thin
-* hanubeki-routine: Not actually working

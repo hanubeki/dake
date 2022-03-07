@@ -1118,17 +1118,18 @@ local function func()
 		ret.HanubekiExtras.Rhythm = false
 		ret.HanubekiExtras.Flat = false
 		ret.HanubekiExtras.ColorMine = false
-		ret.HanubekiExtras.Routine = false
 		ret.HanubekiExtras.HoldType = nil
 	elseif game == "stepstage" then
 		ret.HanubekiExtras.Rhythm = false
 		ret.HanubekiExtras.Flat = false
 		ret.HanubekiExtras.ColorMine = false
-		ret.HanubekiExtras.Routine = false
 		ret.HanubekiExtras.HoldType = nil
 	end
 
-	if ret.HanubekiExtras.Routine then
+	if GAMESTATE:GetCurrentStyle(pn):GetStyleType() == "StyleType_TwoPlayersSharedSides" then
+		ret.HanubekiExtras.Rhythm = false
+		ret.HanubekiExtras.Flat = false
+
 		sPlayer = "PlayerNumber_" .. (sElement:match("^P%d+") or "P1")
 		if sPlayer ~= "PlayerNumber_P1" then
 			sElement = sElement:match("^P%d+ (.*)$")
