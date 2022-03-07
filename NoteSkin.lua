@@ -1197,6 +1197,14 @@ local function func()
 		}
 	end
 
+	local function colorSprite (button, element, color)
+		return Def.Sprite {
+			Texture = NOTESKIN:GetPath(button, element),
+			Frames = {{Frame = color, Delay = 1}},
+		}
+	end
+
+	-- Commands for gh effects
 	local GHEffects = {
 		["StarInit"] = function (self, params)
 			self:visible(false)
@@ -1265,13 +1273,6 @@ local function func()
 
 	setmetatable(GHEffects, GHEffectsMeta)
 
-	local function colorSprite (button, element, color)
-		return Def.Sprite {
-			Texture = NOTESKIN:GetPath(button, element),
-			Frames = {{Frame = color, Delay = 1}},
-		}
-	end
-
 	local t = Def.ActorFrame {}
 
 	if sElementToLoad == "Tap Note" or
@@ -1319,33 +1320,35 @@ local function func()
 			FeverMissedMessageCommand = GHEffects.FeverMissed,
 		}
 
-		t[#t+1] = colorSprite(sButton:find("Strum") and "_strum" or "_common", "tap star", color) .. {
-			InitCommand = function (self)
-				self:z(-4):glow({0.5, 1, 1, 1})
-				GHEffects.StarInit(self, {})
-			end,
-			FeverMissedMessageCommand = GHEffects.StarMissed,
-		}
-
-		t[#t+1] = colorSprite(sButton:find("Strum") and "_strum" or "_common", "tap star", color) .. {
-			InitCommand = function (self)
-				GHEffects.StarInit(self, {})
-			end,
-			FeverMissedMessageCommand = GHEffects.StarMissed,
-		}
-
-		if sElementToLoad == "Tap Hopo" then
-			t[#t+1] = singleSprite(sButton:find("Strum") and "_strum" or "_common", "overlay hopo") .. {
+		if game == "gh" then
+			t[#t+1] = colorSprite(sButton:find("Strum") and "_strum" or "_common", "tap star", color) .. {
 				InitCommand = function (self)
-					self:z(8)
+					self:z(-4):glow({0.5, 1, 1, 1})
+					GHEffects.StarInit(self, {})
 				end,
+				FeverMissedMessageCommand = GHEffects.StarMissed,
 			}
-		elseif sElementToLoad == "Tap Taps" then
-			t[#t+1] = singleSprite(sButton:find("Strum") and "_strum" or "_common", "overlay taps") .. {
+
+			t[#t+1] = colorSprite(sButton:find("Strum") and "_strum" or "_common", "tap star", color) .. {
 				InitCommand = function (self)
-					self:z(8)
+					GHEffects.StarInit(self, {})
 				end,
+				FeverMissedMessageCommand = GHEffects.StarMissed,
 			}
+
+			if sElementToLoad == "Tap Hopo" then
+				t[#t+1] = singleSprite(sButton:find("Strum") and "_strum" or "_common", "overlay hopo") .. {
+					InitCommand = function (self)
+						self:z(8)
+					end,
+				}
+			elseif sElementToLoad == "Tap Taps" then
+				t[#t+1] = singleSprite(sButton:find("Strum") and "_strum" or "_common", "overlay taps") .. {
+					InitCommand = function (self)
+						self:z(8)
+					end,
+				}
+			end
 		end
 
 		if sButton == "Center" and (game == "pump" or game == "techno") then
@@ -1487,7 +1490,7 @@ local function func()
 		local rotZ = WailRotateZ[sElementToLoad]
 
 		t[#t+1] = singleSprite("_common", "underlay guitar") .. {
-			InitCommand = function (self) self:diffuse({0, 1, 0, 0.5}) end,
+			InitCommand = function (self) self:diffuse({0.5, 0.5, 0.5, 1}) end,
 		}
 
 		t[#t+1] = singleSprite("_wailing", "tap wail up") .. {
