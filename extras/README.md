@@ -1,17 +1,17 @@
-NoteSkin hanubeki extras
-========================
+Dake extras
+===========
 
-Before using this, make sure the main noteskin is named `hanubeki`.
-Then, copy/move all `hanubeki-*` directories to same place as `hanubeki` noteskin.
+Before using this, make sure the main noteskin is named `dake`.
+Then, copy/move all `dake-*` directories to same place as `dake` noteskin.
 
 Child Note Skins
 ----------------
 
 Note that some child noteskins are not available for certain gametypes.
 
-* hanubeki-rhythm: Notes are colored by rhythm
-* hanubeki-solo: Notes are colored by beat
-* hanubeki-flat: Notes are colored by columns
-* hanubeki-edit: Mine is colored by rhythm
-* hanubeki-narrowhold: Holds are narrow
-* hanubeki-thinhold: Holds are thin
+* dake-rhythm: Notes are colored by rhythm
+* dake-solo: Notes are colored by beat
+* dake-flat: Notes are colored by columns
+* dake-edit: Mine is colored by rhythm
+* dake-narrowhold: Holds are narrow
+* dake-thinhold: Holds are thin

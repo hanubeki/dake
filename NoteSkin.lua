@@ -9,7 +9,7 @@ local game = GAMESTATE:GetCurrentGame():GetName()
 -- Flat (bool): colored by column
 -- ColorMine (bool): mines are colored by rhythm
 -- HoldType (string): replace hold/roll bodies by specified name
-ret.HanubekiExtras = {
+ret.DakeExtras = {
 	["Rhythm"] = game == "dance" or game == "smx",
 	["Flat"] = not (game == "dance" or game == "smx"),
 }
@@ -1114,20 +1114,20 @@ local function func()
 	local sPlayer = pn
 
 	if game == "taiko" then
-		ret.HanubekiExtras.Rhythm = false
-		ret.HanubekiExtras.Flat = false
-		ret.HanubekiExtras.ColorMine = false
-		ret.HanubekiExtras.HoldType = nil
+		ret.DakeExtras.Rhythm = false
+		ret.DakeExtras.Flat = false
+		ret.DakeExtras.ColorMine = false
+		ret.DakeExtras.HoldType = nil
 	elseif game == "stepstage" then
-		ret.HanubekiExtras.Rhythm = false
-		ret.HanubekiExtras.Flat = false
-		ret.HanubekiExtras.ColorMine = false
-		ret.HanubekiExtras.HoldType = nil
+		ret.DakeExtras.Rhythm = false
+		ret.DakeExtras.Flat = false
+		ret.DakeExtras.ColorMine = false
+		ret.DakeExtras.HoldType = nil
 	end
 
 	if GAMESTATE:GetCurrentStyle(pn):GetStyleType() == "StyleType_TwoPlayersSharedSides" then
-		ret.HanubekiExtras.Rhythm = false
-		ret.HanubekiExtras.Flat = false
+		ret.DakeExtras.Rhythm = false
+		ret.DakeExtras.Flat = false
 
 		sPlayer = "PlayerNumber_" .. (sElement:match("^P%d+") or "P1")
 		if sPlayer ~= "PlayerNumber_P1" then
@@ -1284,9 +1284,9 @@ local function func()
 		if sButton ~= "wailing" then
 			if GAMESTATE:GetCurrentStyle(pn):GetStyleType() == "StyleType_TwoPlayersSharedSides" then
 				color = ColumnColors["Routine"][sPlayer]
-			elseif ret.HanubekiExtras.Rhythm then
+			elseif ret.DakeExtras.Rhythm then
 				color = RhythmColors[sColor]
-			elseif ret.HanubekiExtras.Flat then
+			elseif ret.DakeExtras.Flat then
 				color = ColumnColors[game][sButton]
 			end
 		end
@@ -1401,9 +1401,9 @@ local function func()
 		if sButton ~= "wailing" then
 			if GAMESTATE:GetCurrentStyle(pn):GetStyleType() == "StyleType_TwoPlayersSharedSides" then
 				color = ColumnColors["Routine"][sPlayer]
-			elseif ret.HanubekiExtras.Rhythm then
+			elseif ret.DakeExtras.Rhythm then
 				color = RhythmColors[sColor]
-			elseif ret.HanubekiExtras.Flat then
+			elseif ret.DakeExtras.Flat then
 				color = ColumnColors[game][sButton]
 			end
 		end
@@ -1442,7 +1442,7 @@ local function func()
 	elseif sElementToLoad == "Tap Mine" then
 		local color = 0
 
-		if ret.HanubekiExtras.ColorMine then
+		if ret.DakeExtras.ColorMine then
 			color = RhythmColors[sColor]
 		end
 
@@ -1488,7 +1488,7 @@ local function func()
 	       sElementToLoad:find("Hold BigBlue .*cap") or sElementToLoad:find("Roll BigBlue .*cap") or
 	       sElementToLoad:find("Hold BigYellow .*cap") or sElementToLoad:find("Roll BigYellow .*cap")
 	then
-		t = singleSprite(HoldCapRedir[ret.HanubekiExtras.HoldType or sButtonToLoad], sElementToLoad:lower())
+		t = singleSprite(HoldCapRedir[ret.DakeExtras.HoldType or sButtonToLoad], sElementToLoad:lower())
 	elseif sElementToLoad:find("Hold Body") or sElementToLoad:find("Roll Body") or
 	       sElementToLoad:find("Hold Red Body") or sElementToLoad:find("Roll Red Body") or
 	       sElementToLoad:find("Hold Blue Body") or sElementToLoad:find("Roll Blue Body") or
@@ -1497,7 +1497,7 @@ local function func()
 	       sElementToLoad:find("Hold BigBlue Body") or sElementToLoad:find("Roll BigBlue Body") or
 	       sElementToLoad:find("Hold BigYellow Body") or sElementToLoad:find("Roll BigYellow Body")
 	then
-		t = singleSprite(HoldBodyRedir[ret.HanubekiExtras.HoldType or sButtonToLoad], sElementToLoad:lower())
+		t = singleSprite(HoldBodyRedir[ret.DakeExtras.HoldType or sButtonToLoad], sElementToLoad:lower())
 	elseif sElementToLoad:find("Mine .*cap") then
 		local sizeToLoad = zoomValue < 0.7 and "_half" or "_common"
 		t = singleSprite(sizeToLoad, sElementToLoad:lower())
