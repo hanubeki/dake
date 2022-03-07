@@ -1485,7 +1485,7 @@ local function func()
 	       sElementToLoad:find("Hold BigYellow Body") or sElementToLoad:find("Roll BigYellow Body")
 	then
 		-- TODO: better match
-		t = singleSprite(ret.HanubekiExtras.HoldType or HoldBodyRedir[sButtonToLoad], sElementToLoad:lower())
+		t = singleSprite(HoldBodyRedir[ret.HanubekiExtras.HoldType or sButtonToLoad], sElementToLoad:lower())
 	elseif sElementToLoad:find("Mine .*cap") then
 		local sizeToLoad = zoomValue < 0.7 and "_half" or "_common"
 		t = singleSprite(sizeToLoad, sElementToLoad:lower())

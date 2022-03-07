@@ -1,6 +1,6 @@
 local ret = ... or {}
 
 assert(ret.HanubekiExtras)
-ret.HanubekiExtras.HoldType = "_thin"
+ret.HanubekiExtras.HoldType = "Gem"
 
 return ret
