@@ -8,7 +8,6 @@ local game = GAMESTATE:GetCurrentGame():GetName()
 -- Rhythm (bood): colored by rhythm
 -- Flat (bool): colored by column
 -- ColorMine (bool): mines are colored by rhythm
--- Routine (bool): colored by player number
 -- HoldType (string): replace hold/roll bodies by specified name
 ret.HanubekiExtras = {
 	["Rhythm"] = game == "dance" or game == "smx",
@@ -1247,7 +1246,9 @@ local function func()
 				self:visible(false)
 			end
 
-			if not sButton:find("Strum") then
+			if sButton:find("Strum") then
+				self:glow({1, 1, 1, 0.85})
+			else
 				self:spin():effectclock("beat"):effectmagnitude(0, 0, 60)
 			end
 		end
@@ -1281,7 +1282,7 @@ local function func()
 		local color = 0
 
 		if sButton ~= "wailing" then
-			if ret.HanubekiExtras.Routine then
+			if GAMESTATE:GetCurrentStyle(pn):GetStyleType() == "StyleType_TwoPlayersSharedSides" then
 				color = ColumnColors["Routine"][sPlayer]
 			elseif ret.HanubekiExtras.Rhythm then
 				color = RhythmColors[sColor]
@@ -1306,8 +1307,8 @@ local function func()
 
 		t[#t+1] = colorSprite(TapRedir[sButtonToLoad], tapNote, color) .. {
 			InitCommand = function (self)
-				self:rotationy(rotY):rotationz(rotZ)
 				GHEffects.Init(self, {})
+				self:rotationy(rotY):rotationz(rotZ)
 			end,
 			FeverMessageCommand = GHEffects.Fever,
 			FeverMissedMessageCommand = GHEffects.FeverMissed,
@@ -1316,8 +1317,8 @@ local function func()
 		if game == "gh" then
 			t[#t+1] = colorSprite(sButton:find("Strum") and "_strum" or "_common", "tap star", color) .. {
 				InitCommand = function (self)
-					self:z(-4):glow({0.5, 1, 1, 1})
 					GHEffects.StarInit(self, {})
+					self:z(-4):glow({0.5, 1, 1, 1})
 				end,
 				FeverMissedMessageCommand = GHEffects.StarMissed,
 			}
@@ -1398,7 +1399,7 @@ local function func()
 		local color = 0
 
 		if sButton ~= "wailing" then
-			if ret.HanubekiExtras.Routine then
+			if GAMESTATE:GetCurrentStyle(pn):GetStyleType() == "StyleType_TwoPlayersSharedSides" then
 				color = ColumnColors["Routine"][sPlayer]
 			elseif ret.HanubekiExtras.Rhythm then
 				color = RhythmColors[sColor]
