@@ -1465,7 +1465,13 @@ local function func()
 		}
 	elseif sElementToLoad == "Tap Lift" then
 		t[#t+1] = singleSprite("_common", "tap lift") .. {
-			InitCommand = function (self) self:zoom(zoomValue) end,
+			InitCommand = function (self)
+				self:rotationx(GAMESTATE:GetIsFieldReversed() and 180 or 0)
+				self:zoom(zoomValue)
+			end,
+			-- TODO: flip on reverse
+			-- ReverseOnCommand = function (self) self:rotationx(180) end,
+			-- ReverseOffCommand = function (self) self:rotationx(0) end,
 			FeverMessageCommand = GHEffects.Fever,
 		}
 	elseif sElementToLoad:find("Tap Wail") then
