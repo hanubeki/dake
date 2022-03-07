@@ -1475,7 +1475,7 @@ local function func()
 	       sElementToLoad:find("Hold BigYellow .*cap") or sElementToLoad:find("Roll BigYellow .*cap")
 	then
 		-- TODO: better match
-		t = singleSprite(ret.HanubekiExtras.HoldType or HoldCapRedir[sButtonToLoad], sElementToLoad:lower())
+		t = singleSprite(HoldCapRedir[ret.HanubekiExtras.HoldType or sButtonToLoad], sElementToLoad:lower())
 	elseif sElementToLoad:find("Hold Body") or sElementToLoad:find("Roll Body") or
 	       sElementToLoad:find("Hold Red Body") or sElementToLoad:find("Roll Red Body") or
 	       sElementToLoad:find("Hold Blue Body") or sElementToLoad:find("Roll Blue Body") or
