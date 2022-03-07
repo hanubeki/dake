@@ -462,7 +462,6 @@ local RhythmColors = {
 setmetatable(RhythmColors, FallbackZero)
 
 -- Color table for progress
-local ProgressColors = {
 --[[
 	 0: Red
 	 2: Blue
@@ -481,12 +480,7 @@ local ProgressColors = {
 	28: Reserved
 	30: Reserved
 --]]
-	18,
-	8,
-	2,
-	8,
-}
-setmetatable(ProgressColors, FallbackZero)
+local ProgressColors = {18, 8, 2, 8}
 
 -- Color table for column
 local ColumnColors = {
@@ -837,6 +831,17 @@ local ReceptorGlyphTable = {
 		["Right Yellow"] = {["texture"] = "_burger", ["x"] = 0, ["y"] = 20, ["rot"] = 0, ["diffuse"] = {0.75, 0.75,  0,    1.0}},
 		["Right White"]  = {["texture"] = "_burger", ["x"] = 0, ["y"] = 28, ["rot"] = 0, ["diffuse"] = {0.75, 0.75,  0.75, 1.0}},
 	},
+	["po-mu"] = {
+		["Left White"]   = {["texture"] = "_burger", ["x"] = 0, ["y"] = 28, ["rot"] = 0, ["diffuse"] = {0.75, 0.75,  0.75, 1.0}},
+		["Left Yellow"]  = {["texture"] = "_burger", ["x"] = 0, ["y"] = 20, ["rot"] = 0, ["diffuse"] = {0.75, 0.75,  0,    1.0}},
+		["Left Green"]   = {["texture"] = "_burger", ["x"] = 0, ["y"] = 28, ["rot"] = 0, ["diffuse"] = {0,    0.5,   0,    1.0}},
+		["Left Blue"]    = {["texture"] = "_burger", ["x"] = 0, ["y"] = 20, ["rot"] = 0, ["diffuse"] = {0,    0.375, 0.75, 1.0}},
+		["Red"]          = {["texture"] = "_burger", ["x"] = 0, ["y"] = 28, ["rot"] = 0, ["diffuse"] = {0.75, 0,     0,    1.0}},
+		["Right Blue"]   = {["texture"] = "_burger", ["x"] = 0, ["y"] = 20, ["rot"] = 0, ["diffuse"] = {0,    0.375, 0.75, 1.0}},
+		["Right Green"]  = {["texture"] = "_burger", ["x"] = 0, ["y"] = 28, ["rot"] = 0, ["diffuse"] = {0,    0.5,   0,    1.0}},
+		["Right Yellow"] = {["texture"] = "_burger", ["x"] = 0, ["y"] = 20, ["rot"] = 0, ["diffuse"] = {0.75, 0.75,  0,    1.0}},
+		["Right White"]  = {["texture"] = "_burger", ["x"] = 0, ["y"] = 28, ["rot"] = 0, ["diffuse"] = {0.75, 0.75,  0.75, 1.0}},
+	},
 	["kb7"] = {
 		["Key1"] = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {1, 1,    1, 1}, ["glow"] = {0.2,  0.2,  0.2, 0}},
 		["Key2"] = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {0, 0.75, 1, 1}, ["glow"] = {0,    0.15, 0.2, 0}},
@@ -862,17 +867,6 @@ local ReceptorGlyphTable = {
 		["Key13"] = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {0.2,  0.2,  0.2, 0}},
 		["Key14"] = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {0.75, 1,    0.5,  1}, ["glow"] = {0.15, 0.2,  0.1, 0}},
 		["Key15"] = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {1,    0.25, 0.25, 1}, ["glow"] = {0.2,  0,    0,   0}},
-	},
-	["po-mu"] = {
-		["Left White"]   = {["texture"] = "_burger", ["x"] = 0, ["y"] = 28, ["rot"] = 0, ["diffuse"] = {0.75, 0.75,  0.75, 1.0}},
-		["Left Yellow"]  = {["texture"] = "_burger", ["x"] = 0, ["y"] = 20, ["rot"] = 0, ["diffuse"] = {0.75, 0.75,  0,    1.0}},
-		["Left Green"]   = {["texture"] = "_burger", ["x"] = 0, ["y"] = 28, ["rot"] = 0, ["diffuse"] = {0,    0.5,   0,    1.0}},
-		["Left Blue"]    = {["texture"] = "_burger", ["x"] = 0, ["y"] = 20, ["rot"] = 0, ["diffuse"] = {0,    0.375, 0.75, 1.0}},
-		["Red"]          = {["texture"] = "_burger", ["x"] = 0, ["y"] = 28, ["rot"] = 0, ["diffuse"] = {0.75, 0,     0,    1.0}},
-		["Right Blue"]   = {["texture"] = "_burger", ["x"] = 0, ["y"] = 20, ["rot"] = 0, ["diffuse"] = {0,    0.375, 0.75, 1.0}},
-		["Right Green"]  = {["texture"] = "_burger", ["x"] = 0, ["y"] = 28, ["rot"] = 0, ["diffuse"] = {0,    0.5,   0,    1.0}},
-		["Right Yellow"] = {["texture"] = "_burger", ["x"] = 0, ["y"] = 20, ["rot"] = 0, ["diffuse"] = {0.75, 0.75,  0,    1.0}},
-		["Right White"]  = {["texture"] = "_burger", ["x"] = 0, ["y"] = 28, ["rot"] = 0, ["diffuse"] = {0.75, 0.75,  0.75, 1.0}},
 	},
 	["gddm"] = {
 		["Left Crash"]   = {["texture"] = "_cymbal", ["x"] = 0, ["y"] = 48, ["rot"] = -45, ["diffuse"] = {1,    0,   0.5, 1}},
