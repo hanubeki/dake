@@ -1761,15 +1761,35 @@ local function func()
 
 			-- TODO: support other than kbx?
 			if game:match("^kb[7x]$") then
+				sGameButton = sGameButton:gsub("Key ", "")
+
 				t[#t+1] = Def.Quad {
 					InitCommand = function(self) self:zoomto(64, 48):y(56):valign(0):diffuse({0, 0, 0, 0.5}) end,
+					ReverseOnCommand = function (self) self:y(56):valign(0) end,
+					ReverseOffCommand = function (self) self:y(-56):valign(1) end,
 				}
 
-				t[#t+1] = Def.BitmapText {
-					Font = "Common Normal",
-					Text = sGameButton:gsub("Key ", ""),
-					InitCommand = function(self) self:y(72):zoom(0.7) end,
-				}
+				if not PREFSMAN:GetPreference("UseOldJoystickMapping") and sGameButton:find("Joy") then
+					sGameButton = sGameButton:gsub("Joy. ", "")
+
+					t[#t+1] = Def.Sprite {
+						Texture = NOTESKIN:GetPath("_common","buttons/" .. sGameButton),
+						Text = sGameButton,
+						InitCommand = function(self) self:y(76) end,
+						ReverseOnCommand = function (self) self:y(76) end,
+						ReverseOffCommand = function (self) self:y(-76) end,
+					}
+				else
+					sGameButton = sGameButton:gsub("Joy.+ ", "B")
+
+					t[#t+1] = Def.BitmapText {
+						Font = "Common Normal",
+						Text = sGameButton,
+						InitCommand = function(self) self:y(76):zoom(0.7) end,
+						ReverseOnCommand = function (self) self:y(76) end,
+						ReverseOffCommand = function (self) self:y(-76) end,
+					}
+				end
 			end
 		end
 	elseif sElementToLoad == "Explosion" then
