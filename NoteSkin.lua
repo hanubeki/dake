@@ -461,6 +461,33 @@ local RhythmColors = {
 }
 setmetatable(RhythmColors, FallbackZero)
 
+-- Color table for progress
+local ProgressColors = {
+--[[
+	 0: Red
+	 2: Blue
+	 4: Green
+	 6: Yellow
+	 8: Violet
+	10: Teal
+	12: Magenta
+	14: Seafoam
+	16: Gray
+	18: Orange
+	20: Cyan
+	22: Reserved
+	24: Reserved
+	26: Reserved
+	28: Reserved
+	30: Reserved
+--]]
+	18,
+	8,
+	2,
+	8,
+}
+setmetatable(ProgressColors, FallbackZero)
+
 -- Color table for column
 local ColumnColors = {
 --[[
@@ -474,7 +501,7 @@ local ColumnColors = {
 	14: Seafoam
 	16: Gray
 	18: Orange
-	20: Reserved
+	20: Cyan
 	22: Reserved
 	24: Reserved
 	26: Reserved
