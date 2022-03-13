@@ -16,6 +16,11 @@ License
 This work is licensed under the Apache License 2.0.
 See https://www.apache.org/licenses/LICENSE-2.0.html.
 
+何と読めばいいの?
+-----------------
+
+「デイク」もしくは「だけ」でお願いします。
+
 Topic at StepMania forum
 ------------------------
 
