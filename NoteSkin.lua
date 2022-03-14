@@ -1205,6 +1205,16 @@ local function func()
 		}
 	end
 
+	local function feverSprite (button, element, color, fever)
+		return Def.Sprite {
+			Texture = NOTESKIN:GetPath(button, element),
+			Frames = {
+				{Frame = color, Delay = 1},
+				{Frame = fever, Delay = 1},
+			},
+		}
+	end
+
 	-- Commands for gh effects
 	local GHEffects = {
 		["StarInit"] = function (self, params) self:visible(false) end,
@@ -1228,9 +1238,9 @@ local function func()
 			if params.pn ~= pn then return end
 			if tonumber(sEffect) == 0 then
 				if params.Active then
-					self:glow({0, 0.5, 1, 0.7})
+					self:setstate(1)
 				else
-					self:glow({1, 1, 1, 0})
+					self:setstate(0)
 				end
 			end
 		end
@@ -1254,7 +1264,7 @@ local function func()
 			end
 
 			if sButton:find("Strum") then
-				self:glow({1, 1, 1, 0.85})
+				self:glow({1, 1, 1, 0.7})
 			else
 				self:spin():effectclock("beat"):effectmagnitude(0, 0, 60)
 			end
@@ -1312,28 +1322,31 @@ local function func()
 			tapNote = "tap note"
 		end
 
-		t[#t+1] = colorSprite(TapRedir[sButtonToLoad], tapNote, color) .. {
+		t[#t+1] = feverSprite(TapRedir[sButtonToLoad], tapNote, color, 20) .. {
 			InitCommand = function (self)
 				GHEffects.Init(self, {})
-				self:rotationy(rotY):rotationz(rotZ)
+				self:pause():rotationy(rotY):rotationz(rotZ)
 			end,
 			FeverMessageCommand = GHEffects.Fever,
 			FeverMissedMessageCommand = GHEffects.FeverMissed,
 		}
 
 		if game == "gh" then
-			t[#t+1] = colorSprite(sButton:find("Strum") and "_strum" or "_common", "tap star", color) .. {
+			t[#t+1] = feverSprite(sButton:find("Strum") and "_strum" or "_common", "tap star", color, 20) .. {
 				InitCommand = function (self)
 					GHEffects.StarInit(self, {})
-					self:z(-4):glow({0.5, 1, 1, 1})
+					self:pause():z(-4):glow({0.5, 1, 1, 1})
 				end,
+				FeverMessageCommand = GHEffects.Fever,
 				FeverMissedMessageCommand = GHEffects.StarMissed,
 			}
 
-			t[#t+1] = colorSprite(sButton:find("Strum") and "_strum" or "_common", "tap star", color) .. {
+			t[#t+1] = feverSprite(sButton:find("Strum") and "_strum" or "_common", "tap star", color, 20) .. {
 				InitCommand = function (self)
 					GHEffects.StarInit(self, {})
+					self:pause()
 				end,
+				FeverMessageCommand = GHEffects.Fever,
 				FeverMissedMessageCommand = GHEffects.StarMissed,
 			}
 
@@ -1444,7 +1457,6 @@ local function func()
 
 		t[#t+1] = colorSprite(TapRedir[sButtonToLoad], tapNote:lower(), color) .. {
 			InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ) end,
-			FeverMessageCommand = GHEffects.Fever,
 		}
 	elseif sElementToLoad == "Tap Mine" then
 		local color = 0
@@ -1455,7 +1467,6 @@ local function func()
 
 		t[#t+1] = colorSprite("_common", "mine base", color) .. {
 			InitCommand = function (self) self:zoom(zoomValue) end,
-			FeverMessageCommand = GHEffects.Fever,
 		}
 		t[#t+1] = singleSprite("_common", "mine parts") .. {
 			InitCommand = function (self) self:zoom(zoomValue):spin():effectclock("beat"):effectmagnitude(0, 0, -60) end,
@@ -1475,7 +1486,6 @@ local function func()
 			-- TODO: flip on reverse
 			-- ReverseOnCommand = function (self) self:rotationx(180) end,
 			-- ReverseOffCommand = function (self) self:rotationx(0) end,
-			FeverMessageCommand = GHEffects.Fever,
 		}
 	elseif sElementToLoad:find("Tap Wail") then
 		local rotZ = WailRotateZ[sElementToLoad]
@@ -1633,7 +1643,7 @@ local function func()
 				FeverMessageCommand = function (self, params)
 					if params.pn ~= pn then return end
 					if params.Active then
-						self:glow({0, 0.5, 1, 0.7})
+						self:glow({0, 0.85, 1, 0.7})
 					else
 						self:glow({1, 1, 1, 0})
 					end
@@ -1784,7 +1794,7 @@ local function func()
 				}
 
 				if not PREFSMAN:GetPreference("UseOldJoystickMapping") and sGameButton:find("Joy") then
-					sGameButton = sGameButton:gsub("Joy. ", "")
+					sGameButton = sGameButton:gsub("Joy.[_ ]", "")
 
 					t[#t+1] = Def.Sprite {
 						Texture = NOTESKIN:GetPath("_common","buttons/" .. sGameButton),
