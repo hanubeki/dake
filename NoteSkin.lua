@@ -1009,6 +1009,131 @@ local ReceptorLaserMeta = {
 }
 setmetatable(ReceptorLaserTable, ReceptorLaserMeta)
 
+-- Table for receptor line and glow
+local ReceptorLineAndGlowTable = {
+	["beat"] = {
+		["fill"] = {1, 0, 0, 1},
+		["glow"] = {0, 1, 0.95, 1},
+		["widths"] = {
+			["scratch"] = 64,
+			["Key1"] = 38,
+			["Key2"] = 30,
+			["Key3"] = 38,
+			["Key4"] = 30,
+			["Key5"] = 38,
+			["Key6"] = 30,
+			["Key7"] = 38,
+		},
+	},
+	["be-mu"] = {
+		["fill"] = {1, 0, 0, 1},
+		["glow"] = {0, 1, 0.95, 1},
+		["widths"] = {
+			["scratch"] = 64,
+			["Key1"] = 38,
+			["Key2"] = 30,
+			["Key3"] = 38,
+			["Key4"] = 30,
+			["Key5"] = 38,
+			["Key6"] = 30,
+			["Key7"] = 38,
+		},
+	},
+	["popn"] = {
+		["outline"] = {0, 0, 0, 1},
+		["fill"] = {1, 0, 0, 1},
+		["widths"] = {
+			["Left White"]   = 36,
+			["Left Yellow"]  = 28,
+			["Left Green"]   = 36,
+			["Left Blue"]    = 28,
+			["Red"]          = 36,
+			["Right Blue"]   = 28,
+			["Right Green"]  = 36,
+			["Right Yellow"] = 28,
+			["Right White"]  = 36,
+		},
+	},
+	["po-mu"] = {
+		["outline"] = {0, 0, 0, 1},
+		["fill"] = {1, 0, 0, 1},
+		["widths"] = {
+			["Left White"]   = 36,
+			["Left Yellow"]  = 28,
+			["Left Green"]   = 36,
+			["Left Blue"]    = 28,
+			["Red"]          = 36,
+			["Right Blue"]   = 28,
+			["Right Green"]  = 36,
+			["Right Yellow"] = 28,
+			["Right White"]  = 36,
+		},
+	},
+	["kb7"] = {
+		["fill"] = {1, 0, 0, 1},
+		["glow"] = {1, 0, 0, 0.7},
+		["widths"] = {
+			["Key1"] = 64,
+			["Key2"] = 64,
+			["Key3"] = 64,
+			["Key4"] = 64,
+			["Key5"] = 64,
+			["Key6"] = 64,
+			["Key7"] = 64,
+		},
+	},
+	["kbx"] = {
+		["fill"] = {1, 0, 0, 1},
+		["glow"] = {1, 0, 0, 0.7},
+		["widths"] = {
+			["Key1"] = 64,
+			["Key2"] = 64,
+			["Key3"] = 64,
+			["Key4"] = 64,
+			["Key5"] = 64,
+			["Key6"] = 64,
+			["Key7"] = 64,
+			["Key8"] = 64,
+			["Key9"] = 64,
+			["Key10"] = 64,
+			["Key11"] = 64,
+			["Key12"] = 64,
+			["Key13"] = 64,
+			["Key14"] = 64,
+			["Key15"] = 64,
+		},
+	},
+	["gddm"] = {
+		["outline"] = {1, 1, 0, 1},
+		["fill"] = {0, 0, 0, 1},
+		["widths"] = {
+			["Left Crash"]   = 64,
+			["Hi-Hat"]       = 64,
+			["Hi-Hat Pedal"] = 64,
+			["Snare"]        = 64,
+			["High Tom"]     = 64,
+			["Kick"]         = 64,
+			["Mid Tom"]      = 64,
+			["Floor Tom"]    = 64,
+			["Ride"]         = 64,
+			["Right Crash"]  = 64,
+		},
+	},
+	["gdgf"] = {
+		["outline"] = {1, 1, 0, 1},
+		["fill"] = {0, 0, 0, 1},
+		["widths"] = {
+			["Fret 1"] = 64,
+			["Fret 2"] = 64,
+			["Fret 3"] = 64,
+			["Fret 4"] = 64,
+			["Fret 5"] = 64,
+			["Fret 6"] = 64,
+			["wailing"] = 64,
+		},
+	},
+}
+
 ret.Redir = function (sButton, sElement)
 	-- Instead of separate hold heads, use the tap note graphics.
 	if sElement:find("Hold Head") or sElement:find("Roll Head") or
@@ -1592,6 +1717,24 @@ local function func()
 			}
 		end
 
+		if ReceptorLineAndGlowTable[game] then
+			if ReceptorLineAndGlowTable[game].glow then
+				local reverseGlow = false
+				if (GAMESTATE.GetIsFieldReversed) then
+					reverseGlow = GAMESTATE:GetIsFieldReversed()
+				end
+
+				if not (sButton:find("Strum") or sButton:find("open")) then
+					t[#t+1] = Def.Quad {
+						InitCommand = function (self) self:zoomto(ReceptorLineAndGlowTable[game].widths[sButton], reverseLaser and 32 or -32):valign(1):diffuse(ReceptorLineAndGlowTable[game].glow):fadetop(0.8):fadebottom(0.05) end,
+						ReverseOnCommand = function (self) self:zoomto(ReceptorLineAndGlowTable[game].widths[sButton], 32) end,
+						ReverseOffCommand = function (self) self:zoomto(ReceptorLineAndGlowTable[game].widths[sButton], -32) end,
+						OnCommand = function (self) self:effectclock("beat"):diffuseramp():effectcolor1({ReceptorLineAndGlowTable[game].glow[1], ReceptorLineAndGlowTable[game].glow[2], ReceptorLineAndGlowTable[game].glow[3], ReceptorLineAndGlowTable[game].glow[4] * 0.25}):effectcolor2(ReceptorLineAndGlowTable[game].glow):effectoffset(0.05) end,
+					}
+				end
+			end
+		end
+
 		if ReceptorLaserTable[game][sButton] then
 			local reverseLaser = false
 			if (GAMESTATE.GetIsFieldReversed) then
@@ -1636,34 +1779,54 @@ local function func()
 			end
 		end
 
-		if not (sButton:find("Strum") or sButton:find("open")) then
-			t[#t+1] = singleSprite(TapRedir[sButtonToLoad], "receptor base") .. {
-				InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ):effectclock("beat"):diffuseramp():effectcolor1({0.8, 0.8, 0.8, 1}):effectcolor2({1, 1, 1, 1}):effectoffset(0.05) end,
-				NoneCommand = function (self) self:finishtweening():zoom(0.85):diffusealpha(0.9):linear(0.1):diffusealpha(1):zoom(1) end,
-				FeverMessageCommand = function (self, params)
-					if params.pn ~= pn then return end
-					if params.Active then
-						self:glow({0, 0.85, 1, 0.7})
-					else
-						self:glow({1, 1, 1, 0})
-					end
-				end,
-			}
-		end
+		if ReceptorLineAndGlowTable[game] then
+			if not (sButton:find("Strum") or sButton:find("open")) then
+				if ReceptorLineAndGlowTable[game].outline then
+					t[#t+1] = Def.Quad {
+						InitCommand = function (self) self:zoomto(ReceptorLineAndGlowTable[game].widths[sButton], 12):diffuse(ReceptorLineAndGlowTable[game].outline) end,
+					}
+				end
 
-		if sButton == "Center" and (game == "pump" or game == "techno") then
-			t[#t+1] = singleSprite("_common", "overlay feet") .. {
-				InitCommand = function (self) self:diffusealpha(0.5) end,
-			}
-		end
+				if ReceptorLineAndGlowTable[game].fill then
+					t[#t+1] = Def.Quad {
+						InitCommand = function (self) self:zoomto(ReceptorLineAndGlowTable[game].widths[sButton], 8):diffuse(ReceptorLineAndGlowTable[game].fill) end,
+					}
+				end
+			end
 
-		if sButton ~= "wailing" then
-			t[#t+1] = singleSprite(TapRedir[sButtonToLoad], "receptor flash") .. {
-				InitCommand = function (self) self:blend("BlendMode_Add"):rotationy(rotY):rotationz(rotZ):diffusealpha(0) end,
-				PressCommand = function (self) self:finishtweening():zoom(1):diffusealpha(0.6) end,
-				LiftCommand = function (self) self:finishtweening():decelerate(0.1):diffusealpha(0):zoom(1.2) end,
-				NoneCommand = function (self) self:finishtweening():zoom(0.85):diffusealpha(0.9):linear(0.15):diffusealpha(1):zoom(1) end,
-			}
+			if sButton:find("wailing") then
+				t[#t+1] = singleSprite("_common", "overlay wail")
+			end
+		else
+			if not (sButton:find("Strum") or sButton:find("open")) then
+				t[#t+1] = singleSprite(TapRedir[sButtonToLoad], "receptor base") .. {
+					InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ):effectclock("beat"):diffuseramp():effectcolor1({0.8, 0.8, 0.8, 1}):effectcolor2({1, 1, 1, 1}):effectoffset(0.05) end,
+					NoneCommand = function (self) self:finishtweening():zoom(0.85):diffusealpha(0.9):linear(0.1):diffusealpha(1):zoom(1) end,
+					FeverMessageCommand = function (self, params)
+						if params.pn ~= pn then return end
+						if params.Active then
+							self:glow({0, 0.85, 1, 0.7})
+						else
+							self:glow({1, 1, 1, 0})
+						end
+					end,
+				}
+			end
+
+			if sButton == "Center" and (game == "pump" or game == "techno") then
+				t[#t+1] = singleSprite("_common", "overlay feet") .. {
+					InitCommand = function (self) self:diffusealpha(0.5) end,
+				}
+			end
+
+			if sButton ~= "wailing" then
+				t[#t+1] = singleSprite(TapRedir[sButtonToLoad], "receptor flash") .. {
+					InitCommand = function (self) self:blend("BlendMode_Add"):rotationy(rotY):rotationz(rotZ):diffusealpha(0) end,
+					PressCommand = function (self) self:finishtweening():zoom(1):diffusealpha(0.6) end,
+					LiftCommand = function (self) self:finishtweening():decelerate(0.1):diffusealpha(0):zoom(1.2) end,
+					NoneCommand = function (self) self:finishtweening():zoom(0.85):diffusealpha(0.9):linear(0.15):diffusealpha(1):zoom(1) end,
+				}
+			end
 		end
 
 		if game == "gh" and sButton:find("Strum") then
