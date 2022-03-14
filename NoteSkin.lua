@@ -1361,12 +1361,10 @@ local function func()
 
 		GHEffects.Fever = function (self, params)
 			if params.pn ~= pn then return end
-			if tonumber(sEffect) == 0 then
-				if params.Active then
-					self:setstate(1)
-				else
-					self:setstate(0)
-				end
+			if params.Active then
+				self:setstate(1)
+			else
+				self:setstate(0)
 			end
 		end
 
