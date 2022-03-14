@@ -1070,7 +1070,8 @@ local ReceptorLineAndGlowTable = {
 		},
 	},
 	["kb7"] = {
-		["fill"] = {1, 0, 0, 1},
+		["outline"] = {1, 0, 0, 1},
+		["fill"] = {0.7, 0, 0, 1},
 		["glow"] = {1, 0, 0, 0.7},
 		["widths"] = {
 			["Key1"] = 64,
@@ -1083,7 +1084,8 @@ local ReceptorLineAndGlowTable = {
 		},
 	},
 	["kbx"] = {
-		["fill"] = {1, 0, 0, 1},
+		["outline"] = {1, 0, 0, 1},
+		["fill"] = {0.7, 0, 0, 1},
 		["glow"] = {1, 0, 0, 0.7},
 		["widths"] = {
 			["Key1"] = 64,
