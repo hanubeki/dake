@@ -1041,6 +1041,7 @@ local ReceptorLineAndGlowTable = {
 	["popn"] = {
 		["outline"] = {0, 0, 0, 1},
 		["fill"] = {1, 0, 0, 1},
+		["highlight"] = {1, 1, 1, 0.5},
 		["widths"] = {
 			["Left White"]   = 36,
 			["Left Yellow"]  = 28,
@@ -1056,6 +1057,7 @@ local ReceptorLineAndGlowTable = {
 	["po-mu"] = {
 		["outline"] = {0, 0, 0, 1},
 		["fill"] = {1, 0, 0, 1},
+		["highlight"] = {1, 1, 1, 0.5},
 		["widths"] = {
 			["Left White"]   = 36,
 			["Left Yellow"]  = 28,
@@ -1071,6 +1073,7 @@ local ReceptorLineAndGlowTable = {
 	["kb7"] = {
 		["outline"] = {1, 0, 0, 1},
 		["fill"] = {0.7, 0, 0, 1},
+		["highlight"] = {0.5, 0, 0, 1},
 		["glow"] = {1, 0, 0, 0.7},
 		["widths"] = {
 			["Key1"] = 64,
@@ -1085,6 +1088,7 @@ local ReceptorLineAndGlowTable = {
 	["kbx"] = {
 		["outline"] = {1, 0, 0, 1},
 		["fill"] = {0.7, 0, 0, 1},
+		["highlight"] = {0.5, 0, 0, 1},
 		["glow"] = {1, 0, 0, 0.7},
 		["widths"] = {
 			["Key1"] = 64,
@@ -1789,6 +1793,12 @@ local function func()
 				if ReceptorLineAndGlowTable[game].fill then
 					t[#t+1] = Def.Quad {
 						InitCommand = function (self) self:zoomto(ReceptorLineAndGlowTable[game].widths[sButton], 8):diffuse(ReceptorLineAndGlowTable[game].fill) end,
+					}
+				end
+
+				if ReceptorLineAndGlowTable[game].highlight then
+					t[#t+1] = Def.Quad {
+						InitCommand = function (self) self:zoomto(ReceptorLineAndGlowTable[game].widths[sButton], 8):diffuse(ReceptorLineAndGlowTable[game].highlight):fadetop(0.3):fadebottom(0.7) end,
 					}
 				end
 			end
