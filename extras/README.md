@@ -15,3 +15,4 @@ Note that some child noteskins are not available for certain gametypes.
 * dake-edit: Mine is colored by rhythm
 * dake-narrowhold: Holds are narrow
 * dake-thinhold: Holds are thin
+* dake-routine: Actually not working
