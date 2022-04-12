@@ -1043,6 +1043,7 @@ local ReceptorLineAndGlowTable = {
 	["be-mu"] = {
 		["fill"] = {1, 0, 0, 1},
 		["glow"] = {0, 1, 0.95, 1},
+		["height"] = 12,
 		["widths"] = {
 			["scratch"] = 64,
 			["Key1"] = 38,
@@ -1074,6 +1075,7 @@ local ReceptorLineAndGlowTable = {
 		["outline"] = {0, 0, 0, 1},
 		["fill"] = {1, 0, 0, 1},
 		["highlight"] = {1, 1, 1, 0.5},
+		["height"] = 8,
 		["widths"] = {
 			["Left White"]   = 36,
 			["Left Yellow"]  = 28,
@@ -1106,6 +1108,7 @@ local ReceptorLineAndGlowTable = {
 		["fill"] = {0.7, 0, 0, 1},
 		["highlight"] = {0.5, 0, 0, 1},
 		["glow"] = {1, 0, 0, 0.7},
+		["height"] = 12,
 		["widths"] = {
 			["Key1"] = 64,
 			["Key2"] = 64,
@@ -1131,6 +1134,7 @@ local ReceptorLineAndGlowTable = {
 	["gddm"] = {
 		["outline"] = {1, 1, 0, 1},
 		["fill"] = {0, 0, 0, 1},
+		["height"] = 12,
 		["widths"] = {
 			["Left Crash"]   = 64,
 			["Hi-Hat"]       = 64,
@@ -1147,6 +1151,7 @@ local ReceptorLineAndGlowTable = {
 	["gdgf"] = {
 		["outline"] = {1, 1, 0, 1},
 		["fill"] = {0, 0, 0, 1},
+		["height"] = 12,
 		["widths"] = {
 			["Fret 1"] = 64,
 			["Fret 2"] = 64,
@@ -1810,19 +1815,19 @@ local function func()
 			if not (sButton:find("Strum") or sButton:find("open")) then
 				if ReceptorLineAndGlowTable[game].outline then
 					t[#t+1] = Def.Quad {
-						InitCommand = function (self) self:zoomto(ReceptorLineAndGlowTable[game].widths[sButton], 12):diffuse(ReceptorLineAndGlowTable[game].outline) end,
+						InitCommand = function (self) self:zoomto(ReceptorLineAndGlowTable[game].widths[sButton], ReceptorLineAndGlowTable[game].height + 4):diffuse(ReceptorLineAndGlowTable[game].outline) end,
 					}
 				end
 
 				if ReceptorLineAndGlowTable[game].fill then
 					t[#t+1] = Def.Quad {
-						InitCommand = function (self) self:zoomto(ReceptorLineAndGlowTable[game].widths[sButton], 8):diffuse(ReceptorLineAndGlowTable[game].fill) end,
+						InitCommand = function (self) self:zoomto(ReceptorLineAndGlowTable[game].widths[sButton], ReceptorLineAndGlowTable[game].height):diffuse(ReceptorLineAndGlowTable[game].fill) end,
 					}
 				end
 
 				if ReceptorLineAndGlowTable[game].highlight then
 					t[#t+1] = Def.Quad {
-						InitCommand = function (self) self:zoomto(ReceptorLineAndGlowTable[game].widths[sButton], 8):diffuse(ReceptorLineAndGlowTable[game].highlight):fadetop(0.3):fadebottom(0.7) end,
+						InitCommand = function (self) self:zoomto(ReceptorLineAndGlowTable[game].widths[sButton], ReceptorLineAndGlowTable[game].height):diffuse(ReceptorLineAndGlowTable[game].highlight):fadetop(0.3):fadebottom(0.7) end,
 					}
 				end
 			end
