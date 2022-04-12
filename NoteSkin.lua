@@ -45,30 +45,30 @@ ret.RedirTable =
 	["HandUpRight"]   = game == "maniax" and "Ring" or "Circle",    -- 2-M
 	["HandLrLeft"]    = game == "maniax" and "Ring" or "Circle",    -- 2-M
 	["HandLrRight"]   = game == "maniax" and "Ring" or "Circle",    -- 2-M
-	-- kb7, kbx, be-mu (beat)
-	["Key1"]         = game:match("^kb[7x]$") and "KeyWide" or "KeyWhite",
-	["Key2"]         = game:match("^kb[7x]$") and "KeyWide" or "KeyBlue",
-	["Key3"]         = game:match("^kb[7x]$") and "KeyWide" or "KeyWhite",
-	["Key4"]         = game:match("^kb[7x]$") and "KeyWide" or "KeyBlue",
-	["Key5"]         = game:match("^kb[7x]$") and "KeyWide" or "KeyWhite",
-	["Key6"]         = game:match("^kb[7x]$") and "KeyWide" or "KeyBlue",
-	["Key7"]         = game:match("^kb[7x]$") and "KeyWide" or "KeyWhite",
-	["Key8"]         =                            "KeyWide",
-	["Key9"]         =                            "KeyWide",
-	["Key10"]        =                            "KeyWide",
-	["Key11"]        =                            "KeyWide",
-	["Key12"]        =                            "KeyWide",
-	["Key13"]        =                            "KeyWide",
-	["Key14"]        =                            "KeyWide",
-	["Key15"]        =                            "KeyWide",
-	["Key16"]        =                            "KeyWide",
-	["Key17"]        =                            "KeyWide",
-	["Key18"]        =                            "KeyWide",
-	["Key19"]        =                            "KeyWide",
-	["scratch"]      =                                         "Scratch",
-	["scratch up"]   =                                         "Scratch",
-	["scratch down"] =                                         "Scratch",
-	-- po-mu (popn)
+	-- kbx, be-mu
+	["Key1"]         = game == "kbx" and "KeyWide" or "KeyWhite",
+	["Key2"]         = game == "kbx" and "KeyWide" or "KeyBlue",
+	["Key3"]         = game == "kbx" and "KeyWide" or "KeyWhite",
+	["Key4"]         = game == "kbx" and "KeyWide" or "KeyBlue",
+	["Key5"]         = game == "kbx" and "KeyWide" or "KeyWhite",
+	["Key6"]         = game == "kbx" and "KeyWide" or "KeyBlue",
+	["Key7"]         = game == "kbx" and "KeyWide" or "KeyWhite",
+	["Key8"]         =                   "KeyWide",
+	["Key9"]         =                   "KeyWide",
+	["Key10"]        =                   "KeyWide",
+	["Key11"]        =                   "KeyWide",
+	["Key12"]        =                   "KeyWide",
+	["Key13"]        =                   "KeyWide",
+	["Key14"]        =                   "KeyWide",
+	["Key15"]        =                   "KeyWide",
+	["Key16"]        =                   "KeyWide",
+	["Key17"]        =                   "KeyWide",
+	["Key18"]        =                   "KeyWide",
+	["Key19"]        =                   "KeyWide",
+	["scratch"]      =                                "Scratch",
+	["scratch up"]   =                                "Scratch",
+	["scratch down"] =                                "Scratch",
+	-- po-mu
 	["Left White"]   = "BurgerLower",
 	["Left Yellow"]  = "BurgerUpper",
 	["Left Green"]   = "BurgerLower",
@@ -425,9 +425,7 @@ setmetatable(HoldCapRedir, HoldCapRedirMeta)
 -- Zoom table for common graphics in games
 local ZoomTable = {
 	["maniax"] = 1/2,
-	["beat"] = 1/2,
 	["be-mu"] = 1/2,
-	["popn"] = 1/2,
 	["po-mu"] = 1/2,
 }
 setmetatable(ZoomTable, FallbackOne)
@@ -603,15 +601,6 @@ local ColumnColors = {
 		["FootDownRight"] = 2,
 		["HandRight"] = 18,
 	},
-	["kb7"] = {
-		["Key1"] = 16,
-		["Key2"] = 2,
-		["Key3"] = 16,
-		["Key4"] = 18,
-		["Key5"] = 16,
-		["Key6"] = 2,
-		["Key7"] = 16,
-	},
 	["kbx"] = { -- XXX: even number columns except Key10 are not final
 		["Key1"] = 20, -- L2
 		["Key2"] = 14,
@@ -633,18 +622,6 @@ local ColumnColors = {
 		["Key18"] = 14,
 		["Key19"] = 20, -- R2
 	},
-	["beat"] = {
-		["Key1"] = 16,
-		["Key2"] = 2,
-		["Key3"] = 16,
-		["Key4"] = 2,
-		["Key5"] = 16,
-		["Key6"] = 2,
-		["Key7"] = 16,
-		["scratch"] = 0,
-		["scratch up"] = 0,
-		["scratch down"] = 0,
-	},
 	["be-mu"] = {
 		["Key1"] = 16,
 		["Key2"] = 2,
@@ -656,17 +633,6 @@ local ColumnColors = {
 		["scratch"] = 0,
 		["scratch up"] = 0,
 		["scratch down"] = 0,
-	},
-	["popn"] = {
-		["Left White"] = 16,
-		["Left Yellow"] = 6,
-		["Left Green"] = 4,
-		["Left Blue"] = 2,
-		["Red"] = 0,
-		["Right Blue"] = 2,
-		["Right Green"] = 4,
-		["Right Yellow"] = 6,
-		["Right White"] = 16,
 	},
 	["po-mu"] = {
 		["Left White"] = 16,
@@ -807,16 +773,6 @@ setmetatable(NoteUnderlayTable, NoteUnderlayMeta)
 
 -- Table for receptor glyph
 local ReceptorGlyphTable = {
-	["beat"] = {
-		["scratch"] = {["texture"] = "_scratch", ["x"] = 0, ["y"] = 44, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {1, 0.25, 0, 0}},
-		["Key1"] = {["texture"] = "_keywhite", ["x"] = 0, ["y"] = 48, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {1, 0.25, 0, 0}},
-		["Key2"] = {["texture"] = "_keyblue",  ["x"] = 0, ["y"] = 40, ["rot"] = 0, ["diffuse"] = {0.15, 0.15, 0.15, 1}, ["glow"] = {1, 0.25, 0, 0}},
-		["Key3"] = {["texture"] = "_keywhite", ["x"] = 0, ["y"] = 48, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {1, 0.25, 0, 0}},
-		["Key4"] = {["texture"] = "_keyblue",  ["x"] = 0, ["y"] = 40, ["rot"] = 0, ["diffuse"] = {0.15, 0.15, 0.15, 1}, ["glow"] = {1, 0.25, 0, 0}},
-		["Key5"] = {["texture"] = "_keywhite", ["x"] = 0, ["y"] = 48, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {1, 0.25, 0, 0}},
-		["Key6"] = {["texture"] = "_keyblue",  ["x"] = 0, ["y"] = 40, ["rot"] = 0, ["diffuse"] = {0.15, 0.15, 0.15, 1}, ["glow"] = {1, 0.25, 0, 0}},
-		["Key7"] = {["texture"] = "_keywhite", ["x"] = 0, ["y"] = 48, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {1, 0.25, 0, 0}},
-	},
 	["be-mu"] = {
 		["scratch"] = {["texture"] = "_scratch", ["x"] = 0, ["y"] = 44, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {1, 0.25, 0, 0}},
 		["Key1"] = {["texture"] = "_keywhite", ["x"] = 0, ["y"] = 48, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {1, 0.25, 0, 0}},
@@ -826,17 +782,6 @@ local ReceptorGlyphTable = {
 		["Key5"] = {["texture"] = "_keywhite", ["x"] = 0, ["y"] = 48, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {1, 0.25, 0, 0}},
 		["Key6"] = {["texture"] = "_keyblue",  ["x"] = 0, ["y"] = 40, ["rot"] = 0, ["diffuse"] = {0.15, 0.15, 0.15, 1}, ["glow"] = {1, 0.25, 0, 0}},
 		["Key7"] = {["texture"] = "_keywhite", ["x"] = 0, ["y"] = 48, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {1, 0.25, 0, 0}},
-	},
-	["popn"] = {
-		["Left White"]   = {["texture"] = "_burger", ["x"] = 0, ["y"] = 28, ["rot"] = 0, ["diffuse"] = {0.75, 0.75,  0.75, 1.0}},
-		["Left Yellow"]  = {["texture"] = "_burger", ["x"] = 0, ["y"] = 20, ["rot"] = 0, ["diffuse"] = {0.75, 0.65,  0,    1.0}},
-		["Left Green"]   = {["texture"] = "_burger", ["x"] = 0, ["y"] = 28, ["rot"] = 0, ["diffuse"] = {0,    0.5,   0,    1.0}},
-		["Left Blue"]    = {["texture"] = "_burger", ["x"] = 0, ["y"] = 20, ["rot"] = 0, ["diffuse"] = {0,    0.375, 0.75, 1.0}},
-		["Red"]          = {["texture"] = "_burger", ["x"] = 0, ["y"] = 28, ["rot"] = 0, ["diffuse"] = {0.75, 0,     0,    1.0}},
-		["Right Blue"]   = {["texture"] = "_burger", ["x"] = 0, ["y"] = 20, ["rot"] = 0, ["diffuse"] = {0,    0.375, 0.75, 1.0}},
-		["Right Green"]  = {["texture"] = "_burger", ["x"] = 0, ["y"] = 28, ["rot"] = 0, ["diffuse"] = {0,    0.5,   0,    1.0}},
-		["Right Yellow"] = {["texture"] = "_burger", ["x"] = 0, ["y"] = 20, ["rot"] = 0, ["diffuse"] = {0.75, 0.65,  0,    1.0}},
-		["Right White"]  = {["texture"] = "_burger", ["x"] = 0, ["y"] = 28, ["rot"] = 0, ["diffuse"] = {0.75, 0.75,  0.75, 1.0}},
 	},
 	["po-mu"] = {
 		["Left White"]   = {["texture"] = "_burger", ["x"] = 0, ["y"] = 28, ["rot"] = 0, ["diffuse"] = {0.75, 0.75,  0.75, 1.0}},
@@ -848,15 +793,6 @@ local ReceptorGlyphTable = {
 		["Right Green"]  = {["texture"] = "_burger", ["x"] = 0, ["y"] = 28, ["rot"] = 0, ["diffuse"] = {0,    0.5,   0,    1.0}},
 		["Right Yellow"] = {["texture"] = "_burger", ["x"] = 0, ["y"] = 20, ["rot"] = 0, ["diffuse"] = {0.75, 0.65,  0,    1.0}},
 		["Right White"]  = {["texture"] = "_burger", ["x"] = 0, ["y"] = 28, ["rot"] = 0, ["diffuse"] = {0.75, 0.75,  0.75, 1.0}},
-	},
-	["kb7"] = {
-		["Key1"] = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {1, 1,    1, 1}, ["glow"] = {0.2,  0.2,  0.2, 0}},
-		["Key2"] = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {0, 0.75, 1, 1}, ["glow"] = {0,    0.15, 0.2, 0}},
-		["Key3"] = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {1, 1,    1, 1}, ["glow"] = {0.2,  0.2,  0.2, 0}},
-		["Key4"] = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {1, 0.5,  0, 1}, ["glow"] = {0.2,  0.1,  0,   0}},
-		["Key5"] = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {1, 1,    1, 1}, ["glow"] = {0.2,  0.2,  0.2, 0}},
-		["Key6"] = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {0, 0.75, 1, 1}, ["glow"] = {0,    0.15, 0.2, 0}},
-		["Key7"] = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {1, 1,    1, 1}, ["glow"] = {0.2,  0.2,  0.2, 0}},
 	},
 	["kbx"] = {
 		["Key1"]  = {["texture"] = "_keywide", ["x"] = 0, ["y"] = 56, ["rot"] = 0, ["diffuse"] = {0.25, 0.9,  1,    1}, ["glow"] = {0,    0.2,  0.2, 0}},
@@ -924,16 +860,6 @@ local ReceptorLaserTable = {
 		["Up"]     = {["width"] = 32, ["diffuse"] = {1, 1, 1, 0.7}, ["judgecolored"] = true},
 		["Right"]  = {["width"] = 32, ["diffuse"] = {1, 1, 1, 0.7}, ["judgecolored"] = true},
 	},
-	["beat"] = {
-		["scratch"] = {["width"] = 60, ["diffuse"] = {0.25, 1, 1, 1}},
-		["Key1"] = {["width"] = 36, ["diffuse"] = {0.25, 0.5,  1, 1}},
-		["Key2"] = {["width"] = 28, ["diffuse"] = {0.5,  0.75, 1, 1}},
-		["Key3"] = {["width"] = 36, ["diffuse"] = {0.25, 0.5,  1, 1}},
-		["Key4"] = {["width"] = 28, ["diffuse"] = {0.5,  0.75, 1, 1}},
-		["Key5"] = {["width"] = 36, ["diffuse"] = {0.25, 0.5,  1, 1}},
-		["Key6"] = {["width"] = 28, ["diffuse"] = {0.5,  0.75, 1, 1}},
-		["Key7"] = {["width"] = 36, ["diffuse"] = {0.25, 0.5,  1, 1}},
-	},
 	["be-mu"] = {
 		["scratch"] = {["width"] = 60, ["diffuse"] = {0.25, 1, 1, 1}},
 		["Key1"] = {["width"] = 36, ["diffuse"] = {0.25, 0.5,  1, 1}},
@@ -943,17 +869,6 @@ local ReceptorLaserTable = {
 		["Key5"] = {["width"] = 36, ["diffuse"] = {0.25, 0.5,  1, 1}},
 		["Key6"] = {["width"] = 28, ["diffuse"] = {0.5,  0.75, 1, 1}},
 		["Key7"] = {["width"] = 36, ["diffuse"] = {0.25, 0.5,  1, 1}},
-	},
-	["popn"] = {
-		["Left White"]   = {["width"] = 36, ["diffuse"] = {0.25, 0.25, 1, 1}, ["judgecolored"] = true},
-		["Left Yellow"]  = {["width"] = 28, ["diffuse"] = {0.25, 0.25, 1, 1}, ["judgecolored"] = true},
-		["Left Green"]   = {["width"] = 36, ["diffuse"] = {0.25, 0.25, 1, 1}, ["judgecolored"] = true},
-		["Left Blue"]    = {["width"] = 28, ["diffuse"] = {0.25, 0.25, 1, 1}, ["judgecolored"] = true},
-		["Red"]          = {["width"] = 36, ["diffuse"] = {0.25, 0.25, 1, 1}, ["judgecolored"] = true},
-		["Right Blue"]   = {["width"] = 28, ["diffuse"] = {0.25, 0.25, 1, 1}, ["judgecolored"] = true},
-		["Right Green"]  = {["width"] = 36, ["diffuse"] = {0.25, 0.25, 1, 1}, ["judgecolored"] = true},
-		["Right Yellow"] = {["width"] = 28, ["diffuse"] = {0.25, 0.25, 1, 1}, ["judgecolored"] = true},
-		["Right White"]  = {["width"] = 36, ["diffuse"] = {0.25, 0.25, 1, 1}, ["judgecolored"] = true},
 	},
 	["po-mu"] = {
 		["Left White"]   = {["width"] = 36, ["diffuse"] = {0.25, 0.25, 1, 1}, ["judgecolored"] = true},
@@ -965,15 +880,6 @@ local ReceptorLaserTable = {
 		["Right Green"]  = {["width"] = 36, ["diffuse"] = {0.25, 0.25, 1, 1}, ["judgecolored"] = true},
 		["Right Yellow"] = {["width"] = 28, ["diffuse"] = {0.25, 0.25, 1, 1}, ["judgecolored"] = true},
 		["Right White"]  = {["width"] = 36, ["diffuse"] = {0.25, 0.25, 1, 1}, ["judgecolored"] = true},
-	},
-	["kb7"] = {
-		["Key1"] = {["width"] = 60, ["diffuse"] = {0.6,  1,    0.5, 0.7}},
-		["Key2"] = {["width"] = 60, ["diffuse"] = {0.4,  0.4,  1,   0.7}},
-		["Key3"] = {["width"] = 60, ["diffuse"] = {0.6,  1,    0.5, 0.7}},
-		["Key4"] = {["width"] = 60, ["diffuse"] = {1,    0.75, 0.4, 0.7}},
-		["Key5"] = {["width"] = 60, ["diffuse"] = {0.6,  1,    0.5, 0.7}},
-		["Key6"] = {["width"] = 60, ["diffuse"] = {0.4,  0.4,  1,   0.7}},
-		["Key7"] = {["width"] = 60, ["diffuse"] = {0.6,  1,    0.5, 0.7}},
 	},
 	["kbx"] = {
 		["Key1"]  = {["width"] = 60, ["diffuse"] = {0.4,  0.9,  1,   0.7}},
@@ -1026,20 +932,6 @@ setmetatable(ReceptorLaserTable, ReceptorLaserMeta)
 
 -- Table for receptor line and glow
 local ReceptorLineAndGlowTable = {
-	["beat"] = {
-		["fill"] = {1, 0, 0, 1},
-		["glow"] = {0, 1, 0.95, 1},
-		["widths"] = {
-			["scratch"] = 64,
-			["Key1"] = 38,
-			["Key2"] = 30,
-			["Key3"] = 38,
-			["Key4"] = 30,
-			["Key5"] = 38,
-			["Key6"] = 30,
-			["Key7"] = 38,
-		},
-	},
 	["be-mu"] = {
 		["fill"] = {1, 0, 0, 1},
 		["glow"] = {0, 1, 0.95, 1},
@@ -1053,22 +945,6 @@ local ReceptorLineAndGlowTable = {
 			["Key5"] = 38,
 			["Key6"] = 30,
 			["Key7"] = 38,
-		},
-	},
-	["popn"] = {
-		["outline"] = {0, 0, 0, 1},
-		["fill"] = {1, 0, 0, 1},
-		["highlight"] = {1, 1, 1, 0.5},
-		["widths"] = {
-			["Left White"]   = 36,
-			["Left Yellow"]  = 28,
-			["Left Green"]   = 36,
-			["Left Blue"]    = 28,
-			["Red"]          = 36,
-			["Right Blue"]   = 28,
-			["Right Green"]  = 36,
-			["Right Yellow"] = 28,
-			["Right White"]  = 36,
 		},
 	},
 	["po-mu"] = {
@@ -1086,21 +962,6 @@ local ReceptorLineAndGlowTable = {
 			["Right Green"]  = 36,
 			["Right Yellow"] = 28,
 			["Right White"]  = 36,
-		},
-	},
-	["kb7"] = {
-		["outline"] = {1, 0, 0, 1},
-		["fill"] = {0.7, 0, 0, 1},
-		["highlight"] = {0.5, 0, 0, 1},
-		["glow"] = {1, 0, 0, 0.7},
-		["widths"] = {
-			["Key1"] = 64,
-			["Key2"] = 64,
-			["Key3"] = 64,
-			["Key4"] = 64,
-			["Key5"] = 64,
-			["Key6"] = 64,
-			["Key7"] = 64,
 		},
 	},
 	["kbx"] = {
@@ -1522,47 +1383,36 @@ local function func()
 			t[#t+1] = singleSprite(sElement:find("Big") and "_big" or "_common", "overlay smiley")
 		end
 
-		if game:match("^kb[7x]$") then
+		if game == "kbx" then
 			-- Guidelines for kbx, work in progress
 			local guidelineColors = {
-				["kb7"] = {
-					["Key1"] = {1,   1,    1,   1},
-					["Key2"] = {0.5, 0.75, 1,   1},
-					["Key3"] = {1,   1,    1,   1},
-					["Key4"] = {1,   0.75, 0.5, 1},
-					["Key5"] = {1,   1,    1,   1},
-					["Key6"] = {0.5, 0.75, 1,   1},
-					["Key7"] = {1,   1,    1,   1},
-				},
-				["kbx"] = {
-					["Key1"]  = {0.5,  0.95, 1,    1},
-					["Key2"]  = {0.75, 1,    0.5,  1},
-					["Key3"]  = {1,    0.5,  0.5,  1},
-					["Key4"]  = {0.75, 1,    0.5,  1},
-					["Key5"]  = {1,    1,    1,    1},
-					["Key6"]  = {0.75, 1,    0.5,  1},
-					["Key7"]  = {0.5,  0.75, 1,    1},
-					["Key8"]  = {0.75, 1,    0.5,  1},
-					["Key9"]  = {1,    1,    1,    1},
-					["Key10"] = {1,    0.75, 0.5,  1},
-					["Key11"] = {1,    1,    1,    1},
-					["Key12"] = {0.75, 1,    0.5,  1},
-					["Key13"] = {0.5,  0.75, 1,    1},
-					["Key14"] = {0.75, 1,    0.5,  1},
-					["Key15"] = {1,    1,    1,    1},
-					["Key16"] = {0.75, 1,    0.5,  1},
-					["Key17"] = {1,    0.5,  0.5,  1},
-					["Key18"] = {0.75, 1,    0.5,  1},
-					["Key19"] = {0.5,  0.95, 1,    1},
-				},
+				["Key1"]  = {0.5,  0.95, 1,    1},
+				["Key2"]  = {0.75, 1,    0.5,  1},
+				["Key3"]  = {1,    0.5,  0.5,  1},
+				["Key4"]  = {0.75, 1,    0.5,  1},
+				["Key5"]  = {1,    1,    1,    1},
+				["Key6"]  = {0.75, 1,    0.5,  1},
+				["Key7"]  = {0.5,  0.75, 1,    1},
+				["Key8"]  = {0.75, 1,    0.5,  1},
+				["Key9"]  = {1,    1,    1,    1},
+				["Key10"] = {1,    0.75, 0.5,  1},
+				["Key11"] = {1,    1,    1,    1},
+				["Key12"] = {0.75, 1,    0.5,  1},
+				["Key13"] = {0.5,  0.75, 1,    1},
+				["Key14"] = {0.75, 1,    0.5,  1},
+				["Key15"] = {1,    1,    1,    1},
+				["Key16"] = {0.75, 1,    0.5,  1},
+				["Key17"] = {1,    0.5,  0.5,  1},
+				["Key18"] = {0.75, 1,    0.5,  1},
+				["Key19"] = {0.5,  0.95, 1,    1},
 			}
 
 			-- TODO: make guideline height 1.5x of scroll BPM
 			t[#t+1] = Def.Quad {
-				InitCommand = function (self) self:zoomto(4, 192):halign(0):x(-32):diffuse(guidelineColors[game][sButton]):faderight(0.25):fadetop(0.5):fadebottom(0.5) end,
+				InitCommand = function (self) self:zoomto(4, 192):halign(0):x(-32):diffuse(guidelineColors[sButton]):faderight(0.25):fadetop(0.5):fadebottom(0.5) end,
 			}
 			t[#t+1] = Def.Quad {
-				InitCommand = function (self) self:zoomto(4, 192):halign(1):x(32):diffuse(guidelineColors[game][sButton]):fadeleft(0.25):fadetop(0.5):fadebottom(0.5) end,
+				InitCommand = function (self) self:zoomto(4, 192):halign(1):x(32):diffuse(guidelineColors[sButton]):fadeleft(0.25):fadetop(0.5):fadebottom(0.5) end,
 			}
 		end
 	elseif sElementToLoad == "Jump Note" or
