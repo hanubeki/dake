@@ -1128,6 +1128,7 @@ ret.Blank = {
 }
 
 local function func()
+	local iColumn = tonumber(Var "Column")
 	local sButton = Var "Button"
 	local sGameButton = INPUTFILTER:GameButtonToKeyMapped(Var "GameButton", Var "Player")
 	local sElement = Var "Element"
@@ -1686,34 +1687,36 @@ local function func()
 				t[#t+1] = singleSprite("_common", "overlay wail")
 			end
 		else
-			if not (sButton:find("Strum") or sButton:find("open")) then
-				t[#t+1] = singleSprite(TapRedir[sButtonToLoad], "receptor base") .. {
-					InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ):effectclock("beat"):diffuseramp():effectcolor1({0.8, 0.8, 0.8, 1}):effectcolor2({1, 1, 1, 1}):effectoffset(0.05) end,
-					NoneCommand = function (self) self:finishtweening():zoom(0.85):diffusealpha(0.9):linear(0.1):diffusealpha(1):zoom(1) end,
-					FeverMessageCommand = function (self, params)
-						if params.pn ~= pn then return end
-						if params.Active then
-							self:glow({0, 0.85, 1, 0.7})
-						else
-							self:glow({1, 1, 1, 0})
-						end
-					end,
-				}
-			end
+			if game ~= "smx" then
+				if not (sButton:find("Strum") or sButton:find("open")) then
+					t[#t+1] = singleSprite(TapRedir[sButtonToLoad], "receptor base") .. {
+						InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ):effectclock("beat"):diffuseramp():effectcolor1({0.8, 0.8, 0.8, 1}):effectcolor2({1, 1, 1, 1}):effectoffset(0.05) end,
+						NoneCommand = function (self) self:finishtweening():zoom(0.85):diffusealpha(0.9):linear(0.1):diffusealpha(1):zoom(1) end,
+						FeverMessageCommand = function (self, params)
+							if params.pn ~= pn then return end
+							if params.Active then
+								self:glow({0, 0.85, 1, 0.7})
+							else
+								self:glow({1, 1, 1, 0})
+							end
+						end,
+					}
+				end
 
-			if sButton == "Center" and (game == "pump" or game == "techno") then
-				t[#t+1] = singleSprite("_common", "overlay feet") .. {
-					InitCommand = function (self) self:diffusealpha(0.5) end,
-				}
-			end
+				if sButton == "Center" and (game == "pump" or game == "techno") then
+					t[#t+1] = singleSprite("_common", "overlay feet") .. {
+						InitCommand = function (self) self:diffusealpha(0.5) end,
+					}
+				end
 
-			if sButton ~= "wailing" then
-				t[#t+1] = singleSprite(TapRedir[sButtonToLoad], "receptor flash") .. {
-					InitCommand = function (self) self:blend("BlendMode_Add"):rotationy(rotY):rotationz(rotZ):diffusealpha(0) end,
-					PressCommand = function (self) self:finishtweening():zoom(1):diffusealpha(0.6) end,
-					LiftCommand = function (self) self:finishtweening():decelerate(0.1):diffusealpha(0):zoom(1.2) end,
-					NoneCommand = function (self) self:finishtweening():zoom(0.85):diffusealpha(0.9):linear(0.15):diffusealpha(1):zoom(1) end,
-				}
+				if sButton ~= "wailing" then
+					t[#t+1] = singleSprite(TapRedir[sButtonToLoad], "receptor flash") .. {
+						InitCommand = function (self) self:blend("BlendMode_Add"):rotationy(rotY):rotationz(rotZ):diffusealpha(0) end,
+						PressCommand = function (self) self:finishtweening():zoom(1):diffusealpha(0.6) end,
+						LiftCommand = function (self) self:finishtweening():decelerate(0.1):diffusealpha(0):zoom(1.2) end,
+						NoneCommand = function (self) self:finishtweening():zoom(0.85):diffusealpha(0.9):linear(0.15):diffusealpha(1):zoom(1) end,
+					}
+				end
 			end
 		end
 
@@ -1812,6 +1815,27 @@ local function func()
 			}
 		end
 	elseif sElementToLoad == "Ovceptor" then
+		if game == "smx" then
+			local sideReceptor = singleSprite("_common", "receptor side") .. {
+				InitCommand = function (self) self:halign(1):x(12):diffusealpha(0) end,
+				StepMessageCommand = function (self) self:finishtweening():diffusealpha(1):linear(0.3):diffusealpha(0) end,
+			}
+
+			if iColumn == 0 then
+				t[#t+1] = Def.ActorFrame {
+					InitCommand = function (self) self:x(-40):bounce():effectclock("beat"):effectmagnitude(-8, 0, 0):effectperiod(1):effectoffset(0.05) end,
+					sideReceptor,
+					singleSprite("_common", "receptor pointer"),
+				}
+			elseif iColumn == GAMESTATE:GetCurrentStyle(pn):ColumnsPerPlayer() - 1 then
+				t[#t+1] = Def.ActorFrame {
+					InitCommand = function (self) self:x(40):zoomx(-1):bounce():effectclock("beat"):effectmagnitude(8, 0, 0):effectperiod(1):effectoffset(0.05) end,
+					sideReceptor,
+					singleSprite("_common", "receptor pointer"),
+				}
+			end
+		end
+
 		if ReceptorGlyphTable[game][sButton] then
 			local glyphReverse = false
 			if (GAMESTATE.GetIsFieldReversed) then
