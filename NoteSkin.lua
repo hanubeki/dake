@@ -1818,18 +1818,21 @@ local function func()
 		if game == "smx" then
 			local sideReceptor = singleSprite("_common", "receptor side") .. {
 				InitCommand = function (self) self:halign(1):x(12):diffusealpha(0) end,
-				StepMessageCommand = function (self) self:finishtweening():diffusealpha(1):linear(0.3):diffusealpha(0) end,
+				StepMessageCommand = function (self, params) 
+					if params.PlayerNumber ~= pn then return end
+					self:finishtweening():diffusealpha(1):linear(0.3):diffusealpha(0)
+				end,
 			}
 
 			if iColumn == 0 then
 				t[#t+1] = Def.ActorFrame {
-					InitCommand = function (self) self:x(-40):bounce():effectclock("beat"):effectmagnitude(-8, 0, 0):effectperiod(1):effectoffset(0.05) end,
+					InitCommand = function (self) self:x(-44):bounce():effectclock("beat"):effectmagnitude(-8, 0, 0):effectperiod(1):effectoffset(0.05) end,
 					sideReceptor,
 					singleSprite("_common", "receptor pointer"),
 				}
 			elseif iColumn == GAMESTATE:GetCurrentStyle(pn):ColumnsPerPlayer() - 1 then
 				t[#t+1] = Def.ActorFrame {
-					InitCommand = function (self) self:x(40):zoomx(-1):bounce():effectclock("beat"):effectmagnitude(8, 0, 0):effectperiod(1):effectoffset(0.05) end,
+					InitCommand = function (self) self:x(44):zoomx(-1):bounce():effectclock("beat"):effectmagnitude(8, 0, 0):effectperiod(1):effectoffset(0.05) end,
 					sideReceptor,
 					singleSprite("_common", "receptor pointer"),
 				}
