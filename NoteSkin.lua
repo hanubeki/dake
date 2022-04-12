@@ -1285,11 +1285,11 @@ local function func()
 	if GAMESTATE:GetCurrentStyle(pn):GetStyleType() == "StyleType_TwoPlayersSharedSides" then
 		ret.DakeExtras.Rhythm = false
 		ret.DakeExtras.Flat = false
+	end
 
-		sPlayer = "PlayerNumber_" .. (sElement:match("^P%d+") or "P1")
-		if sPlayer ~= "PlayerNumber_P1" then
-			sElement = sElement:match("^P%d+ (.*)$")
-		end
+	sPlayer = "PlayerNumber_" .. (sElement:match("^P%d+") or "P1")
+	if sPlayer ~= "PlayerNumber_P1" then
+		sElement = sElement:match("^P%d+ (.*)$")
 	end
 
 	if GAMESTATE:GetCurrentStyle(pn):GetStepsType() == "StepsType_Kickbox_Human" then
