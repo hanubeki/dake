@@ -12,6 +12,7 @@ local game = GAMESTATE:GetCurrentGame():GetName()
 ret.DakeExtras = {
 	["Rhythm"] = game == "dance" or game == "smx",
 	["Flat"] = not (game == "dance" or game == "smx"),
+	["HoldType"] = game == "smx" and "Diamond" or nil,
 }
 
 -- Redirect table for buttons
