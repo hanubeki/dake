@@ -267,12 +267,12 @@ local TapRotateZ = {
 }
 setmetatable(TapRotateZ, FallbackZero)
 
--- Rotation table for Tap Note/Hold Head
+-- Rotation table for Tap Wail
 local WailRotateZ = {
 	["Tap Wail Up"] = 0,
 	["Tap Wail Down"] = 180,
-	["Tap Wail Forward"] = -90,
-	["Tap Wail Backward"] = 90,
+	["Tap Wail Forward"] = 90,
+	["Tap Wail Backward"] = -90,
 }
 setmetatable(WailRotateZ, FallbackZero)
 
@@ -749,6 +749,15 @@ local ColumnColorsMeta = {
 	end,
 }
 setmetatable(ColumnColors, ColumnColorsMeta)
+
+-- Color table for Tap Wail
+local WailColors = {
+	["Tap Wail Up"] = 4,
+	["Tap Wail Down"] = 20,
+	["Tap Wail Forward"] = 12,
+	["Tap Wail Backward"] = 6, -- I'm not sure this exists in original game
+}
+setmetatable(WailColors, FallbackZero)
 
 local NoteUnderlayTable = {
 	["gdgf"] = {
@@ -1497,12 +1506,13 @@ local function func()
 		}
 	elseif sElementToLoad:find("Tap Wail") then
 		local rotZ = WailRotateZ[sElementToLoad]
+		local color = WailColors[sElementToLoad]
 
-		t[#t+1] = singleSprite("_common", "underlay guitar") .. {
+		t[#t+1] = colorSprite("_common", "underlay guitar", color) .. {
 			InitCommand = function (self) self:diffuse({0.5, 0.5, 0.5, 1}) end,
 		}
 
-		t[#t+1] = singleSprite("_wailing", "tap wail up") .. {
+		t[#t+1] = colorSprite("_wailing", "tap wail up", color) .. {
 			InitCommand = function (self) self:rotationz(rotZ) end,
 		}
 	elseif sElementToLoad:find("Hold .*cap") or sElementToLoad:find("Roll .*cap") or
