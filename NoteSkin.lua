@@ -1323,7 +1323,9 @@ local function func()
 	then
 		local color = 0
 
-		if sButton ~= "wailing" then
+		if sButton == "wailing" then
+			color = 4
+		else
 			if GAMESTATE:GetCurrentStyle(pn):GetStyleType() == "StyleType_TwoPlayersSharedSides" then
 				color = ColumnColors["Routine"][sPlayer]
 			elseif ret.DakeExtras.Rhythm then
@@ -1334,7 +1336,7 @@ local function func()
 		end
 
 		if NoteUnderlayTable[game][sButton] then
-			t[#t+1] = singleSprite("_common", "underlay " .. NoteUnderlayTable[game][sButton].texture) .. {
+			t[#t+1] = colorSprite("_common", "underlay " .. NoteUnderlayTable[game][sButton].texture, sButton == "wailing" and 4 or 0) .. {
 				InitCommand = function (self) self:rotationz(NoteUnderlayTable[game][sButton].rot):diffuse(NoteUnderlayTable[game][sButton].diffuse) end,
 			}
 		end
@@ -1345,6 +1347,10 @@ local function func()
 			tapNote = "tap note"
 		elseif sElementToLoad == "Tap Taps" then
 			tapNote = "tap note"
+		end
+
+		if sElementToLoad:find("Red") or sElementToLoad:find("Blue") or sElementToLoad:find("Yellow") then
+			color = 0
 		end
 
 		t[#t+1] = feverSprite(TapRedir[sButtonToLoad], tapNote, color, 20) .. {
@@ -1436,7 +1442,9 @@ local function func()
 	 then
 		local color = 0
 
-		if sButton ~= "wailing" then
+		if sButton == "wailing" then
+			color = 4
+		else
 			if GAMESTATE:GetCurrentStyle(pn):GetStyleType() == "StyleType_TwoPlayersSharedSides" then
 				color = ColumnColors["Routine"][sPlayer]
 			elseif ret.DakeExtras.Rhythm then
@@ -1462,10 +1470,13 @@ local function func()
 
 		local tapNote = "Tap Note"
 		if sElementToLoad:find("Red") then
+			color = 0
 			tapNote = "Tap Red"
 		elseif sElementToLoad:find("Blue") then
+			color = 0
 			tapNote = "Tap Blue"
 		elseif sElementToLoad:find("Yellow") then
+			color = 0
 			tapNote = "Tap Yellow"
 		end
 
@@ -1999,6 +2010,7 @@ local function func()
 				RollOffCommand = function (self) self:playcommand("HoldingOff") end,
 				InitCommand = function (self) self:zoom(zoomValue):playcommand("HoldingOff"):finishtweening() end,
 			}
+
 			t[#t+1] = singleSprite("_common", "mine explosion") .. {
 				InitCommand = function (self) self:blend("BlendMode_Add"):zoom(zoomValue):diffusealpha(0) end,
 				HitMineCommand = function (self) self:finishtweening():diffusealpha(1):rotationz(0):linear(0.25):rotationz(90):linear(0.25):rotationz(180):diffusealpha(0) end,
