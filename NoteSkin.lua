@@ -1553,14 +1553,7 @@ local function func()
 		t = singleSprite(sizeToLoad, sElementToLoad:lower())
 	elseif sElementToLoad == "Receptor" then
 		if game == "taiko" then
-			local taikoDrum = nil
-
-			local taikoColors = {
-				["Taiko Left Outside"] = {0, 0.5, 1, 1},
-				["Taiko Right Outside"] = {0, 0.5, 1, 1},
-				["Taiko Left Inside"] = {1, 0, 0, 1},
-				["Taiko Right Inside"] = {1, 0, 0, 1},
-			}
+			local taikoLaser = nil
 
 			local taikoLaserColors = {
 				["Taiko Left Outside"] = {0.25, 0.75, 1, 0.5},
@@ -1569,53 +1562,21 @@ local function func()
 				["Taiko Right Inside"] = {1, 0.75, 0.5, 0.5},
 			}
 
-			local taikoInput = function (event)
+			local taikoLaserInput = function (event)
 				if ToEnumShortString(event.type) == "FirstPress" and event.PlayerNumber == pn then
-					if taikoDrum:GetChild("Taiko Drum"):GetChild(event.button) then
-						taikoDrum:GetChild("Taiko Drum"):GetChild(event.button):finishtweening():queuecommand("Push")
-						taikoDrum:GetChild("Background"):finishtweening():diffuse(taikoLaserColors[event.button]):queuecommand("Push")
+					if taikoLaserColors[event.button] then
+						taikoLaser:GetChild("Laser"):finishtweening():diffuse(taikoLaserColors[event.button]):queuecommand("Push")
 					end
 				end
 			end
 
 			t[#t+1] = Def.ActorFrame {
 				OnCommand = function (self)
-					taikoDrum = self
-					SCREENMAN:GetTopScreen():AddInputCallback(taikoInput)
+					taikoLaser = self
+					SCREENMAN:GetTopScreen():AddInputCallback(taikoLaserInput)
 				end,
-				Def.ActorFrame {
-					Name = "Taiko Drum",
-					OnCommand = function (self) self:x(-128) end,
-					Def.Sprite {
-						Texture = "_taiko receptor glyph",
-					},
-					Def.Sprite{
-						Name = "Taiko Left Outside",
-						Texture = "_taiko receptor glow outside",
-						OnCommand = function (self) self:diffuse({1, 1, 1, 0}) end,
-						PushCommand = function (self) self:diffuse(taikoColors["Taiko Left Outside"]):decelerate(0.4):diffuse({1, 1, 1, 0}) end,
-					},
-					Def.Sprite{
-						Name = "Taiko Right Outside",
-						Texture = "_taiko receptor glow outside",
-						OnCommand = function (self) self:rotationy(180):diffuse({1, 1, 1, 0}) end,
-						PushCommand = function (self) self:diffuse(taikoColors["Taiko Right Outside"]):decelerate(0.4):diffuse({1, 1, 1, 0}) end,
-					},
-					Def.Sprite{
-						Name = "Taiko Left Inside",
-						Texture = "_taiko receptor glow inside",
-						OnCommand = function (self) self:diffuse({1, 1, 1, 0}) end,
-						PushCommand = function (self) self:diffuse(taikoColors["Taiko Left Inside"]):decelerate(0.4):diffuse({1, 1, 1, 0}) end,
-					},
-					Def.Sprite{
-						Name = "Taiko Right Inside",
-						Texture = "_taiko receptor glow inside",
-						OnCommand = function (self) self:rotationy(180):diffuse({1, 1, 1, 0}) end,
-						PushCommand = function (self) self:diffuse(taikoColors["Taiko Right Inside"]):decelerate(0.4):diffuse({1, 1, 1, 0}) end,
-					},
-				},
 				Def.Quad {
-					Name = "Background",
+					Name = "Laser",
 					OnCommand = function (self) self:halign(0):valign(0):xy(-64, -64):scaletoclipped(512, 128):faderight(1):diffusealpha(0) end,
 					PushCommand = function (self) self:diffusealpha(0.5):decelerate(0.4):diffusealpha(0) end,
 				},
@@ -1859,6 +1820,63 @@ local function func()
 					singleSprite("_common", "receptor pointer"),
 				}
 			end
+		end
+
+		if game == "taiko" then
+			local taikoDrum = nil
+
+			local taikoDrumColors = {
+				["Taiko Left Outside"] = {0, 0.5, 1, 1},
+				["Taiko Right Outside"] = {0, 0.5, 1, 1},
+				["Taiko Left Inside"] = {1, 0, 0, 1},
+				["Taiko Right Inside"] = {1, 0, 0, 1},
+			}
+
+			local taikoDrumInput = function (event)
+				if ToEnumShortString(event.type) == "FirstPress" and event.PlayerNumber == pn then
+					if taikoDrum:GetChild("Taiko Drum"):GetChild(event.button) then
+						taikoDrum:GetChild("Taiko Drum"):GetChild(event.button):finishtweening():queuecommand("Push")
+					end
+				end
+			end
+
+			t[#t+1] = Def.ActorFrame {
+				OnCommand = function (self)
+					taikoDrum = self
+					SCREENMAN:GetTopScreen():AddInputCallback(taikoDrumInput)
+				end,
+				Def.ActorFrame {
+					Name = "Taiko Drum",
+					OnCommand = function (self) self:x(-128) end,
+					Def.Sprite {
+						Texture = "_taiko receptor glyph",
+					},
+					Def.Sprite{
+						Name = "Taiko Left Outside",
+						Texture = "_taiko receptor glow outside",
+						OnCommand = function (self) self:diffuse({1, 1, 1, 0}) end,
+						PushCommand = function (self) self:diffuse(taikoDrumColors["Taiko Left Outside"]):decelerate(0.4):diffuse({1, 1, 1, 0}) end,
+					},
+					Def.Sprite{
+						Name = "Taiko Right Outside",
+						Texture = "_taiko receptor glow outside",
+						OnCommand = function (self) self:rotationy(180):diffuse({1, 1, 1, 0}) end,
+						PushCommand = function (self) self:diffuse(taikoDrumColors["Taiko Right Outside"]):decelerate(0.4):diffuse({1, 1, 1, 0}) end,
+					},
+					Def.Sprite{
+						Name = "Taiko Left Inside",
+						Texture = "_taiko receptor glow inside",
+						OnCommand = function (self) self:diffuse({1, 1, 1, 0}) end,
+						PushCommand = function (self) self:diffuse(taikoDrumColors["Taiko Left Inside"]):decelerate(0.4):diffuse({1, 1, 1, 0}) end,
+					},
+					Def.Sprite{
+						Name = "Taiko Right Inside",
+						Texture = "_taiko receptor glow inside",
+						OnCommand = function (self) self:rotationy(180):diffuse({1, 1, 1, 0}) end,
+						PushCommand = function (self) self:diffuse(taikoDrumColors["Taiko Right Inside"]):decelerate(0.4):diffuse({1, 1, 1, 0}) end,
+					},
+				},
+			}
 		end
 
 		if ReceptorGlyphTable[game][sButton] then
