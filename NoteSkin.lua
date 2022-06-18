@@ -32,20 +32,21 @@ ret.RedirTable =
 	["BackRight"] = game == "para"   and "ParaBackRight"                                                                        or "DownRight",  -- --A----
 	["Back"]      = game == "para"   and "ParaBack"                                                                             or     "Down",   -- --A----
 	["BackLeft"]  = game == "para"   and "ParaBackLeft"                                                                         or "DownLeft",   -- --A----
-	-- ez2, ds3ddx, Maniax
-	["FootDown"]      =                                    "Down",  -- 2--
-	["FootUpLeft"]    =                                  "UpLeft",  -- 23-
-	["FootUpRight"]   =                                  "UpRight", -- 23-
-	["FootDownLeft"]  =                                "DownLeft",  -- -3-
-	["FootDownRight"] =                                "DownRight", -- -3-
-	["HandUp"]        =                                "HandUp",    -- -3-
-	["HandDown"]      =                                "HandDown",  -- -3-
-	["HandLeft"]      =                                "HandLeft",  -- -3-
-	["HandRight"]     =                                "HandRight", -- -3-
-	["HandUpLeft"]    = game == "maniax" and "Ring" or "Circle",    -- 2-M
-	["HandUpRight"]   = game == "maniax" and "Ring" or "Circle",    -- 2-M
-	["HandLrLeft"]    = game == "maniax" and "Ring" or "Circle",    -- 2-M
-	["HandLrRight"]   = game == "maniax" and "Ring" or "Circle",    -- 2-M
+	-- ez2, ds3ddx (5-panel), Maniax
+	["FootDown"]      =                                    "Down",   -- 2--
+	["FootUpLeft"]    =                                  "UpLeft",   -- 23-
+	["FootUpRight"]   =                                  "UpRight",  -- 23-
+	["FootCenter"]   =                                     "Center", -- 25-
+	["FootDownLeft"]  =                                "DownLeft",   -- -3-
+	["FootDownRight"] =                                "DownRight",  -- -3-
+	["HandUp"]        =                                "HandUp",     -- -3-
+	["HandDown"]      =                                "HandDown",   -- -3-
+	["HandLeft"]      =                                "HandLeft",   -- -3-
+	["HandRight"]     =                                "HandRight",  -- -3-
+	["HandUpLeft"]    = game == "maniax" and "Ring" or "Circle",     -- 2-M
+	["HandUpRight"]   = game == "maniax" and "Ring" or "Circle",     -- 2-M
+	["HandLrLeft"]    = game == "maniax" and "Ring" or "Circle",     -- 2-M
+	["HandLrRight"]   = game == "maniax" and "Ring" or "Circle",     -- 2-M
 	-- kbx, be-mu
 	["Key1"]         = game == "kbx" and "KeyWide" or "KeyWhite",
 	["Key2"]         = game == "kbx" and "KeyWide" or "KeyBlue",
@@ -312,10 +313,17 @@ local HoldBodyRedir = {
 	["ParaBack"]      = "_thin",
 	["ParaBackLeft"]  = "_thin",
 
+--[[
 	["HandLeft"]  = "_handleft",
 	["HandRight"] = "_handright",
 	["HandUp"]    = "_handdown",
 	["HandDown"]  = "_handdown",
+--]]
+
+	["HandLeft"]  = "_thin",
+	["HandRight"] = "_thin",
+	["HandUp"]    = "_thin",
+	["HandDown"]  = "_thin",
 
 	["Ring"] = "_ring",
 
@@ -383,6 +391,11 @@ local HoldCapRedir = {
 	["ParaBackRight"] = "_thin",
 	["ParaBack"]      = "_thin",
 	["ParaBackLeft"]  = "_thin",
+
+	["HandLeft"]  = "_thin",
+	["HandRight"] = "_thin",
+	["HandUp"]    = "_thin",
+	["HandDown"]  = "_thin",
 
 	["DownLeftFoot"]  = "_leftfoot",
 	["AnyLeftFoot"]   = "_leftfoot",
@@ -597,6 +610,7 @@ local ColumnColors = {
 		["FootDownLeft"] = 2,
 		["FootUpLeft"] = 0,
 		["HandUp"] = 4,
+		["FootCenter"] = 6,
 		["HandDown"] = 4,
 		["FootUpRight"] = 0,
 		["FootDownRight"] = 2,
