@@ -9,6 +9,7 @@ local game = GAMESTATE:GetCurrentGame():GetName()
 -- Flat (bool): colored by column
 -- ColorMine (bool): mines are colored by rhythm
 -- HoldType (string): replace hold/roll bodies by specified name
+-- ScratchSide (string): used for dake-leftscratch and dake-rightscratch
 ret.DakeExtras = {
 	["Rhythm"] = game == "dance" or game == "smx",
 	["Flat"] = not (game == "dance" or game == "smx"),
@@ -1178,6 +1179,7 @@ local function func()
 	local sEffect = Var "Effect"
 	local pn = Var "Player" or GAMESTATE:GetMasterPlayerNumber()
 	local sPlayer = pn
+	local sController = Var "Controller"
 
 	if game == "taiko" then
 		ret.DakeExtras.Rhythm = false
@@ -1613,6 +1615,79 @@ local function func()
 					PushCommand = function (self) self:diffusealpha(0.5):decelerate(0.4):diffusealpha(0) end,
 				},
 			}
+		end
+
+		-- column background and separator for be-mu
+		if game == "be-mu" and THEME:GetMetric("NoteField", "NoteFieldType") == bms then
+				local columnBackgrounds = {
+				["Key1"] = {["width"] = 38, ["diffuse"] = {1, 1, 1, 0.1}},
+				["Key2"] = {["width"] = 30, ["diffuse"] = {1, 1, 1, 0}},
+				["Key3"] = {["width"] = 38, ["diffuse"] = {1, 1, 1, 0.1}},
+				["Key4"] = {["width"] = 30, ["diffuse"] = {1, 1, 1, 0}},
+				["Key5"] = {["width"] = 38, ["diffuse"] = {1, 1, 1, 0.1}},
+				["Key6"] = {["width"] = 30, ["diffuse"] = {1, 1, 1, 0}},
+				["Key7"] = {["width"] = 38, ["diffuse"] = {1, 1, 1, 0.1}},
+				["scratch"] = {["width"] = 64, ["diffuse"] = {1, 1, 1, 0}},
+			}
+
+			if columnBackgrounds[sButton] then
+				t[#t+1] = Def.Quad {
+					InitCommand = function (self) self:zoomto(columnBackgrounds[sButton].width, 9999):valign(1):diffuse(columnBackgrounds[sButton].diffuse) end,
+					ReverseOnCommand = function (self) self:valign(1) end,
+					ReverseOffCommand = function (self) self:valign(0) end,
+				}
+			end
+
+			local columnPositions = {
+				["Key1"] = 19,
+				["Key2"] = 15,
+				["Key3"] = 19,
+				["Key4"] = 15,
+				["Key5"] = 19,
+				["Key6"] = 15,
+				["Key7"] = 19,
+				["scratch"] = 32,
+			}
+
+			local function isFirstColumnForController()
+				local numColumns = GAMESTATE:GetCurrentStyle(pn):ColumnsPerPlayer()
+				local leftScratch = numColumns == 8 or numColumns == 16
+			
+				if ret.DakeExtras.ScratchSide then
+					leftScratch = ret.DakeExtras.ScratchSide == "Left"
+				end
+
+				local styleType = GAMESTATE:GetCurrentStyle(pn):GetStyleType()
+				local isSingleOrVersus = styleType == "StyleType_OnePlayerOneSide" or styleType == "StyleType_TwoPlayersTwoSides"
+
+				if isSingleOrVersus or sController == "GameController_1" then
+					if leftScratch then
+						return sButton == "scratch"
+					else
+						return sButton == "Key1"
+					end
+				else
+					return sButton == "Key1"
+				end
+			end
+
+			if columnPositions[sButton] then
+				-- left side
+				if isFirstColumnForController() then
+					t[#t+1] = Def.Quad {
+						InitCommand = function(self) self:zoomto(2, 9999):x(-columnPositions[sButton]):y(-6):valign(1):diffuse({0.4, 0.4, 0.4, 1}) end,
+						ReverseOnCommand = function (self) self:y(-6):valign(1) end,
+						ReverseOffCommand = function (self) self:y(6):valign(0) end,
+						}
+				end
+
+				-- right side
+				t[#t+1] = Def.Quad {
+					InitCommand = function(self) self:zoomto(2, 9999):x(columnPositions[sButton]):y(-6):valign(1):diffuse({0.4, 0.4, 0.4, 1}) end,
+					ReverseOnCommand = function (self) self:y(-6):valign(1) end,
+					ReverseOffCommand = function (self) self:y(6):valign(0) end,
+				}
+			end
 		end
 
 		if ReceptorLineAndGlowTable[game] then
