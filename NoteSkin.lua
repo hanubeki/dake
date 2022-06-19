@@ -474,7 +474,12 @@ local RhythmColors = {
 	["64th"] = 14,
 	["192nd"] = 16,
 }
-setmetatable(RhythmColors, FallbackZero)
+local RhythmColorsMeta = {
+	__index = function (table, key, value)
+		return 16
+	end,
+}
+setmetatable(RhythmColors, RhythmColorsMeta)
 
 -- Color table for progress
 --[[
@@ -738,7 +743,7 @@ local ColumnColors = {
 		["Center"] = 0,
 		["Right"] = 0,
 	},
-	["lights"] = { -- isn't game
+	["lights"] = { -- isn't a game
 		["MarqueeUpLeft"] = 0,
 		["MarqueeUpRight"] = 0,
 		["MarqueeLrLeft"] = 0,
@@ -756,10 +761,18 @@ local ColumnColors = {
 		["PlayerNumber_P5"] = 8,
 	},
 }
+local ColumnColorsChildMeta = {
+	__index = function (table, key, value)
+		return 16
+	end,
+}
+for cur_k, _ in pairs(ColumnColors) do
+	setmetatable(ColumnColors[cur_k], ColumnColorsChildMeta)
+end
 local ColumnColorsMeta = {
 	__index = function (table, key, value)
 		local dummy = {}
-		setmetatable(dummy, FallbackZero)
+		setmetatable(dummy, ColumnColorsChildMeta)
 		return dummy
 	end,
 }
@@ -770,9 +783,14 @@ local WailColors = {
 	["Tap Wail Up"] = 4,
 	["Tap Wail Down"] = 20,
 	["Tap Wail Forward"] = 12,
-	["Tap Wail Backward"] = 6, -- I'm not sure this exists in original game
+	["Tap Wail Backward"] = 6, -- I'm not sure if this exists in original game
 }
-setmetatable(WailColors, FallbackZero)
+local WailColorsMeta = {
+	__index = function (table, key, value)
+		return 4
+	end,
+}
+setmetatable(WailColors, WailColorsMeta)
 
 local NoteUnderlayTable = {
 	["gdgf"] = {
