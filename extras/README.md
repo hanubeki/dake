@@ -16,3 +16,8 @@ Note that some child noteskins are not available for certain gametypes.
 * dake-narrowhold: Holds are narrow
 * dake-thinhold: Holds are thin
 * dake-routine: Actually not working
+
+Only for Be-Mu:
+
+* dake-leftscratch: Scratch on left side (Note that P2 Scratch in doubles always on right side)
+* dake-rightscratch: Scratch on right side
