@@ -901,6 +901,18 @@ local ColumnBackgroundTable = {
 		["Right Yellow"] = {["width"] = 26, ["diffuse"] = {0.5, 0.4,  0,   0.5}, ["lowerDiffuse"] = {0.25, 0.2,   0,    0.5}},
 		["Right White"]  = {["width"] = 36, ["diffuse"] = {0.5, 0.5,  0.5, 0.5}, ["lowerDiffuse"] = {0.25, 0.25,  0.25, 0.5}},
 	},
+	["gddm"] = {
+		["Left Crash"]   = {["width"] = 64, ["diffuse"] = {0.1,  0,    0.05, 0.5}, ["lowerDiffuse"] = {0.1,  0,    0.05, 0.5}},
+		["Hi-Hat"]       = {["width"] = 64, ["diffuse"] = {0,    0.05, 0.1,  0.5}, ["lowerDiffuse"] = {0,    0.05, 0.1,  0.5}},
+		["Hi-Hat Pedal"] = {["width"] = 64, ["diffuse"] = {0.1,  0,    0.08, 0.5}, ["lowerDiffuse"] = {0.1,  0,    0.08, 0.5}},
+		["Snare"]        = {["width"] = 64, ["diffuse"] = {0.1,  0.08, 0,    0.5}, ["lowerDiffuse"] = {0.1,  0.08, 0,    0.5}},
+		["High Tom"]     = {["width"] = 64, ["diffuse"] = {0,    0.08, 0,    0.5}, ["lowerDiffuse"] = {0,    0.08, 0,    0.5}},
+		["Kick"]         = {["width"] = 64, ["diffuse"] = {0.05, 0,    0.1,  0.5}, ["lowerDiffuse"] = {0.05, 0,    0.1,  0.5}},
+		["Mid Tom"]      = {["width"] = 64, ["diffuse"] = {0.1,  0,    0,    0.5}, ["lowerDiffuse"] = {0.1,  0,    0,    0.5}},
+		["Floor Tom"]    = {["width"] = 64, ["diffuse"] = {0.1,  0.05, 0,    0.5}, ["lowerDiffuse"] = {0.1,  0.05, 0,    0.5}},
+		["Ride"]         = {["width"] = 64, ["diffuse"] = {0,    0.05, 0.1,  0.5}, ["lowerDiffuse"] = {0,    0.05, 0.1,  0.5}},
+		["Right Crash"]  = {["width"] = 64, ["diffuse"] = {0,    0.1,  0.1,  0.5}, ["lowerDiffuse"] = {0,    0.1,  0.1,  0.5}},
+	},
 }
 local ColumnBackgroundMeta = {
 	__index = function (table, key, value)
@@ -1648,8 +1660,8 @@ local function func()
 			}
 		end
 
-		-- column background for be-mu and po-mu
 		if THEME:GetMetric("NoteField", "NoteFieldType") == bms then
+			-- column background for be-mu and po-mu
 			if ColumnBackgroundTable[game][sButton] then
 				t[#t+1] = Def.Quad {
 					InitCommand = function (self) self:zoomto(ColumnBackgroundTable[game][sButton].width, 9999):valign(1):diffuse(ColumnBackgroundTable[game][sButton].diffuse) end,
@@ -1665,59 +1677,97 @@ local function func()
 					}
 				end
 			end
-		end
 
-	-- column separator for be-mu
-		if game == "be-mu" and THEME:GetMetric("NoteField", "NoteFieldType") == bms then
-			local columnPositions = {
-				["Key1"] = 19,
-				["Key2"] = 15,
-				["Key3"] = 19,
-				["Key4"] = 15,
-				["Key5"] = 19,
-				["Key6"] = 15,
-				["Key7"] = 19,
-				["scratch"] = 32,
-			}
+			-- column separator for be-mu and gddm
+			if game == "be-mu" then
+				local columnPositions = {
+					["Key1"] = 19,
+					["Key2"] = 15,
+					["Key3"] = 19,
+					["Key4"] = 15,
+					["Key5"] = 19,
+					["Key6"] = 15,
+					["Key7"] = 19,
+					["scratch"] = 32,
+				}
 
-			local function isFirstColumnForController()
-				local numColumns = GAMESTATE:GetCurrentStyle(pn):ColumnsPerPlayer()
-				local leftScratch = numColumns == 8 or numColumns == 16
-			
-				if ret.DakeExtras.ScratchSide then
-					leftScratch = ret.DakeExtras.ScratchSide == "Left"
-				end
+				local function isFirstColumnForController()
+					local numColumns = GAMESTATE:GetCurrentStyle(pn):ColumnsPerPlayer()
+					local leftScratch = numColumns == 8 or numColumns == 16
+				
+					if ret.DakeExtras.ScratchSide then
+						leftScratch = ret.DakeExtras.ScratchSide == "Left"
+					end
 
-				local styleType = GAMESTATE:GetCurrentStyle(pn):GetStyleType()
-				local isSingleOrVersus = styleType == "StyleType_OnePlayerOneSide" or styleType == "StyleType_TwoPlayersTwoSides"
+					local styleType = GAMESTATE:GetCurrentStyle(pn):GetStyleType()
+					local isSingleOrVersus = styleType == "StyleType_OnePlayerOneSide" or styleType == "StyleType_TwoPlayersTwoSides"
 
-				if isSingleOrVersus or sController == "GameController_1" then
-					if leftScratch then
-						return sButton == "scratch"
+					if isSingleOrVersus or sController == "GameController_1" then
+						if leftScratch then
+							return sButton == "scratch"
+						else
+							return sButton == "Key1"
+						end
 					else
 						return sButton == "Key1"
 					end
-				else
-					return sButton == "Key1"
 				end
-			end
 
-			if columnPositions[sButton] then
-				-- left side
-				if isFirstColumnForController() then
+				if columnPositions[sButton] then
+					-- left side
+					if isFirstColumnForController() then
+						t[#t+1] = Def.Quad {
+							InitCommand = function(self) self:zoomto(2, 9999):x(-columnPositions[sButton]):y(-6):valign(1):diffuse({0.4, 0.4, 0.4, 1}) end,
+							ReverseOnCommand = function (self) self:y(-6):valign(1) end,
+							ReverseOffCommand = function (self) self:y(6):valign(0) end,
+							}
+					end
+
+					-- right side
 					t[#t+1] = Def.Quad {
-						InitCommand = function(self) self:zoomto(2, 9999):x(-columnPositions[sButton]):y(-6):valign(1):diffuse({0.4, 0.4, 0.4, 1}) end,
+						InitCommand = function(self) self:zoomto(2, 9999):x(columnPositions[sButton]):y(-6):valign(1):diffuse({0.4, 0.4, 0.4, 1}) end,
 						ReverseOnCommand = function (self) self:y(-6):valign(1) end,
 						ReverseOffCommand = function (self) self:y(6):valign(0) end,
-						}
+					}
+				end
+			elseif game == "gddm" then
+				-- left side
+				if iColumn == 0 then
+					t[#t+1] = Def.Quad {
+						InitCommand = function(self) self:zoomto(4, 9999):x(-32):diffuse({1, 1, 1, 1}):fadeleft(0.4):faderight(0.4) end,
+					}
+				else
+					t[#t+1] = Def.Quad {
+						InitCommand = function(self) self:zoomto(4, 4999):x(-32):y(-8):valign(1):diffuse({0.5, 0.5, 0.5, 0.5}):fadeleft(0.4):faderight(0.4) end,
+						ReverseOnCommand = function (self) self:y(-8):valign(1) end,
+						ReverseOffCommand = function (self) self:y(8):valign(0) end,
+					}
+
+					t[#t+1] = Def.Quad {
+						InitCommand = function(self) self:zoomto(4, 4999):x(-32):y(8):valign(0):diffuse({0.5, 0.5, 0.5, 0.5}):fadeleft(0.4):faderight(0.4) end,
+						ReverseOnCommand = function (self) self:y(8):valign(0) end,
+						ReverseOffCommand = function (self) self:y(-8):valign(1) end,
+					}
 				end
 
 				-- right side
-				t[#t+1] = Def.Quad {
-					InitCommand = function(self) self:zoomto(2, 9999):x(columnPositions[sButton]):y(-6):valign(1):diffuse({0.4, 0.4, 0.4, 1}) end,
-					ReverseOnCommand = function (self) self:y(-6):valign(1) end,
-					ReverseOffCommand = function (self) self:y(6):valign(0) end,
-				}
+				if iColumn == GAMESTATE:GetCurrentStyle(pn):ColumnsPerPlayer() - 1 then
+					t[#t+1] = Def.Quad {
+						InitCommand = function(self) self:zoomto(4, 9999):x(32):diffuse({1, 1, 1, 1}):fadeleft(0.4):faderight(0.4) end,
+					}
+				else
+					t[#t+1] = Def.Quad {
+						InitCommand = function(self) self:zoomto(4, 4999):x(32):y(-8):valign(1):diffuse({0.5, 0.5, 0.5, 0.5}):fadeleft(0.4):faderight(0.4) end,
+						ReverseOnCommand = function (self) self:y(-8):valign(1) end,
+						ReverseOffCommand = function (self) self:y(8):valign(0) end,
+					}
+	
+					t[#t+1] = Def.Quad {
+						InitCommand = function(self) self:zoomto(4, 4999):x(32):y(8):valign(0):diffuse({0.5, 0.5, 0.5, 0.5}):fadeleft(0.4):faderight(0.4) end,
+						ReverseOnCommand = function (self) self:y(8):valign(0) end,
+						ReverseOffCommand = function (self) self:y(-8):valign(1) end,
+					}
+				end
 			end
 		end
 
