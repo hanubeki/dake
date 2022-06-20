@@ -878,6 +878,37 @@ local ReceptorGlyphMeta = {
 }
 setmetatable(ReceptorGlyphTable, ReceptorGlyphMeta)
 
+-- Table for column background
+local ColumnBackgroundTable = {
+	["be-mu"] = {
+		["Key1"] = {["width"] = 38, ["diffuse"] = {1, 1, 1, 0.1}},
+		-- ["Key2"] = {["width"] = 30, ["diffuse"] = {1, 1, 1, 0}},
+		["Key3"] = {["width"] = 38, ["diffuse"] = {1, 1, 1, 0.1}},
+		-- ["Key4"] = {["width"] = 30, ["diffuse"] = {1, 1, 1, 0}},
+		["Key5"] = {["width"] = 38, ["diffuse"] = {1, 1, 1, 0.1}},
+		-- ["Key6"] = {["width"] = 30, ["diffuse"] = {1, 1, 1, 0}},
+		["Key7"] = {["width"] = 38, ["diffuse"] = {1, 1, 1, 0.1}},
+		-- ["scratch"] = {["width"] = 64, ["diffuse"] = {1, 1, 1, 0}},
+	},
+	["po-mu"] = {
+		["Left White"]   = {["width"] = 36, ["diffuse"] = {0.5, 0.5,  0.5, 0.5}, ["lowerDiffuse"] = {0.25, 0.25,  0.25, 0.5}},
+		["Left Yellow"]  = {["width"] = 26, ["diffuse"] = {0.5, 0.4,  0,   0.5}, ["lowerDiffuse"] = {0.25, 0.2,   0,    0.5}},
+		["Left Green"]   = {["width"] = 36, ["diffuse"] = {0,   0.25, 0,   0.5}, ["lowerDiffuse"] = {0,    0.125, 0,    0.5}},
+		["Left Blue"]    = {["width"] = 26, ["diffuse"] = {0,   0.25, 0.5, 0.5}, ["lowerDiffuse"] = {0,    0.125, 0.25, 0.5}},
+		["Red"]          = {["width"] = 36, ["diffuse"] = {0.5, 0,    0,   0.5}, ["lowerDiffuse"] = {0.25, 0,     0,    0.5}},
+		["Right Blue"]   = {["width"] = 26, ["diffuse"] = {0,   0.25, 0.5, 0.5}, ["lowerDiffuse"] = {0,    0.125, 0.25, 0.5}},
+		["Right Green"]  = {["width"] = 36, ["diffuse"] = {0,   0.25, 0,   0.5}, ["lowerDiffuse"] = {0,    0.125, 0,    0.5}},
+		["Right Yellow"] = {["width"] = 26, ["diffuse"] = {0.5, 0.4,  0,   0.5}, ["lowerDiffuse"] = {0.25, 0.2,   0,    0.5}},
+		["Right White"]  = {["width"] = 36, ["diffuse"] = {0.5, 0.5,  0.5, 0.5}, ["lowerDiffuse"] = {0.25, 0.25,  0.25, 0.5}},
+	},
+}
+local ColumnBackgroundMeta = {
+	__index = function (table, key, value)
+		return {}
+	end,
+}
+setmetatable(ColumnBackgroundTable, ColumnBackgroundMeta)
+
 -- Table for receptor laser
 local ReceptorLaserTable = {
 	["para"] = {
@@ -1617,27 +1648,27 @@ local function func()
 			}
 		end
 
-		-- column background and separator for be-mu
-		if game == "be-mu" and THEME:GetMetric("NoteField", "NoteFieldType") == bms then
-				local columnBackgrounds = {
-				["Key1"] = {["width"] = 38, ["diffuse"] = {1, 1, 1, 0.1}},
-				["Key2"] = {["width"] = 30, ["diffuse"] = {1, 1, 1, 0}},
-				["Key3"] = {["width"] = 38, ["diffuse"] = {1, 1, 1, 0.1}},
-				["Key4"] = {["width"] = 30, ["diffuse"] = {1, 1, 1, 0}},
-				["Key5"] = {["width"] = 38, ["diffuse"] = {1, 1, 1, 0.1}},
-				["Key6"] = {["width"] = 30, ["diffuse"] = {1, 1, 1, 0}},
-				["Key7"] = {["width"] = 38, ["diffuse"] = {1, 1, 1, 0.1}},
-				["scratch"] = {["width"] = 64, ["diffuse"] = {1, 1, 1, 0}},
-			}
-
-			if columnBackgrounds[sButton] then
+		-- column background for be-mu and po-mu
+		if THEME:GetMetric("NoteField", "NoteFieldType") == bms then
+			if ColumnBackgroundTable[game][sButton] then
 				t[#t+1] = Def.Quad {
-					InitCommand = function (self) self:zoomto(columnBackgrounds[sButton].width, 9999):valign(1):diffuse(columnBackgrounds[sButton].diffuse) end,
+					InitCommand = function (self) self:zoomto(ColumnBackgroundTable[game][sButton].width, 9999):valign(1):diffuse(ColumnBackgroundTable[game][sButton].diffuse) end,
 					ReverseOnCommand = function (self) self:valign(1) end,
 					ReverseOffCommand = function (self) self:valign(0) end,
 				}
-			end
 
+				if ColumnBackgroundTable[game][sButton].lowerDiffuse then
+					t[#t+1] = Def.Quad {
+						InitCommand = function (self) self:zoomto(ColumnBackgroundTable[game][sButton].width, 9999):valign(0):diffuse(ColumnBackgroundTable[game][sButton].lowerDiffuse) end,
+						ReverseOnCommand = function (self) self:valign(0) end,
+						ReverseOffCommand = function (self) self:valign(1) end,
+					}
+				end
+			end
+		end
+
+	-- column separator for be-mu
+		if game == "be-mu" and THEME:GetMetric("NoteField", "NoteFieldType") == bms then
 			local columnPositions = {
 				["Key1"] = 19,
 				["Key2"] = 15,
