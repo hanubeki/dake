@@ -911,7 +911,7 @@ local ColumnBackgroundTable = {
 		["Mid Tom"]      = {["width"] = 64, ["diffuse"] = {0.1,  0,    0,    0.5}, ["lowerDiffuse"] = {0.1,  0,    0,    0.5}},
 		["Floor Tom"]    = {["width"] = 64, ["diffuse"] = {0.1,  0.05, 0,    0.5}, ["lowerDiffuse"] = {0.1,  0.05, 0,    0.5}},
 		["Ride"]         = {["width"] = 64, ["diffuse"] = {0,    0.05, 0.1,  0.5}, ["lowerDiffuse"] = {0,    0.05, 0.1,  0.5}},
-		["Right Crash"]  = {["width"] = 64, ["diffuse"] = {0,    0.1,  0.1,  0.5}, ["lowerDiffuse"] = {0,    0.1,  0.1,  0.5}},
+		["Right Crash"]  = {["width"] = 64, ["diffuse"] = {0,    0.09, 0.1,  0.5}, ["lowerDiffuse"] = {0,    0.09, 0.1,  0.5}},
 	},
 }
 local ColumnBackgroundMeta = {
