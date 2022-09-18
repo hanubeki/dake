@@ -754,13 +754,6 @@ local ColumnColors = {
 		["BassLeft"] = 0,
 		["BassRight"] = 0,
 	},
-	["Routine"] = { -- for Routine mode
-		["PlayerNumber_P1"] = 12,
-		["PlayerNumber_P2"] = 2,
-		["PlayerNumber_P3"] = 6,
-		["PlayerNumber_P4"] = 4,
-		["PlayerNumber_P5"] = 8,
-	},
 }
 local ColumnColorsChildMeta = {
 	__index = function (table, key, value)
@@ -781,6 +774,24 @@ setmetatable(ColumnColors, ColumnColorsMeta)
 
 -- Color table for Tap Wail
 local WailColors = {
+--[[
+	 0: Red
+	 2: Blue
+	 4: Green
+	 6: Yellow
+	 8: Violet
+	10: Teal
+	12: Magenta
+	14: Seafoam
+	16: Gray
+	18: Orange
+	20: Cyan
+	22: Reserved
+	24: Reserved
+	26: Reserved
+	28: Reserved
+	30: Reserved
+--]]
 	["Tap Wail Up"] = 4,
 	["Tap Wail Down"] = 20,
 	["Tap Wail Forward"] = 12,
@@ -792,6 +803,39 @@ local WailColorsMeta = {
 	end,
 }
 setmetatable(WailColors, WailColorsMeta)
+
+-- Color table for Routine
+local RoutineColors = {
+--[[
+	 0: Red
+	 2: Blue
+	 4: Green
+	 6: Yellow
+	 8: Violet
+	10: Teal
+	12: Magenta
+	14: Seafoam
+	16: Gray
+	18: Orange
+	20: Cyan
+	22: Reserved
+	24: Reserved
+	26: Reserved
+	28: Reserved
+	30: Reserved
+--]]
+	["PlayerNumber_P1"] = 12,
+	["PlayerNumber_P2"] = 2,
+	["PlayerNumber_P3"] = 6,
+	["PlayerNumber_P4"] = 4,
+	["PlayerNumber_P5"] = 8,
+}
+local RoutineColorsMeta = {
+	__index = function (table, key, value)
+		return 12
+	end,
+}
+setmetatable(RoutineColors, RoutineColorsMeta)
 
 local NoteUnderlayTable = {
 	["gdgf"] = {
@@ -1404,7 +1448,7 @@ local function func()
 			color = 4
 		else
 			if GAMESTATE:GetCurrentStyle(pn):GetStyleType() == "StyleType_TwoPlayersSharedSides" then
-				color = ColumnColors["Routine"][sPlayer]
+				color = RoutineColors[sPlayer]
 			elseif ret.DakeExtras.Rhythm then
 				color = RhythmColors[sColor]
 			elseif ret.DakeExtras.Flat then
@@ -1523,7 +1567,7 @@ local function func()
 			color = 4
 		else
 			if GAMESTATE:GetCurrentStyle(pn):GetStyleType() == "StyleType_TwoPlayersSharedSides" then
-				color = ColumnColors["Routine"][sPlayer]
+				color = RoutineColors[sPlayer]
 			elseif ret.DakeExtras.Rhythm then
 				color = RhythmColors[sColor]
 			elseif ret.DakeExtras.Flat then
