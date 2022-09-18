@@ -1,7 +1,7 @@
 Dake, formerly NoteSkin hanubeki
 ================================
 
-Notice: Project is paused because my PC is not working properly. ETA: maybe December 2022
+Notice: The project has lower priority because my PC is sometimes not working.
 
 Play more games in single NoteSkin!
 A goal of this noteskin is to support every gametype (except lights).
