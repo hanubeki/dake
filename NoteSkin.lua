@@ -1735,25 +1735,16 @@ local function func()
 					["scratch"] = 32,
 				}
 
+				-- TODO: remove of usage
 				local function isFirstColumnForController()
 					local numColumns = GAMESTATE:GetCurrentStyle(pn):ColumnsPerPlayer()
-					local leftScratch = numColumns == 8 or numColumns == 16
-				
-					if ret.DakeExtras.ScratchSide then
-						leftScratch = ret.DakeExtras.ScratchSide == "Left"
-					end
-
 					local styleType = GAMESTATE:GetCurrentStyle(pn):GetStyleType()
 					local isSingleOrVersus = styleType == "StyleType_OnePlayerOneSide" or styleType == "StyleType_TwoPlayersTwoSides"
 
 					if isSingleOrVersus or sController == "GameController_1" then
-						if leftScratch then
-							return sButton == "scratch"
-						else
-							return sButton == "Key1"
-						end
+						return iColumn == 0
 					else
-						return sButton == "Key1"
+						return iColumn == (numColumns / 2)
 					end
 				end
 
@@ -1764,7 +1755,7 @@ local function func()
 							InitCommand = function(self) self:zoomto(2, 9999):x(-columnPositions[sButton]):y(-6):valign(1):diffuse({0.4, 0.4, 0.4, 1}) end,
 							ReverseOnCommand = function (self) self:y(-6):valign(1) end,
 							ReverseOffCommand = function (self) self:y(6):valign(0) end,
-							}
+						}
 					end
 
 					-- right side
