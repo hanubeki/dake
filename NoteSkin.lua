@@ -71,6 +71,7 @@ ret.RedirTable =
 	["scratch"]      =                                "Scratch",
 	["scratch up"]   =                                "Scratch",
 	["scratch down"] =                                "Scratch",
+	["Foot"]         =                                "Foot",
 	-- po-mu
 	["Left White"]   = "BurgerLower",
 	["Left Yellow"]  = "BurgerUpper",
@@ -177,6 +178,7 @@ local TapRedir = {
 	["KeyWhite"] = "_keywhite",
 	["KeyBlue"]  = "_keyblue",
 	["Scratch"]  = "_scratch",
+	["Foot"]     = "_keywhite",
 
 	["KeyWide"]  = "_scratch",
 
@@ -331,6 +333,7 @@ local HoldBodyRedir = {
 	["KeyWhite"] = "_keywhite",
 	["KeyBlue"]  = "_keyblue",
 	["Scratch"]  = "_down",
+	["Foot"]     = "_keywhite",
 
 	["KeyWide"]  = "_down",
 
@@ -410,6 +413,8 @@ local HoldCapRedir = {
 	["UpRightFoot"]   = "_rightfoot",
 	["AnyRightFoot"]  = "_rightfoot",
 	["DownRightFoot"] = "_rightfoot",
+
+	["Foot"] = "_keywhite",
 
 	["KeyWide"] = "_scratch",
 
@@ -654,6 +659,7 @@ local ColumnColors = {
 		["scratch"] = 0,
 		["scratch up"] = 0,
 		["scratch down"] = 0,
+		["Foot"] = 4,
 	},
 	["po-mu"] = {
 		["Left White"] = 16,
@@ -869,6 +875,7 @@ local ReceptorGlyphTable = {
 		["Key5"] = {["texture"] = "_keywhite", ["x"] = 0, ["y"] = 48, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {1, 0.25, 0, 0}},
 		["Key6"] = {["texture"] = "_keyblue",  ["x"] = 0, ["y"] = 40, ["rot"] = 0, ["diffuse"] = {0.15, 0.15, 0.15, 1}, ["glow"] = {1, 0.25, 0, 0}},
 		["Key7"] = {["texture"] = "_keywhite", ["x"] = 0, ["y"] = 48, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {1, 0.25, 0, 0}},
+		["Foot"] = {["texture"] = "_foot", ["x"] = 0, ["y"] = 44, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {1, 0.25, 0, 0}},
 	},
 	["po-mu"] = {
 		["Left White"]   = {["texture"] = "_burger", ["x"] = 0, ["y"] = 28, ["rot"] = 0, ["diffuse"] = {0.75, 0.75,  0.75, 1.0}},
@@ -933,6 +940,7 @@ local ColumnBackgroundTable = {
 		-- ["Key6"] = {["width"] = 30, ["diffuse"] = {1, 1, 1, 0}},
 		["Key7"] = {["width"] = 38, ["diffuse"] = {1, 1, 1, 0.1}},
 		-- ["scratch"] = {["width"] = 64, ["diffuse"] = {1, 1, 1, 0}},
+		-- ["Foot"] = {["width"] = 38, ["diffuse"] = {1, 1, 1, 0}},
 	},
 	["po-mu"] = {
 		["Left White"]   = {["width"] = 36, ["diffuse"] = {0.5, 0.5,  0.5, 0.5}, ["lowerDiffuse"] = {0.25, 0.25,  0.25, 0.5}},
@@ -999,6 +1007,7 @@ local ReceptorLaserTable = {
 		["Key5"] = {["width"] = 36, ["diffuse"] = {0.25, 0.5,  1, 1}},
 		["Key6"] = {["width"] = 28, ["diffuse"] = {0.5,  0.75, 1, 1}},
 		["Key7"] = {["width"] = 36, ["diffuse"] = {0.25, 0.5,  1, 1}},
+		["Foot"] = {["width"] = 38, ["diffuse"] = {0.25, 1, 1, 1}},
 	},
 	["po-mu"] = {
 		["Left White"]   = {["width"] = 36, ["diffuse"] = {0.25, 0.25, 1, 1}, ["judgecolored"] = true},
@@ -1075,6 +1084,7 @@ local ReceptorLineAndGlowTable = {
 			["Key5"] = 38,
 			["Key6"] = 30,
 			["Key7"] = 38,
+			["Foot"] = 38,
 		},
 	},
 	["po-mu"] = {
@@ -1733,6 +1743,7 @@ local function func()
 					["Key6"] = 15,
 					["Key7"] = 19,
 					["scratch"] = 32,
+					["Foot"] = 19,
 				}
 
 				-- TODO: remove of usage
@@ -1741,10 +1752,18 @@ local function func()
 					local styleType = GAMESTATE:GetCurrentStyle(pn):GetStyleType()
 					local isSingleOrVersus = styleType == "StyleType_OnePlayerOneSide" or styleType == "StyleType_TwoPlayersTwoSides"
 
-					if isSingleOrVersus or sController == "GameController_1" then
-						return iColumn == 0
+					if GAMESTATE:GetCurrentStyle(pn):GetStepsType():find("6") then
+						if isSingleOrVersus or sController == "GameController_2" then
+							return iColumn == numColumns - 1
+						else
+							return iColumn == numColumns / 2 - 1
+						end
 					else
-						return iColumn == (numColumns / 2)
+						if isSingleOrVersus or sController == "GameController_1" then
+							return iColumn == 0
+						else
+							return iColumn == numColumns / 2
+						end
 					end
 				end
 
