@@ -1828,7 +1828,7 @@ local function func()
 		if ReceptorLineAndGlowTable[game] then
 			if ReceptorLineAndGlowTable[game].glow then
 				local reverseGlow = false
-				if (GAMESTATE.GetIsFieldReversed) then
+				if GAMESTATE.GetIsFieldReversed then
 					reverseGlow = GAMESTATE:GetIsFieldReversed()
 				end
 
@@ -1845,7 +1845,7 @@ local function func()
 
 		if ReceptorLaserTable[game][sButton] then
 			local reverseLaser = false
-			if (GAMESTATE.GetIsFieldReversed) then
+			if GAMESTATE.GetIsFieldReversed then
 				reverseLaser = GAMESTATE:GetIsFieldReversed()
 			end
 
@@ -2123,7 +2123,7 @@ local function func()
 
 		if ReceptorGlyphTable[game][sButton] then
 			local glyphReverse = false
-			if (GAMESTATE.GetIsFieldReversed) then
+			if GAMESTATE.GetIsFieldReversed then
 				glyphReverse = GAMESTATE:GetIsFieldReversed()
 			end
 
