@@ -120,8 +120,8 @@ ret.RedirTable =
 	["Floor Tom"] = "Tom",
 	["Ride"] = "Cymbal",
 	["Right Crash"] = "Cymbal",
-	--taiko
-	["Main"] = "Taiko",
+	--taiko, bongo
+	["Main"] = game == "bongo" and "Bongo" or "Taiko",
 }
 
 local Fallback = {
@@ -212,6 +212,7 @@ local TapRedir = {
 	["Pedal"] = "_scratch",
 
 	["Taiko"] = "_taiko",
+	["Bongo"] = "_bongo",
 
 	["StepLeft"]   = "_stepleft",
 	["StepCenter"] = "_stepcenter",
@@ -367,6 +368,7 @@ local HoldBodyRedir = {
 	["Pedal"] = "_down",
 
 	["Taiko"] = "_taiko",
+	["Bongo"] = "_bongo",
 
 	["StepLeft"]   = "_step",
 	["StepCenter"] = "_step",
@@ -744,6 +746,9 @@ local ColumnColors = {
 	},
 	["taiko"] = {
 		["Main"] = 0,
+	},
+	["bongo"] = {
+		["Main"] = 12,
 	},
 	["stepstage"] = {
 		["Left"] = 0,
@@ -1203,6 +1208,26 @@ ret.Redir = function (sButton, sElement)
 		sElement = "Tap BigYellow"
 	end
 
+	-- Instead of separate hold lefts, use the tap left graphics.
+	if (sElement:find("Hold Left") or sElement:find("Roll Left")) and not (sElement:find(" .*cap") or sElement:find(" Body")) then
+		sElement = "Tap Left"
+	end
+
+	-- Instead of separate hold rights, use the tap right graphics.
+	if (sElement:find("Hold Right") or sElement:find("Roll Right")) and not (sElement:find(" .*cap") or sElement:find(" Body")) then
+		sElement = "Tap Right"
+	end
+
+	-- Instead of separate hold centers, use the tap center graphics.
+	if (sElement:find("Hold Center") or sElement:find("Roll Center")) and not (sElement:find(" .*cap") or sElement:find(" Body")) then
+		sElement = "Tap Center"
+	end
+
+	-- Instead of separate hold claps, use the tap clap graphics.
+	if (sElement:find("Hold Clap") or sElement:find("Roll Clap")) and not (sElement:find(" .*cap") or sElement:find(" Body")) then
+		sElement = "Tap Clap"
+	end
+
 	-- Instead of separate hold jumps, use the tap jump graphics.
 	if sElement:find("Hold Jump") or sElement:find("Roll Jump") then
 		if sElement:find("Red") then
@@ -1236,7 +1261,7 @@ ret.Redir = function (sButton, sElement)
 		sElement = "Tap Mine"
 	end
 
-	if game == "taiko" then
+	if game == "taiko" or game == "bongo" then
 		sElement = sElement:gsub("Roll", "Hold")
 		sElement = sElement:gsub("Inactive", "Active")
 	end
@@ -1279,6 +1304,11 @@ local function func()
 	local sController = Var "Controller"
 
 	if game == "taiko" then
+		ret.DakeExtras.Rhythm = false
+		ret.DakeExtras.Flat = false
+		ret.DakeExtras.ColorMine = false
+		ret.DakeExtras.HoldType = nil
+	elseif game == "bongo" then
 		ret.DakeExtras.Rhythm = false
 		ret.DakeExtras.Flat = false
 		ret.DakeExtras.ColorMine = false
@@ -1442,16 +1472,47 @@ local function func()
 
 	local t = Def.ActorFrame {}
 
-	if sElementToLoad == "Tap Note" or
-	   sElementToLoad == "Tap Hopo" or
-	   sElementToLoad == "Tap Taps" or
-	   sElementToLoad == "Tap Red" or
-	   sElementToLoad == "Tap Blue" or
-	   sElementToLoad == "Tap Yellow" or
-	   sElementToLoad == "Tap BigRed" or
-	   sElementToLoad == "Tap BigBlue" or
-	   sElementToLoad == "Tap BigYellow"
-	then
+	if sElementToLoad == "Tap Mine" then
+		local color = 0
+
+		if ret.DakeExtras.ColorMine then
+			color = RhythmColors[sColor]
+		end
+
+		t[#t+1] = colorSprite("_common", "mine base", color) .. {
+			InitCommand = function (self) self:zoom(zoomValue) end,
+		}
+		t[#t+1] = singleSprite("_common", "mine parts") .. {
+			InitCommand = function (self) self:zoom(zoomValue):spin():effectclock("beat"):effectmagnitude(0, 0, -60) end,
+		}
+		t[#t+1] = singleSprite("_common", "mine parts") .. {
+			InitCommand = function (self) self:zoom(zoomValue):rotationz(120):spin():effectclock("beat"):effectmagnitude(0, 0, -60) end,
+		}
+		t[#t+1] = singleSprite("_common", "mine parts") .. {
+			InitCommand = function (self) self:zoom(zoomValue):rotationz(240):spin():effectclock("beat"):effectmagnitude(0, 0, -60) end,
+		}
+	elseif sElementToLoad == "Tap Lift" then
+		t[#t+1] = singleSprite("_common", "tap lift") .. {
+			InitCommand = function (self)
+				self:rotationx(GAMESTATE:GetIsFieldReversed() and 180 or 0)
+				self:zoom(zoomValue)
+			end,
+			-- TODO: flip on reverse
+			-- ReverseOnCommand = function (self) self:rotationx(180) end,
+			-- ReverseOffCommand = function (self) self:rotationx(0) end,
+		}
+	elseif sElementToLoad:find("Tap Wail") then
+		local rotZ = WailRotateZ[sElementToLoad]
+		local color = WailColors[sElementToLoad]
+
+		t[#t+1] = colorSprite("_common", "underlay guitar", color) .. {
+			InitCommand = function (self) self:diffuse({0.5, 0.5, 0.5, 1}) end,
+		}
+
+		t[#t+1] = colorSprite("_wailing", "tap wail up", color) .. {
+			InitCommand = function (self) self:rotationz(rotZ) end,
+		}
+	elseif sElementToLoad:find("^Tap") then
 		local color = 0
 
 		if sButton == "wailing" then
@@ -1563,14 +1624,7 @@ local function func()
 				InitCommand = function (self) self:zoomto(4, 192):halign(1):x(32):diffuse(guidelineColors[sButton]):fadeleft(0.25):fadetop(0.5):fadebottom(0.5) end,
 			}
 		end
-	elseif sElementToLoad == "Jump Note" or
-		sElementToLoad == "Jump Red" or
-		sElementToLoad == "Jump Blue" or
-		sElementToLoad == "Jump Yellow" or
-		sElementToLoad == "Jump BigRed" or
-		sElementToLoad == "Jump BigBlue" or
-		sElementToLoad == "Jump BigYellow"
-	 then
+	elseif sElementToLoad:find("^Jump") then
 		local color = 0
 
 		if sButton == "wailing" then
@@ -1618,62 +1672,12 @@ local function func()
 		t[#t+1] = colorSprite(TapRedir[sButtonToLoad], tapNote:lower(), color) .. {
 			InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ) end,
 		}
-	elseif sElementToLoad == "Tap Mine" then
-		local color = 0
-
-		if ret.DakeExtras.ColorMine then
-			color = RhythmColors[sColor]
-		end
-
-		t[#t+1] = colorSprite("_common", "mine base", color) .. {
-			InitCommand = function (self) self:zoom(zoomValue) end,
-		}
-		t[#t+1] = singleSprite("_common", "mine parts") .. {
-			InitCommand = function (self) self:zoom(zoomValue):spin():effectclock("beat"):effectmagnitude(0, 0, -60) end,
-		}
-		t[#t+1] = singleSprite("_common", "mine parts") .. {
-			InitCommand = function (self) self:zoom(zoomValue):rotationz(120):spin():effectclock("beat"):effectmagnitude(0, 0, -60) end,
-		}
-		t[#t+1] = singleSprite("_common", "mine parts") .. {
-			InitCommand = function (self) self:zoom(zoomValue):rotationz(240):spin():effectclock("beat"):effectmagnitude(0, 0, -60) end,
-		}
-	elseif sElementToLoad == "Tap Lift" then
-		t[#t+1] = singleSprite("_common", "tap lift") .. {
-			InitCommand = function (self)
-				self:rotationx(GAMESTATE:GetIsFieldReversed() and 180 or 0)
-				self:zoom(zoomValue)
-			end,
-			-- TODO: flip on reverse
-			-- ReverseOnCommand = function (self) self:rotationx(180) end,
-			-- ReverseOffCommand = function (self) self:rotationx(0) end,
-		}
-	elseif sElementToLoad:find("Tap Wail") then
-		local rotZ = WailRotateZ[sElementToLoad]
-		local color = WailColors[sElementToLoad]
-
-		t[#t+1] = colorSprite("_common", "underlay guitar", color) .. {
-			InitCommand = function (self) self:diffuse({0.5, 0.5, 0.5, 1}) end,
-		}
-
-		t[#t+1] = colorSprite("_wailing", "tap wail up", color) .. {
-			InitCommand = function (self) self:rotationz(rotZ) end,
-		}
 	elseif sElementToLoad:find("Hold .*cap") or sElementToLoad:find("Roll .*cap") or
-	       sElementToLoad:find("Hold Red .*cap") or sElementToLoad:find("Roll Red .*cap") or
-	       sElementToLoad:find("Hold Blue .*cap") or sElementToLoad:find("Roll Blue .*cap") or
-	       sElementToLoad:find("Hold Yellow .*cap") or sElementToLoad:find("Roll Yellow .*cap") or
-	       sElementToLoad:find("Hold BigRed .*cap") or sElementToLoad:find("Roll BigRed .*cap") or
-	       sElementToLoad:find("Hold BigBlue .*cap") or sElementToLoad:find("Roll BigBlue .*cap") or
-	       sElementToLoad:find("Hold BigYellow .*cap") or sElementToLoad:find("Roll BigYellow .*cap")
+	       sElementToLoad:find("Hold %w+ .*cap") or sElementToLoad:find("Roll %w+ .*cap")
 	then
 		t = singleSprite(HoldCapRedir[ret.DakeExtras.HoldType or sButtonToLoad], sElementToLoad:lower())
 	elseif sElementToLoad:find("Hold Body") or sElementToLoad:find("Roll Body") or
-	       sElementToLoad:find("Hold Red Body") or sElementToLoad:find("Roll Red Body") or
-	       sElementToLoad:find("Hold Blue Body") or sElementToLoad:find("Roll Blue Body") or
-	       sElementToLoad:find("Hold Yellow Body") or sElementToLoad:find("Roll Yellow Body") or
-	       sElementToLoad:find("Hold BigRed Body") or sElementToLoad:find("Roll BigRed Body") or
-	       sElementToLoad:find("Hold BigBlue Body") or sElementToLoad:find("Roll BigBlue Body") or
-	       sElementToLoad:find("Hold BigYellow Body") or sElementToLoad:find("Roll BigYellow Body")
+	       sElementToLoad:find("Hold %w+ Body") or sElementToLoad:find("Roll %w+ Body")
 	then
 		t = singleSprite(HoldBodyRedir[ret.DakeExtras.HoldType or sButtonToLoad], sElementToLoad:lower())
 	elseif sElementToLoad:find("Mine .*cap") then
@@ -2040,6 +2044,10 @@ local function func()
 			}
 		end
 	elseif sElementToLoad == "Ovceptor" then
+		if game == "bongo" then
+			t[#t+1] = singleSprite("_bongo", "receptor overlay")
+		end
+
 		if game == "smx" then
 			local sideReceptor = singleSprite("_common", "receptor side") .. {
 				InitCommand = function (self) self:halign(1):x(12):diffusealpha(0) end,
@@ -2064,6 +2072,7 @@ local function func()
 			end
 		end
 
+		-- TODO: bongo drum
 		if game == "taiko" then
 			local taikoDrum = nil
 
@@ -2144,7 +2153,7 @@ local function func()
 			end
 
 			-- TODO: support other than kbx?
-			if game:match("^kb[7x]$") then
+			if game:find("^kb[7x]$") then
 				sGameButton = sGameButton:gsub("Key ", "")
 
 				t[#t+1] = Def.Quad {
@@ -2226,7 +2235,7 @@ local function func()
 			}
 --]]
 
-			local circleZoom = game == "taiko" and 2 or game == "gh" and 1.5 or 1
+			local circleZoom = game == "taiko" and 2 or game == "bongo" and 2 or game == "gh" and 1.5 or 1
 
 			-- Function for circle actor commands
 			local circleCommands = function (actor, color)
