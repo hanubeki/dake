@@ -121,7 +121,7 @@ ret.RedirTable =
 	["Ride"] = "Cymbal",
 	["Right Crash"] = "Cymbal",
 	--taiko
-	["Main"] = "Main",
+	["Main"] = "Taiko",
 }
 
 local Fallback = {
@@ -211,7 +211,7 @@ local TapRedir = {
 	["Tom"] = "_scratch",
 	["Pedal"] = "_scratch",
 
-	["Main"] = "_main",
+	["Taiko"] = "_taiko",
 
 	["StepLeft"]   = "_stepleft",
 	["StepCenter"] = "_stepcenter",
@@ -366,7 +366,7 @@ local HoldBodyRedir = {
 	["Tom"] = "_down",
 	["Pedal"] = "_down",
 
-	["Main"] = "_main",
+	["Taiko"] = "_taiko",
 
 	["StepLeft"]   = "_step",
 	["StepCenter"] = "_step",
@@ -1527,7 +1527,7 @@ local function func()
 			t[#t+1] = singleSprite("_common", "overlay feet")
 		end
 
-		if sButton == "Main" then
+		if sButton == "Main" and game == "taiko" then
 			t[#t+1] = singleSprite(sElement:find("Big") and "_big" or "_common", "overlay smiley")
 		end
 
