@@ -1712,8 +1712,49 @@ local function func()
 				end,
 				Def.Quad {
 					Name = "Laser",
-					OnCommand = function (self) self:halign(0):valign(0):xy(-64, -64):scaletoclipped(512, 128):faderight(1):diffusealpha(0) end,
+					OnCommand = function (self) self:halign(0):valign(0.5):xy(-64, 0):scaletoclipped(512, 128):faderight(1):diffusealpha(0) end,
 					PushCommand = function (self) self:diffusealpha(0.5):decelerate(0.4):diffusealpha(0) end,
+				},
+			}
+		elseif game == "bongo" then
+			local bongoLaser = nil
+
+			-- TODO: Bongo Center {1, 0, 0.5, 0.5}
+			local bongoLaserColors = {
+				["Bongo Left"] = {1, 0.9, 0, 0.5},
+				["Bongo Right"] = {1, 0, 0, 0.5},
+				["Bongo Clap"] = {0, 0.9, 1, 0.5},
+			}
+
+			local bongoLaserInput = function (event)
+				if ToEnumShortString(event.type) == "FirstPress" and event.PlayerNumber == pn then
+					if bongoLaserColors[event.button] then
+						bongoLaser:GetChild("Laser Upper"):finishtweening():diffuse(bongoLaserColors[event.button]):diffusealpha(0):diffuselowerleft(bongoLaserColors[event.button]):queuecommand("Push")
+						bongoLaser:GetChild("Laser Middle"):finishtweening():diffuse(bongoLaserColors[event.button]):diffusealpha(0):diffuseleftedge(bongoLaserColors[event.button]):queuecommand("Push")
+						bongoLaser:GetChild("Laser Lower"):finishtweening():diffuse(bongoLaserColors[event.button]):diffusealpha(0):diffuseupperleft(bongoLaserColors[event.button]):queuecommand("Push")
+					end
+				end
+			end
+
+			t[#t+1] = Def.ActorFrame {
+				OnCommand = function (self)
+					bongoLaser = self
+					SCREENMAN:GetTopScreen():AddInputCallback(bongoLaserInput)
+				end,
+				Def.Quad {
+					Name = "Laser Upper",
+					OnCommand = function (self) self:halign(0):valign(1):xy(-64, -16):scaletoclipped(512, 16):diffusealpha(0) end,
+					PushCommand = function (self) self:decelerate(0.4):diffusealpha(0) end,
+				},
+				Def.Quad {
+					Name = "Laser Middle",
+					OnCommand = function (self) self:halign(0):valign(0.5):xy(-64, 0):scaletoclipped(512, 32):diffusealpha(0) end,
+					PushCommand = function (self) self:decelerate(0.4):diffusealpha(0) end,
+				},
+				Def.Quad {
+					Name = "Laser Lower",
+					OnCommand = function (self) self:halign(0):valign(0):xy(-64, 16):scaletoclipped(512, 16):diffusealpha(0) end,
+					PushCommand = function (self) self:decelerate(0.4):diffusealpha(0) end,
 				},
 			}
 		end
@@ -2072,7 +2113,6 @@ local function func()
 			end
 		end
 
-		-- TODO: bongo drum
 		if game == "taiko" then
 			local taikoDrum = nil
 
@@ -2125,6 +2165,54 @@ local function func()
 						Texture = "_taiko receptor glow inside",
 						OnCommand = function (self) self:rotationy(180):diffuse({1, 1, 1, 0}) end,
 						PushCommand = function (self) self:diffuse(taikoDrumColors["Taiko Right Inside"]):decelerate(0.4):diffuse({1, 1, 1, 0}) end,
+					},
+				},
+			}
+		elseif game == "bongo" then
+			local bongoDrum = nil
+
+			local bongoDrumColors = {
+				["Bongo Left"] = {1, 0.9, 0, 1},
+				["Bongo Right"] = {1, 0, 0, 1},
+				["Bongo Clap"] = {0, 0.9, 1, 1},
+			}
+
+			local bongoDrumInput = function (event)
+				if ToEnumShortString(event.type) == "FirstPress" and event.PlayerNumber == pn then
+					if bongoDrum:GetChild("Bongo Drum"):GetChild(event.button) then
+						bongoDrum:GetChild("Bongo Drum"):GetChild(event.button):finishtweening():queuecommand("Push")
+					end
+				end
+			end
+
+			t[#t+1] = Def.ActorFrame {
+				OnCommand = function (self)
+					bongoDrum = self
+					SCREENMAN:GetTopScreen():AddInputCallback(bongoDrumInput)
+				end,
+				Def.ActorFrame {
+					Name = "Bongo Drum",
+					OnCommand = function (self) self:x(-128) end,
+					Def.Sprite {
+						Texture = "_bongo receptor glyph",
+					},
+					Def.Sprite{
+						Name = "Bongo Left",
+						Texture = "_Bongo receptor glow left",
+						OnCommand = function (self) self:diffuse({1, 1, 1, 0}) end,
+						PushCommand = function (self) self:diffuse(bongoDrumColors["Bongo Left"]):decelerate(0.4):diffuse({1, 1, 1, 0}) end,
+					},
+					Def.Sprite{
+						Name = "Bongo Right",
+						Texture = "_Bongo receptor glow right",
+						OnCommand = function (self) self:diffuse({1, 1, 1, 0}) end,
+						PushCommand = function (self) self:diffuse(bongoDrumColors["Bongo Right"]):decelerate(0.4):diffuse({1, 1, 1, 0}) end,
+					},
+					Def.Sprite{
+						Name = "Bongo Clap",
+						Texture = "_Bongo receptor glow clap",
+						OnCommand = function (self) self:diffuse({1, 1, 1, 0}) end,
+						PushCommand = function (self) self:diffuse(bongoDrumColors["Bongo Clap"]):decelerate(0.4):diffuse({1, 1, 1, 0}) end,
 					},
 				},
 			}
@@ -2235,7 +2323,7 @@ local function func()
 			}
 --]]
 
-			local circleZoom = game == "taiko" and 2 or game == "bongo" and 2 or game == "gh" and 1.5 or 1
+			local circleZoom = game == "taiko" and 2 or game == "bongo" and 1.5 or game == "gh" and 1.5 or 1
 
 			-- Function for circle actor commands
 			local circleCommands = function (actor, color)
