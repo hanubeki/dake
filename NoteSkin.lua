@@ -1957,7 +1957,7 @@ local function func()
 				t[#t+1] = singleSprite("_common", "overlay wail")
 			end
 		else
-			if game ~= "smx" then
+			if game ~= "smx" and game ~= "bongo" then
 				if not (sButton:find("Strum") or sButton:find("open")) then
 					t[#t+1] = singleSprite(TapRedir[sButtonToLoad], "receptor base") .. {
 						InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ):effectclock("beat"):diffuseramp():effectcolor1({0.8, 0.8, 0.8, 1}):effectcolor2({1, 1, 1, 1}):effectoffset(0.05) end,
@@ -2284,7 +2284,7 @@ local function func()
 			return actor:finishtweening():diffuse(color):sleep(0.1):decelerate(0.2):diffusealpha(0)
 		end
 
-		if sButton ~= "wailing" then
+		if game ~= "bongo" and sButton ~= "wailing" then
 			t[#t+1] = singleSprite(TapRedir[sButtonToLoad], "glow") .. {
 				InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ):diffusealpha(0) end,
 				W5Command = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_W5")) end,
@@ -2367,12 +2367,12 @@ local function func()
 				RollOffCommand = function (self) self:playcommand("HoldingOff") end,
 				InitCommand = function (self) self:zoom(zoomValue):playcommand("HoldingOff"):finishtweening() end,
 			}
-
-			t[#t+1] = singleSprite("_common", "mine explosion") .. {
-				InitCommand = function (self) self:blend("BlendMode_Add"):zoom(zoomValue):diffusealpha(0) end,
-				HitMineCommand = function (self) self:finishtweening():diffusealpha(1):rotationz(0):linear(0.25):rotationz(90):linear(0.25):rotationz(180):diffusealpha(0) end,
-			}
 		end
+
+		t[#t+1] = singleSprite("_common", "mine explosion") .. {
+			InitCommand = function (self) self:blend("BlendMode_Add"):zoom(zoomValue):diffusealpha(0) end,
+			HitMineCommand = function (self) self:finishtweening():diffusealpha(1):rotationz(0):linear(0.25):rotationz(90):linear(0.25):rotationz(180):diffusealpha(0) end,
+		}
 	end
 
 	return t
