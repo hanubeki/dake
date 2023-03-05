@@ -1757,7 +1757,7 @@ local function func()
 						end
 					end,
 				}
-	
+
 				t[#t+1] = Def.ActorFrame {
 					Name = "Bubble",
 					InitCommand = function (self) self:y(sController == "GameController_1" and -80 or 80) end,
@@ -2072,7 +2072,7 @@ local function func()
 				t[#t+1] = singleSprite("_boxing", "receptor sandbag") .. {
 					InitCommand = function (self) self:valign(0):y(-32) end,
 					JudgmentMessageCommand = function (self, params)
-						if params.FirstTrack <= 2 then 
+						if params.FirstTrack <= 2 then
 							self:stoptweening():decelerate(0.1):rotationz(-45):accelerate(0.1):rotationz(0)
 						else
 							self:stoptweening():decelerate(0.1):rotationz(45):accelerate(0.1):rotationz(0)
@@ -2139,7 +2139,7 @@ local function func()
 							if params.Amount >= 50 then
 								self:diffuse({0, 0.5, 1, 1})
 							else
-								self:diffuse({0, 0.5, 1, 0.5}) 
+								self:diffuse({0, 0.5, 1, 0.5})
 							end
 						else
 							self:stoptweening():linear((self.Amount / 125) * 15):cropright(1)
@@ -2214,7 +2214,7 @@ local function func()
 		if game == "smx" then
 			local sideReceptor = singleSprite("_common", "receptor side") .. {
 				InitCommand = function (self) self:halign(1):x(12):diffusealpha(0) end,
-				StepMessageCommand = function (self, params) 
+				StepMessageCommand = function (self, params)
 					if params.PlayerNumber ~= pn then return end
 					self:finishtweening():diffusealpha(1):linear(0.3):diffusealpha(0)
 				end,
