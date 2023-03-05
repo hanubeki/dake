@@ -1407,11 +1407,6 @@ local function func()
 		end
 	end
 
-	-- TEST: Holds to Baloons
-	if game == "taiko" then
-		-- sElement = sElement:gsub("Hold", "Count"):gsub("Roll", "Count")
-	end
-
 	local bBlank = ret.Blank[sElement];
 
 	if sElement:find("Tail") and not sElement:find("LiftTail") then
