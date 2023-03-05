@@ -1275,19 +1275,6 @@ ret.Redir = function (sButton, sElement)
 		sElement = "Tap Clap"
 	end
 
-	if game == taiko then
-		-- Map all count heads to yellow
-		if sElement:find("Count") then
-			if not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
-				if sElement:find("Big") then
-					sElement = "Count BigYellow Active"
-				else
-					sElement = "Count Yellow Active"
-				end
-			end
-		end
-	end
-
 	-- Instead of separate hold jumps, use the tap jump graphics.
 	if sElement:find("Hold Jump") or sElement:find("Roll Jump") then
 		if sElement:find("Red") then
