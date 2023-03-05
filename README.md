@@ -1,8 +1,6 @@
 Dake, formerly NoteSkin hanubeki
 ================================
 
-Notice: The project has lower priority because my PC is sometimes not working.
-
 Play more games in single NoteSkin!
 A goal of this noteskin is to support every gametype (except lights).
 
