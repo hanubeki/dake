@@ -25,3 +25,8 @@ Topic at StepMania forum
 ------------------------
 
 [NoteSkin hanubeki](http://www.stepmania.com/forums/themes/show/4557)
+
+Credits
+-------
+
+[JFXR](https://github.com/ttencate/jfxr) for creating sound effect.
