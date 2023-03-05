@@ -4,7 +4,7 @@ Dake, formerly NoteSkin hanubeki
 Play more games in single NoteSkin!
 A goal of this noteskin is to support every gametype (except lights).
 
-This noteskin requires Project OutFox 0.4.18.0.
+This noteskin requires Project OutFox 0.5 RC037 (might work on 0.4.19+).
 
 If you are looking for StepMania 5.x (5.0, 5_1-new, Etterna) version, see tag [pre-outfox](https://github.com/hanubeki/dake/tree/pre-outfox).
 

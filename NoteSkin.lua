@@ -120,8 +120,16 @@ ret.RedirTable =
 	["Floor Tom"] = "Tom",
 	["Ride"] = "Cymbal",
 	["Right Crash"] = "Cymbal",
-	--taiko, bongo
+	-- taiko, bongo
 	["Main"] = game == "bongo" and "Bongo" or "Taiko",
+	-- boxing
+	["Receptor"]       = "Boxing",
+	["Left Hook"]      = "Left Hook",
+	["Left Jab"]       = "Left Jab",
+	["Left UpperCut"]  = "Left UpperCut",
+	["Right Hook"]     = "Right Hook",
+	["Right Jab"]      = "Right Jab",
+	["Right UpperCut"] = "Right UpperCut",
 }
 
 local Fallback = {
@@ -217,25 +225,36 @@ local TapRedir = {
 	["StepLeft"]   = "_stepleft",
 	["StepCenter"] = "_stepcenter",
 	["StepRight"]  = "_stepleft",
+
+	["Receptor"]       = "_boxing",
+	["Left Hook"]      = "_lefthook",
+	["Left Jab"]       = "_leftjab",
+	["Left UpperCut"]  = "_leftuppercut",
+	["Right Hook"]     = "_lefthook",
+	["Right Jab"]      = "_leftjab",
+	["Right UpperCut"] = "_leftuppercut",
 }
 setmetatable(TapRedir, Fallback)
 
 -- Flip table for Tap Note/Hold Head
 local TapRotateY = {
-	["DownLeftFoot"]  = 180,
-	["AnyLeftFoot"]   = 180,
-	["UpLeftFoot"]    = 180,
-	["UpLeftFist"]    = 180,
-	["AnyLeftFist"]   = 180,
-	["DownLeftFist"]  = 180,
-	["DownRightFist"] =   0,
-	["AnyRightFist"]  =   0,
-	["UpRightFist"]   =   0,
-	["UpRightFoot"]   =   0,
-	["AnyRightFoot"]  =   0,
-	["DownRightFoot"] =   0,
-	["StepLeft"]      =   0,
-	["StepRight"]     = 180,
+	["DownLeftFoot"]   = 180,
+	["AnyLeftFoot"]    = 180,
+	["UpLeftFoot"]     = 180,
+	["UpLeftFist"]     = 180,
+	["AnyLeftFist"]    = 180,
+	["DownLeftFist"]   = 180,
+	["DownRightFist"]  =   0,
+	["AnyRightFist"]   =   0,
+	["UpRightFist"]    =   0,
+	["UpRightFoot"]    =   0,
+	["AnyRightFoot"]   =   0,
+	["DownRightFoot"]  =   0,
+	["StepLeft"]       =   0,
+	["StepRight"]      = 180,
+	["Right Hook"]     = 180,
+	["Right Jab"]      = 180,
+	["Right UpperCut"] = 180,
 }
 setmetatable(TapRotateY, FallbackZero)
 
@@ -373,6 +392,14 @@ local HoldBodyRedir = {
 	["StepLeft"]   = "_step",
 	["StepCenter"] = "_step",
 	["StepRight"]  = "_step",
+
+	["Receptor"]       = "_thin",
+	["Left Hook"]      = "_thin",
+	["Left Jab"]       = "_thin",
+	["Left UpperCut"]  = "_thin",
+	["Right Hook"]     = "_thin",
+	["Right Jab"]      = "_thin",
+	["Right UpperCut"] = "_thin",
 }
 setmetatable(HoldBodyRedir, Fallback)
 
@@ -436,6 +463,14 @@ local HoldCapRedir = {
 	["StepLeft"]   = "_step",
 	["StepCenter"] = "_step",
 	["StepRight"]  = "_step",
+
+	["Receptor"]       = "_thin",
+	["Left Hook"]      = "_thin",
+	["Left Jab"]       = "_thin",
+	["Left UpperCut"]  = "_thin",
+	["Right Hook"]     = "_thin",
+	["Right Jab"]      = "_thin",
+	["Right UpperCut"] = "_thin",
 }
 local HoldCapRedirMeta = {
 	__index = function (table, key, value)
@@ -754,6 +789,15 @@ local ColumnColors = {
 		["Left"] = 0,
 		["Center"] = 0,
 		["Right"] = 0,
+	},
+	["boxing"] = {
+		["Receptor"]       = 16,
+		["Left Hook"]      = 0,
+		["Left Jab"]       = 0,
+		["Left UpperCut"]  = 0,
+		["Right Hook"]     = 2,
+		["Right Jab"]      = 2,
+		["Right UpperCut"] = 2,
 	},
 	["lights"] = { -- isn't a game
 		["MarqueeUpLeft"] = 0,
@@ -1179,53 +1223,66 @@ ret.Redir = function (sButton, sElement)
 	end
 
 	-- Instead of separate hold red, use the tap red graphics.
-	if (sElement:find("Hold Red") or sElement:find("Roll Red")) and not (sElement:find(" .*cap") or sElement:find(" Body")) then
+	if (sElement:find("Hold Red") or sElement:find("Roll Red")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
 		sElement = "Tap Red"
 	end
 
 	-- Instead of separate hold blues, use the tap blue graphics.
-	if (sElement:find("Hold Blue") or sElement:find("Roll Blue")) and not (sElement:find(" .*cap") or sElement:find(" Body")) then
+	if (sElement:find("Hold Blue") or sElement:find("Roll Blue")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
 		sElement = "Tap Blue"
 	end
 
 	-- Instead of separate hold yellows, use the tap yellow graphics.
-	if (sElement:find("Hold Yellow") or sElement:find("Roll Yellow")) and not (sElement:find(" .*cap") or sElement:find(" Body")) then
+	if (sElement:find("Hold Yellow") or sElement:find("Roll Yellow")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
 		sElement = "Tap Yellow"
 	end
 
 	-- Instead of separate hold heads, use the tap note graphics.
-	if (sElement:find("Hold BigRed") or sElement:find("Roll BigRed")) and not (sElement:find(" .*cap") or sElement:find(" Body")) then
+	if (sElement:find("Hold BigRed") or sElement:find("Roll BigRed")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
 		sElement = "Tap BigRed"
 	end
 
 	-- Instead of separate hold blues, use the tap blue graphics.
-	if (sElement:find("Hold BigBlue") or sElement:find("Roll BigBlue")) and not (sElement:find(" .*cap") or sElement:find(" Body")) then
+	if (sElement:find("Hold BigBlue") or sElement:find("Roll BigBlue")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
 		sElement = "Tap BigBlue"
 	end
 
 	-- Instead of separate hold yellows, use the tap yellow graphics.
-	if (sElement:find("Hold BigYellow") or sElement:find("Roll BigYellow")) and not (sElement:find(" .*cap") or sElement:find(" Body")) then
+	if (sElement:find("Hold BigYellow") or sElement:find("Roll BigYellow")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
 		sElement = "Tap BigYellow"
 	end
 
 	-- Instead of separate hold lefts, use the tap left graphics.
-	if (sElement:find("Hold Left") or sElement:find("Roll Left")) and not (sElement:find(" .*cap") or sElement:find(" Body")) then
+	if (sElement:find("Hold Left") or sElement:find("Roll Left")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
 		sElement = "Tap Left"
 	end
 
 	-- Instead of separate hold rights, use the tap right graphics.
-	if (sElement:find("Hold Right") or sElement:find("Roll Right")) and not (sElement:find(" .*cap") or sElement:find(" Body")) then
+	if (sElement:find("Hold Right") or sElement:find("Roll Right")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
 		sElement = "Tap Right"
 	end
 
 	-- Instead of separate hold centers, use the tap center graphics.
-	if (sElement:find("Hold Center") or sElement:find("Roll Center")) and not (sElement:find(" .*cap") or sElement:find(" Body")) then
+	if (sElement:find("Hold Center") or sElement:find("Roll Center")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
 		sElement = "Tap Center"
 	end
 
 	-- Instead of separate hold claps, use the tap clap graphics.
-	if (sElement:find("Hold Clap") or sElement:find("Roll Clap")) and not (sElement:find(" .*cap") or sElement:find(" Body")) then
+	if (sElement:find("Hold Clap") or sElement:find("Roll Clap")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
 		sElement = "Tap Clap"
+	end
+
+	if game == taiko then
+		-- Map all count heads to yellow
+		if sElement:find("Count") then
+			if not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
+				if sElement:find("Big") then
+					sElement = "Count BigYellow Active"
+				else
+					sElement = "Count Yellow Active"
+				end
+			end
+		end
 	end
 
 	-- Instead of separate hold jumps, use the tap jump graphics.
@@ -1282,14 +1339,6 @@ ret.Redir = function (sButton, sElement)
 end
 
 ret.Blank = {
-	["Hold Tail Active"] = true,
-	["Hold Tail Inactive"] = true,
-	["Roll Tail Active"] = true,
-	["Roll Tail Inactive"] = true,
-	["Mine Tail Active"] = true,
-	["Mine Tail Inactive"] = true,
-	["Mine LiftTail Active"] = true,
-	["Mine LiftTail Inactive"] = true,
 }
 
 local function func()
@@ -1355,7 +1404,32 @@ local function func()
 		end
 	end
 
-	if ret.Blank[sElement] then
+	-- TEST: Holds to Baloons
+	if game == "taiko" then
+		-- sElement = sElement:gsub("Hold", "Count"):gsub("Roll", "Count")
+	end
+
+	local bBlank = ret.Blank[sElement];
+
+	if sElement:find("Tail") and not sElement:find("LiftTail") then
+		bBlank = true
+	end
+
+	if sElement == "Mine LiftTail" then
+		bBlank = true
+	end
+
+	if game == "taiko" then
+		if sElement:find("^Count") and (sElement:find(" .*cap") or sElement:find(" Body")) then
+			bBlank = true
+		end
+	elseif game == "boxing" then
+		if sElement:find("^Hold") and sElement:find("^Roll") and sElement:find("^Count") and (sElement:find(" .*cap") or sElement:find(" Body")) then
+			bBlank = true
+		end
+	end
+
+	if bBlank then
 		-- Return a blank element. If SpriteOnly is set,
 		-- we need to return a sprite; otherwise just return
 		-- a dummy actor.
@@ -1501,7 +1575,7 @@ local function func()
 			-- ReverseOnCommand = function (self) self:rotationx(180) end,
 			-- ReverseOffCommand = function (self) self:rotationx(0) end,
 		}
-	elseif sElementToLoad:find("Tap Wail") then
+	elseif sElementToLoad:find("^Tap Wail") then
 		local rotZ = WailRotateZ[sElementToLoad]
 		local color = WailColors[sElementToLoad]
 
@@ -1676,18 +1750,66 @@ local function func()
 		t[#t+1] = colorSprite(TapRedir[sButtonToLoad], tapNote:lower(), color) .. {
 			InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ) end,
 		}
-	elseif sElementToLoad:find("Hold .*cap") or sElementToLoad:find("Roll .*cap") or
-	       sElementToLoad:find("Hold %w+ .*cap") or sElementToLoad:find("Roll %w+ .*cap")
+	elseif sElementToLoad:find("^Count .*cap") or sElementToLoad:find("^Count %w+ .*cap") then
+		-- TODO
+		-- t = singleSprite(HoldCapRedir[ret.DakeExtras.HoldType or sButtonToLoad], sElementToLoad:lower())
+	elseif sElementToLoad:find("^Count Body") or sElementToLoad:find("^Count %w+ Body") then
+		-- TODO
+		-- t = singleSprite(HoldBodyRedir[ret.DakeExtras.HoldType or sButtonToLoad], sElementToLoad:lower())
+	elseif sElementToLoad:find("^Count") then
+		if game == "taiko" then
+			t[#t+1] = singleSprite("_taiko", "count yellow active balloon") .. {
+				InitCommand = function (self) self:halign(0) end,
+			}
+
+			if not sElement:find("Inactive") then
+				t = t .. {
+					CountCommand = function (self, params)
+						self:GetChild("Bubble"):GetChild("Count"):settext(params.Count)
+						self:visible(true)
+						if params.Count <= 0 then
+							self:visible(false)
+						end
+					end,
+				}
+	
+				t[#t+1] = Def.ActorFrame {
+					Name = "Bubble",
+					InitCommand = function (self) self:y(sController == "GameController_1" and -80 or 80) end,
+					singleSprite("_taiko", "count yellow active bubble") .. {
+						InitCommand = function (self) self:rotationx(sController == "GameController_1" and 0 or 180) end,
+					},
+					Def.BitmapText {
+						Name = "Count",
+						Text = "---",
+						Font = "Common Normal",
+						InitCommand = function (self) self:diffuse({0, 0, 0, 1}):zoom(1.4) end,
+					},
+				}
+			end
+
+			if sElement:find("Big") then
+				t[#t+1] = singleSprite("_taiko", "count bigyellow active base")
+			else
+				t[#t+1] = singleSprite("_taiko", "count yellow active base")
+			end
+
+			t[#t+1] = singleSprite(sElement:find("Big") and "_big" or "_common", "overlay smiley")
+		else
+			-- TODO
+		end
+	elseif sElementToLoad:find("^Hold .*cap") or sElementToLoad:find("^Roll .*cap") or
+	       sElementToLoad:find("^Hold %w+ .*cap") or sElementToLoad:find("^Roll %w+ .*cap")
 	then
 		t = singleSprite(HoldCapRedir[ret.DakeExtras.HoldType or sButtonToLoad], sElementToLoad:lower())
-	elseif sElementToLoad:find("Hold Body") or sElementToLoad:find("Roll Body") or
-	       sElementToLoad:find("Hold %w+ Body") or sElementToLoad:find("Roll %w+ Body")
+	elseif sElementToLoad:find("^Hold Body") or sElementToLoad:find("^Roll Body") or
+	       sElementToLoad:find("^Hold %w+ Body") or sElementToLoad:find("^Roll %w+ Body")
 	then
 		t = singleSprite(HoldBodyRedir[ret.DakeExtras.HoldType or sButtonToLoad], sElementToLoad:lower())
-	elseif sElementToLoad:find("Mine .*cap") then
+	elseif sElementToLoad:find("^Mine .*cap") then
 		local sizeToLoad = zoomValue < 0.7 and "_half" or "_common"
 		t = singleSprite(sizeToLoad, sElementToLoad:lower())
-	elseif sElementToLoad:find("Mine Body") then
+	elseif sElementToLoad:find("^Mine Body") then
 		local sizeToLoad = zoomValue < 0.7 and "_half" or "_common"
 		t = singleSprite(sizeToLoad, sElementToLoad:lower())
 	elseif sElementToLoad == "Receptor" then
@@ -1864,7 +1986,7 @@ local function func()
 						ReverseOnCommand = function (self) self:y(-8):valign(1) end,
 						ReverseOffCommand = function (self) self:y(8):valign(0) end,
 					}
-	
+
 					t[#t+1] = Def.Quad {
 						InitCommand = function(self) self:zoomto(4, 4999):x(32):y(8):valign(0):diffuse({0.5, 0.5, 0.5, 0.5}):fadeleft(0.4):faderight(0.4) end,
 						ReverseOnCommand = function (self) self:y(8):valign(0) end,
@@ -1961,7 +2083,18 @@ local function func()
 				t[#t+1] = singleSprite("_common", "overlay wail")
 			end
 		else
-			if game ~= "smx" and game ~= "bongo" then
+			if game == "boxing" then
+				t[#t+1] = singleSprite("_boxing", "receptor sandbag") .. {
+					InitCommand = function (self) self:valign(0):y(-32) end,
+					JudgmentMessageCommand = function (self, params)
+						if params.FirstTrack <= 2 then 
+							self:stoptweening():decelerate(0.1):rotationz(-45):accelerate(0.1):rotationz(0)
+						else
+							self:stoptweening():decelerate(0.1):rotationz(45):accelerate(0.1):rotationz(0)
+						end
+					end,
+				}
+			elseif game ~= "smx" and game ~= "bongo" then
 				if not (sButton:find("Strum") or sButton:find("open")) then
 					t[#t+1] = singleSprite(TapRedir[sButtonToLoad], "receptor base") .. {
 						InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ):effectclock("beat"):diffuseramp():effectcolor1({0.8, 0.8, 0.8, 1}):effectcolor2({1, 1, 1, 1}):effectoffset(0.05) end,
@@ -2288,7 +2421,7 @@ local function func()
 			return actor:finishtweening():diffuse(color):sleep(0.1):decelerate(0.2):diffusealpha(0)
 		end
 
-		if game ~= "bongo" and sButton ~= "wailing" then
+		if game ~= "bongo" and game ~= "boxing" and sButton ~= "wailing" then
 			t[#t+1] = singleSprite(TapRedir[sButtonToLoad], "glow") .. {
 				InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ):diffusealpha(0) end,
 				W5Command = function (self) glowCommands(self, JudgmentLineToColor("JudgmentLine_W5")) end,
@@ -2369,7 +2502,7 @@ local function func()
 				HoldingOffCommand = function (self) self:diffusealpha(0) end,
 				RollOnCommand = function (self) self:playcommand("HoldingOn") end,
 				RollOffCommand = function (self) self:playcommand("HoldingOff") end,
-				InitCommand = function (self) self:zoom(zoomValue):playcommand("HoldingOff"):finishtweening() end,
+				InitCommand = function (self) self:zoom(zoomValue):rotationz(game == "taiko" and 90 or 0):playcommand("HoldingOff"):finishtweening() end,
 			}
 		end
 
