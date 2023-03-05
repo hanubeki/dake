@@ -1545,16 +1545,16 @@ local function func()
 			color = 0
 		end
 
-		t[#t+1] = feverSprite(TapRedir[sButtonToLoad], tapNote, color, 20) .. {
-			InitCommand = function (self)
-				GHEffects.Init(self, {})
-				self:pause():rotationy(rotY):rotationz(rotZ)
-			end,
-			FeverMessageCommand = GHEffects.Fever,
-			FeverMissedMessageCommand = GHEffects.FeverMissed,
-		}
-
 		if game == "gh" then
+			t[#t+1] = feverSprite(TapRedir[sButtonToLoad], tapNote, color, 20) .. {
+				InitCommand = function (self)
+					GHEffects.Init(self, {})
+					self:pause():rotationy(rotY):rotationz(rotZ)
+				end,
+				FeverMessageCommand = GHEffects.Fever,
+				FeverMissedMessageCommand = GHEffects.FeverMissed,
+			}
+
 			t[#t+1] = feverSprite(sButton:find("Strum") and "_strum" or "_common", "tap star", color, 20) .. {
 				InitCommand = function (self)
 					GHEffects.StarInit(self, {})
@@ -1582,6 +1582,10 @@ local function func()
 					InitCommand = function (self) self:z(8) end,
 				}
 			end
+		else
+			t[#t+1] = colorSprite(TapRedir[sButtonToLoad], tapNote, color) .. {
+				InitCommand = function (self) self:pause():rotationy(rotY):rotationz(rotZ) end,
+			}
 		end
 
 		if sButton == "Center" and (game == "pump" or game == "techno") then
