@@ -1584,7 +1584,7 @@ local function func()
 			end
 		else
 			t[#t+1] = colorSprite(TapRedir[sButtonToLoad], tapNote, color) .. {
-				InitCommand = function (self) self:pause():rotationy(rotY):rotationz(rotZ) end,
+				InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ) end,
 			}
 		end
 
