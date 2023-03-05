@@ -2241,8 +2241,8 @@ local function func()
 			end
 
 			-- TODO: support other than kbx?
-			if game:find("^kb[7x]$") then
-				sGameButton = sGameButton:gsub("Key ", "")
+			if game == "kbx" then
+				sGameButton = sGameButton:gsub("^Key ", "")
 
 				t[#t+1] = Def.Quad {
 					InitCommand = function (self) self:zoomto(64, 48):y(56):valign(0):diffuse({0, 0, 0, 0.5}) end,
@@ -2250,8 +2250,8 @@ local function func()
 					ReverseOffCommand = function (self) self:y(-56):valign(1) end,
 				}
 
-				if not PREFSMAN:GetPreference("UseOldJoystickMapping") and sGameButton:find("Joy") then
-					sGameButton = sGameButton:gsub("Joy.[_ ]", "")
+				if not PREFSMAN:GetPreference("UseOldJoystickMapping") and sGameButton:find("^Joy") then
+					sGameButton = sGameButton:gsub("^Joy%d+[_ ]", "")
 
 					t[#t+1] = Def.Sprite {
 						Texture = NOTESKIN:GetPath("_common","buttons/" .. sGameButton),
@@ -2261,7 +2261,7 @@ local function func()
 						ReverseOffCommand = function (self) self:y(-76) end,
 					}
 				else
-					sGameButton = sGameButton:gsub("Joy.+ ", "B")
+					sGameButton = sGameButton:gsub("^Joy%d+[_ ]", "B")
 
 					t[#t+1] = Def.BitmapText {
 						Font = "Common Normal",
