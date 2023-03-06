@@ -316,7 +316,7 @@ local HoldBodyRedir = {
 	["DownRight"] = "_upright",
 
 	["Center"]    = "_center",
-	["Circle"]    = "_center",
+	["Circle"]    = "_circle",
 	["Diamond"]   = "_diamond",
 
 --[[
