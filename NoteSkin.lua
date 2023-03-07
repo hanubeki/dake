@@ -316,7 +316,7 @@ local HoldBodyRedir = {
 	["DownRight"] = "_upright",
 
 	["Center"]    = "_center",
-	["Circle"]    = "_circle",
+	["Circle"]    = "_center",
 	["Diamond"]   = "_diamond",
 
 --[[
@@ -588,9 +588,9 @@ local ColumnColors = {
 --]]
 	["pump"] = {
 		["DownLeft"] = 2,
-		["UpLeft"] = 18,
+		["UpLeft"] = 0,
 		["Center"] = 6,
-		["UpRight"] = 18,
+		["UpRight"] = 0,
 		["DownRight"] = 2,
 	},
 --[[
