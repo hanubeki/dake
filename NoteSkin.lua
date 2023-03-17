@@ -919,7 +919,7 @@ setmetatable(NoteUnderlayTable, NoteUnderlayMeta)
 -- Table for receptor glyph
 local ReceptorGlyphTable = {
 	["be-mu"] = {
-		["scratch"] = {["texture"] = "_scratch", ["x"] = 0, ["y"] = 44, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {1, 0.25, 0, 0}},
+		["scratch"] = {["texture"] = "_scratch", ["x"] = 0, ["y"] = 44, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["turntable"] = {1, 1, 1, 1}}, -- ["glow"] = {1, 0.25, 0, 0}
 		["Key1"] = {["texture"] = "_keywhite", ["x"] = 0, ["y"] = 48, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {1, 0.25, 0, 0}},
 		["Key2"] = {["texture"] = "_keyblue",  ["x"] = 0, ["y"] = 40, ["rot"] = 0, ["diffuse"] = {0.15, 0.15, 0.15, 1}, ["glow"] = {1, 0.25, 0, 0}},
 		["Key3"] = {["texture"] = "_keywhite", ["x"] = 0, ["y"] = 48, ["rot"] = 0, ["diffuse"] = {1,    1,    1,    1}, ["glow"] = {1, 0.25, 0, 0}},
@@ -2351,6 +2351,17 @@ local function func()
 				ReverseOnCommand = function (self) self:y(ReceptorGlyphTable[game][sButton].y) end,
 				ReverseOffCommand = function (self) self:y(ReceptorGlyphTable[game][sButton].y * (glyphReverse and -1 or 1)) end,
 			}
+
+			if ReceptorGlyphTable[game][sButton].turntable then
+				t[#t+1] = singleSprite(ReceptorGlyphTable[game][sButton].texture, "receptor turntable") .. {
+					InitCommand = function (self) self:xy(ReceptorGlyphTable[game][sButton].x, ReceptorGlyphTable[game][sButton].y):rotationz(ReceptorGlyphTable[game][sButton].rot):diffuse(ReceptorGlyphTable[game][sButton].turntable):spin():effectmagnitude(0, 0, 180) end,
+					ReverseOnCommand = function (self) self:y(ReceptorGlyphTable[game][sButton].y) end,
+					ReverseOffCommand = function (self) self:y(ReceptorGlyphTable[game][sButton].y * (glyphReverse and -1 or 1)) end,
+					ScratchdownCommand = function(self) self:spin():effectmagnitude(0, 0, 360) end,
+					ScratchupCommand = function(self) self:spin():effectmagnitude(0, 0, -360) end,
+					LiftCommand = function(self) self:spin():effectmagnitude(0, 0, 180) end,
+				}
+			end
 
 			if ReceptorGlyphTable[game][sButton].glow then
 				t[#t+1] = singleSprite(ReceptorGlyphTable[game][sButton].texture, "receptor glow") .. {
