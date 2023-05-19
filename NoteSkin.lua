@@ -1409,7 +1409,7 @@ local function func()
 			bBlank = true
 		end
 	elseif game == "boxing" then
-		if sElement:find("^Hold") and sElement:find("^Roll") and sElement:find("^Count") and (sElement:find(" .*cap") or sElement:find(" Body")) then
+		if (sElement:find("^Hold") or sElement:find("^Roll") or sElement:find("^Count")) and (sElement:find(" .*cap") or sElement:find(" Body")) then
 			bBlank = true
 		end
 	end
