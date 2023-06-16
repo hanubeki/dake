@@ -1870,7 +1870,7 @@ local function func()
 			}
 		end
 
-		if THEME:GetMetric("NoteField", "NoteFieldType") == bms then
+		if THEME:GetMetric("NoteField", "NoteFieldType") == bms and not THEME:GetMetric("NoteField", "ShowBoard") then
 			-- column background for be-mu and po-mu
 			if ColumnBackgroundTable[game][sButton] then
 				t[#t+1] = Def.Quad {
