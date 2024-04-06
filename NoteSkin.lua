@@ -9,7 +9,6 @@ local game = GAMESTATE:GetCurrentGame():GetName()
 -- Flat (bool): colored by column
 -- ColorMine (bool): mines are colored by rhythm
 -- HoldType (string): replace hold/roll bodies by specified name
--- ScratchSide (string): used for dake-leftscratch and dake-rightscratch
 ret.DakeExtras = {
 	["Rhythm"] = game == "dance" or game == "groove" or game == "smx",
 	["Flat"] = not (game == "dance" or game == "groove" or game == "smx"),
@@ -239,7 +238,7 @@ local TapRedir = {
 	["StepCenter"] = "_stepcenter",
 	["StepRight"]  = "_stepleft",
 
-	["Receptor"]       = "_boxing",
+	["Boxing"]         = "_boxing",
 	["Left Hook"]      = "_lefthook",
 	["Left Jab"]       = "_leftjab",
 	["Left UpperCut"]  = "_leftuppercut",
@@ -413,7 +412,7 @@ local HoldBodyRedir = {
 	["StepCenter"] = "_step",
 	["StepRight"]  = "_step",
 
-	["Receptor"]       = "_thin",
+	["Boxing"]         = "_thin",
 	["Left Hook"]      = "_thin",
 	["Left Jab"]       = "_thin",
 	["Left UpperCut"]  = "_thin",
@@ -488,7 +487,7 @@ local HoldCapRedir = {
 	["StepCenter"] = "_step",
 	["StepRight"]  = "_step",
 
-	["Receptor"]       = "_thin",
+	["Boxing"]         = "_thin",
 	["Left Hook"]      = "_thin",
 	["Left Jab"]       = "_thin",
 	["Left UpperCut"]  = "_thin",
@@ -787,6 +786,18 @@ local ColumnColors = {
 		["Strum Up"] = 8,
 		["Strum Down"] = 8,
 	},
+--[[
+	["gh"] = { -- Alternate Color
+		["Fret 1"] = 0,
+		["Fret 2"] = 6,
+		["Fret 3"] = 2,
+		["Fret 4"] = 18
+		["Fret 5"] = 4,
+		["Fret 6"] = 10, -- not in original game
+		["Strum Up"] = 8,
+		["Strum Down"] = 8,
+	},
+--]]
 	["rb"] = {
 		["Kick"] = 18,
 		["Snare"] = 0,
@@ -801,18 +812,6 @@ local ColumnColors = {
 		["GHCym2"] = 18,
 		["GHTom2"] = 4,
 	},
---[[
-	["gh"] = { -- Alternate Color
-		["Fret 1"] = 0,
-		["Fret 2"] = 6,
-		["Fret 3"] = 2,
-		["Fret 4"] = 18
-		["Fret 5"] = 4,
-		["Fret 6"] = 10, -- not in original game
-		["Strum Up"] = 8,
-		["Strum Down"] = 8,
-	},
---]]
 	["gddm"] = {
 		["Left Crash"] = 12,
 		["Hi-Hat"] = 2,
