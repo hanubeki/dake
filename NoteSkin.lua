@@ -11,15 +11,15 @@ local game = GAMESTATE:GetCurrentGame():GetName()
 -- HoldType (string): replace hold/roll bodies by specified name
 -- ScratchSide (string): used for dake-leftscratch and dake-rightscratch
 ret.DakeExtras = {
-	["Rhythm"] = game == "dance" or game == "smx",
-	["Flat"] = not (game == "dance" or game == "smx"),
+	["Rhythm"] = game == "dance" or game == "groove" or game == "smx",
+	["Flat"] = not (game == "dance" or game == "groove" or game == "smx"),
 	["HoldType"] = game == "smx" and "Diamond" or nil,
 }
 
 -- Redirect table for buttons
 ret.RedirTable =
 {
-	-- Dance (incl. solo and octo), Pump, pAra, Techno, smX, Horizon, Stepstage
+	-- Dance/groove (incl. solo and octo), Pump, pAra, Techno, smX, Horizon, Stepstage
 	["Up"]        = game == "para"   and "ParaUp"                                                                               or     "Up",     -- D-ATXH-
 	["Down"]      = game == "para"   and "ParaDown"                                                                             or     "Down",   -- D--TXH-
 	["Left"]      = game == "para"   and "ParaLeft"                                     or game == "stepstage" and "StepLeft"   or     "Left",   -- D-ATXHS
@@ -109,17 +109,26 @@ ret.RedirTable =
 	["Strum"] = "Strum",
 	["Strum Up"] = "Strum",
 	["Strum Down"] = "Strum",
-	-- gddm
+	-- gddm, rb
 	["Left Crash"] = "Cymbal",
 	["Hi-Hat"] = "Cymbal",
 	["Hi-Hat Pedal"] = "Pedal",
-	["Snare"] = "Tom",
+	["Snare"] = game == "gddm" and "Tom" or "Brick",
 	["High Tom"] = "Tom",
-	["Kick"] = "Pedal",
+	["Kick"] = game == "gddm" and "Pedal" or "RBKick",
 	["Mid Tom"] = "Tom",
 	["Floor Tom"] = "Tom",
 	["Ride"] = "Cymbal",
 	["Right Crash"] = "Cymbal",
+	["Tom1"] = "Brick",
+	["Tom2"] = "Brick",
+	["Tom3"] = "Brick",
+	["GHKick"] = "GHKick",
+	["GHSnare"] = "Brick",
+	["GHCym1"] = "Brick",
+	["GHTom1"] = "Brick",
+	["GHCym2"] = "Brick",
+	["GHTom2"] = "Brick",
 	-- taiko, bongo
 	["Main"] = game == "bongo" and "Bongo" or "Taiko",
 	-- boxing
@@ -214,6 +223,10 @@ local TapRedir = {
 
 	["Gem"] = "_gem",
 	["Strum"] = "_strum",
+
+	["Brick"] = "_brick",
+	["RBKick"] = "_rbkick",
+	["GHKick"] = "_ghkick",
 
 	["Cymbal"] = "_scratch",
 	["Tom"] = "_scratch",
@@ -385,6 +398,10 @@ local HoldBodyRedir = {
 	["Gem"] = "_thin",
 	["Strum"] = "_strum",
 
+	["Brick"] = "_thin",
+	["RBKick"] = "_strum",
+	["GHKick"] = "_strum",
+
 	["Cymbal"] = "_down",
 	["Tom"] = "_down",
 	["Pedal"] = "_down",
@@ -458,6 +475,10 @@ local HoldCapRedir = {
 
 	["Gem"] = "_thin",
 	["Strum"] = "_strum",
+
+	["Brick"] = "_thin",
+	["RBKick"] = "_strum",
+	["GHKick"] = "_strum",
 
 	["Cymbal"] = "_scratch",
 	["Tom"] = "_scratch",
@@ -586,6 +607,14 @@ local ColumnColors = {
 		["Right"] = 2,
 	},
 --]]
+	["groove"] = {
+		["Left"] = 0,
+		["UpLeft"] = 0,
+		["Down"] = 0,
+		["Up"] = 0,
+		["UpRight"] = 0,
+		["Right"] = 0,
+	},
 	["pump"] = {
 		["DownLeft"] = 2,
 		["UpLeft"] = 0,
@@ -757,6 +786,20 @@ local ColumnColors = {
 		["Fret 6"] = 10, -- not in original game
 		["Strum Up"] = 8,
 		["Strum Down"] = 8,
+	},
+	["rb"] = {
+		["Kick"] = 18,
+		["Snare"] = 0,
+		["Tom1"] = 6,
+		["Tom2"] = 2,
+		["Tom3"] = 4,
+
+		["GHKick"] = 8,
+		["GHSnare"] = 0,
+		["GHCym1"] = 6,
+		["GHTom1"] = 2,
+		["GHCym2"] = 18,
+		["GHTom2"] = 4,
 	},
 --[[
 	["gh"] = { -- Alternate Color
@@ -1323,6 +1366,12 @@ ret.Redir = function (sButton, sElement)
 		end
 	end
 
+	if game == "rb" then
+		if sButton:find("GHCym") and sElement == "Tap Note" then
+			sElement = "Tap Cymbal"
+		end
+	end
+
 	sButton = ret.RedirTable[sButton] or "Fallback"
 
 	return sButton, sElement
@@ -1571,6 +1620,18 @@ local function func()
 		t[#t+1] = colorSprite("_wailing", "tap wail up", color) .. {
 			InitCommand = function (self) self:rotationz(rotZ) end,
 		}
+	elseif sElementToLoad == "Tap Cymbal" then
+		local color = 0
+
+		if GAMESTATE:GetCurrentStyle(pn):GetStyleType() == "StyleType_TwoPlayersSharedSides" then
+			color = RoutineColors[sPlayer]
+		elseif ret.DakeExtras.Rhythm then
+			color = RhythmColors[sColor]
+		elseif ret.DakeExtras.Flat then
+			color = ColumnColors[game][sButton]
+		end
+
+		t[#t+1] = colorSprite("_common", "tap cymbal", color)
 	elseif sElementToLoad:find("^Tap") then
 		local color = 0
 
@@ -2080,7 +2141,7 @@ local function func()
 					end,
 				}
 			elseif game ~= "smx" and game ~= "bongo" then
-				if not (sButton:find("Strum") or sButton:find("open")) then
+				if not (sButton:find("Strum") or sButton:find("open") or sButtonToLoad:find("RBKick") or sButtonToLoad:find("GHKick")) then
 					t[#t+1] = singleSprite(TapRedir[sButtonToLoad], "receptor base") .. {
 						InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ):effectclock("beat"):diffuseramp():effectcolor1({0.8, 0.8, 0.8, 1}):effectcolor2({1, 1, 1, 1}):effectoffset(0.05) end,
 						NoneCommand = function (self) self:finishtweening():zoom(0.85):diffusealpha(0.9):linear(0.1):diffusealpha(1):zoom(1) end,
@@ -2469,6 +2530,8 @@ local function func()
 				["OpenShort"] = {-64, 0, 64},
 				["OpenLong"] = {-128, -64, 0, 64, 128},
 				["OpenSix"] = {-160, -96, -32, 32, 96, 160},
+				["RBKick"] = {-96, -32, 32, 96},
+				["GHKick"] = {-128, -64, 0, 64, 128},
 			}
 			local circlePositionsMeta = {
 				__index = function (table, key, value)
