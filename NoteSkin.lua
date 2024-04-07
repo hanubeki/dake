@@ -111,10 +111,10 @@ local ButtonRedirTable =
 		["HandLrRight"] = "Circle",
 	},
 	["maniax"] = {
-		["HandUp"] = "Ring",
-		["HandDown"] = "Ring",
-		["HandLeft"] = "Ring",
-		["HandRight"] = "Ring",
+		["HandUpLeft"] = "Ring",
+		["HandUpRight"] = "Ring",
+		["HandLrLeft"] = "Ring",
+		["HandLrRight"] = "Ring",
 	},
 	["ds3ddx"] = {
 		["FootUpLeft"] = "UpLeft",
