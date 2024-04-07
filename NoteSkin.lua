@@ -2183,7 +2183,7 @@ local function func()
 			end
 		end
 
-		if game == "gh" and sButton:find("Strum") then
+		if game == "gh" and (sButton:find("Strum") or sButton == "GHKick") then
 			local isFever = false
 
 			t[#t+1] = Def.ActorFrame {
