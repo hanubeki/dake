@@ -1,8 +1,9 @@
 local ret = ... or {}
 
-assert(ret.DakeExtras)
-ret.DakeExtras.Rhythm = true
-ret.DakeExtras.Flat = nil
-ret.DakeExtras.ColorMine = true
+ret.DakeExtras = {
+    ["Rhythm"] = true,
+    ["Flat"] = false,
+    ["ColorMine"] = true,
+}
 
 return ret

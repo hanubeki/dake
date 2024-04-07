@@ -2,142 +2,9 @@
 
 local ret = ... or {}
 
-local game = GAMESTATE:GetCurrentGame():GetName()
-
--- Parameters table for extras
--- Rhythm (bood): colored by rhythm
--- Flat (bool): colored by column
--- ColorMine (bool): mines are colored by rhythm
--- HoldType (string): replace hold/roll bodies by specified name
-ret.DakeExtras = {
-	["Rhythm"] = game == "dance" or game == "groove" or game == "smx",
-	["Flat"] = not (game == "dance" or game == "groove" or game == "smx"),
-	["HoldType"] = game == "smx" and "Diamond" or nil,
-}
-
--- Redirect table for buttons
+-- An ald unused table
 ret.RedirTable =
 {
-	-- Dance/groove (incl. solo and octo), Pump, pAra, Techno, smX, Horizon, Stepstage
-	["Up"]        = game == "para"   and "ParaUp"                                                                               or     "Up",     -- D-ATXH-
-	["Down"]      = game == "para"   and "ParaDown"                                                                             or     "Down",   -- D--TXH-
-	["Left"]      = game == "para"   and "ParaLeft"                                     or game == "stepstage" and "StepLeft"   or     "Left",   -- D-ATXHS
-	["Right"]     = game == "para"   and "ParaRight"                                    or game == "stepstage" and "StepRight"  or     "Right",  -- D-ATXHS
-	["UpLeft"]    = game == "para"   and "ParaUpLeft"                                                                           or   "UpLeft",   -- sPAT-H-
-	["UpRight"]   = game == "para"   and "ParaUpRight"                                                                          or   "UpRight",  -- sPAT-H-
-	["DownLeft"]  = game == "para"   and "ParaDownLeft"                                                                         or "DownLeft",   -- oP-T-H-
-	["DownRight"] = game == "para"   and "ParaDownRight"                                                                        or "DownRight",  -- oP-T-H-
-	["Center"]    = game == "techno" and "Circle"        or game == "smx" and "Diamond" or game == "stepstage" and "StepCenter" or     "Center", -- -P-TXHS
-	-- para 360
-	["BackRight"] = game == "para"   and "ParaBackRight"                                                                        or "DownRight",  -- --A----
-	["Back"]      = game == "para"   and "ParaBack"                                                                             or     "Down",   -- --A----
-	["BackLeft"]  = game == "para"   and "ParaBackLeft"                                                                         or "DownLeft",   -- --A----
-	-- ez2, ds3ddx (5-panel), Maniax
-	["FootDown"]      =                                    "Down",   -- 2--
-	["FootUpLeft"]    =                                  "UpLeft",   -- 23-
-	["FootUpRight"]   =                                  "UpRight",  -- 23-
-	["FootCenter"]   =                                     "Center", -- 25-
-	["FootDownLeft"]  =                                "DownLeft",   -- -3-
-	["FootDownRight"] =                                "DownRight",  -- -3-
-	["HandUp"]        =                                "HandUp",     -- -3-
-	["HandDown"]      =                                "HandDown",   -- -3-
-	["HandLeft"]      =                                "HandLeft",   -- -3-
-	["HandRight"]     =                                "HandRight",  -- -3-
-	["HandUpLeft"]    = game == "maniax" and "Ring" or "Circle",     -- 2-M
-	["HandUpRight"]   = game == "maniax" and "Ring" or "Circle",     -- 2-M
-	["HandLrLeft"]    = game == "maniax" and "Ring" or "Circle",     -- 2-M
-	["HandLrRight"]   = game == "maniax" and "Ring" or "Circle",     -- 2-M
-	-- kbx, be-mu
-	["Key1"]         = game == "kbx" and "KeyWide" or "KeyWhite",
-	["Key2"]         = game == "kbx" and "KeyWide" or "KeyBlue",
-	["Key3"]         = game == "kbx" and "KeyWide" or "KeyWhite",
-	["Key4"]         = game == "kbx" and "KeyWide" or "KeyBlue",
-	["Key5"]         = game == "kbx" and "KeyWide" or "KeyWhite",
-	["Key6"]         = game == "kbx" and "KeyWide" or "KeyBlue",
-	["Key7"]         = game == "kbx" and "KeyWide" or "KeyWhite",
-	["Key8"]         =                   "KeyWide",
-	["Key9"]         =                   "KeyWide",
-	["Key10"]        =                   "KeyWide",
-	["Key11"]        =                   "KeyWide",
-	["Key12"]        =                   "KeyWide",
-	["Key13"]        =                   "KeyWide",
-	["Key14"]        =                   "KeyWide",
-	["Key15"]        =                   "KeyWide",
-	["Key16"]        =                   "KeyWide",
-	["Key17"]        =                   "KeyWide",
-	["Key18"]        =                   "KeyWide",
-	["Key19"]        =                   "KeyWide",
-	["scratch"]      =                                "Scratch",
-	["scratch up"]   =                                "Scratch",
-	["scratch down"] =                                "Scratch",
-	["Foot"]         =                                "Foot",
-	-- po-mu
-	["Left White"]   = "BurgerLower",
-	["Left Yellow"]  = "BurgerUpper",
-	["Left Green"]   = "BurgerLower",
-	["Left Blue"]    = "BurgerUpper",
-	["Red"]          = "BurgerLower",
-	["Right Blue"]   = "BurgerUpper",
-	["Right Green"]  = "BurgerLower",
-	["Right Yellow"] = "BurgerUpper",
-	["Right White"]  = "BurgerLower",
-	-- kickbox
-	["DownLeftFoot"]  = "DownLeftFoot", -- Down: blue
-	["AnyLeftFoot"]   =  "AnyLeftFoot", -- Any:  yellow
-	["UpLeftFoot"]    =   "UpLeftFoot", -- Up:   red
-	["UpLeftFist"]    =   "UpLeftFist",
-	["AnyLeftFist"]   =  "AnyLeftFist",
-	["DownLeftFist"]  = "DownLeftFist",
-	["DownRightFist"] = "DownRightFist",
-	["AnyRightFist"]  =  "AnyRightFist",
-	["UpRightFist"]   =   "UpRightFist",
-	["UpRightFoot"]   =   "UpRightFoot",
-	["AnyRightFoot"]  =  "AnyRightFoot",
-	["DownRightFoot"] = "DownRightFoot",
-	-- guitar, gdgf, gh
-	["Fret 1"] = game == "gdgf" and "Fret" or "Gem",
-	["Fret 2"] = game == "gdgf" and "Fret" or "Gem",
-	["Fret 3"] = game == "gdgf" and "Fret" or "Gem",
-	["Fret 4"] = game == "gdgf" and "Fret" or "Gem",
-	["Fret 5"] = game == "gdgf" and "Fret" or "Gem",
-	["Fret 6"] = game == "gdgf" and "Fret" or "Gem",
-	["open short"] = "OpenShort",
-	["open long"] = "OpenLong",
-	["open six"] = "OpenSix",
-	["wailing"] = "Wailing",
-	["Strum"] = "Strum",
-	["Strum Up"] = "Strum",
-	["Strum Down"] = "Strum",
-	-- gddm, rb
-	["Left Crash"] = "Cymbal",
-	["Hi-Hat"] = "Cymbal",
-	["Hi-Hat Pedal"] = "Pedal",
-	["Snare"] = game == "gddm" and "Tom" or "Brick",
-	["High Tom"] = "Tom",
-	["Kick"] = game == "gddm" and "Pedal" or "RBKick",
-	["Mid Tom"] = "Tom",
-	["Floor Tom"] = "Tom",
-	["Ride"] = "Cymbal",
-	["Right Crash"] = "Cymbal",
-	["Tom1"] = "Brick",
-	["Tom2"] = "Brick",
-	["Tom3"] = "Brick",
-	["GHKick"] = "GHKick",
-	["GHSnare"] = "Brick",
-	["GHCym1"] = "Brick",
-	["GHTom1"] = "Brick",
-	["GHCym2"] = "Brick",
-	["GHTom2"] = "Brick",
-	-- taiko, bongo
-	["Main"] = game == "bongo" and "Bongo" or "Taiko",
-	-- boxing
-	["Receptor"]       = "Boxing",
-	["Left Hook"]      = "Left Hook",
-	["Left Jab"]       = "Left Jab",
-	["Left UpperCut"]  = "Left UpperCut",
-	["Right Hook"]     = "Right Hook",
-	["Right Jab"]      = "Right Jab",
-	["Right UpperCut"] = "Right UpperCut",
 }
 
 local Fallback = {
@@ -157,6 +24,256 @@ local FallbackOne = {
 		return 1
 	end,
 }
+
+-- Redirect table for buttons
+local ButtonRedirTable =
+{
+	["dance"] = {
+		["Left"] = "Left",
+		["UpLeft"] = "UpLeft",
+		["Down"] = "Down",
+		["Up"] = "Up",
+		["UpRight"] = "UpRight",
+		["Right"] = "Right",
+	},
+	["groove"] = {
+		["Left"] = "Left",
+		["UpLeft"] = "UpLeft",
+		["Down"] = "Down",
+		["Up"] = "Up",
+		["UpRight"] = "UpRight",
+		["Right"] = "Right",
+	},
+	["pump"] = {
+		["DownLeft"] = "DownLeft",
+		["UpLeft"] = "UpLeft",
+		["Center"] = "Center",
+		["UpRight"] = "UpRight",
+		["DownRight"] = "DownRight",
+	},
+	["piu"] = {
+		["DownLeft"] = "DownLeft",
+		["UpLeft"] = "UpLeft",
+		["Center"] = "Center",
+		["UpRight"] = "UpRight",
+		["DownRight"] = "DownRight",
+	},
+	["para"] = {
+		["Left"] = "ParaLeft",
+		["DownLeft"] = "ParaDownLeft",
+		["UpLeft"] = "ParaUpLeft",
+		["Down"] = "ParaDown",
+		["Up"] = "ParaUp",
+		["UpRight"] = "ParaUpRight",
+		["DownRight"] = "ParaDownRight",
+		["Right"] = "ParaRight",
+		["BackRight"] = "ParaBackRight",
+		["Back"] = "ParaBack",
+		["BackLeft"] = "ParaBackLeft",
+	},
+	["techno"] = {
+		["Left"] = "Left",
+		["DownLeft"] = "DownLeft",
+		["UpLeft"] = "UpLeft",
+		["Down"] = "Down",
+		["Center"] = "Circle",
+		["Up"] = "Up",
+		["UpRight"] = "UpRight",
+		["DownRight"] = "DownRight",
+		["Right"] = "Right",
+	},
+	["smx"] = {
+		["Left"] = "Left",
+		["Down"] = "Down",
+		["Center"] = "Diamond",
+		["Up"] = "Up",
+		["Right"] = "Right",
+	},
+	["horizon"] = {
+		["Left"] = "Left",
+		["DownLeft"] = "DownLeft",
+		["UpLeft"] = "UpLeft",
+		["Down"] = "Down",
+		["Center"] = "Circle",
+		["Up"] = "Up",
+		["UpRight"] = "UpRight",
+		["DownRight"] = "DownRight",
+		["Right"] = "Right",
+	},
+	["ez2"] = {
+		["FootDown"] = "Down",
+		["FootUpLeft"] = "UpLeft",
+		["FootUpRight"] = "UpRight",
+		["FootCenter"] =  "Center",
+		["HandUpLeft"] = "Circle",
+		["HandUpRight"] = "Circle",
+		["HandLrLeft"] = "Circle",
+		["HandLrRight"] = "Circle",
+	},
+	["maniax"] = {
+		["HandUp"] = "Ring",
+		["HandDown"] = "Ring",
+		["HandLeft"] = "Ring",
+		["HandRight"] = "Ring",
+	},
+	["ds3ddx"] = {
+		["FootUpLeft"] = "UpLeft",
+		["FootUpRight"] = "UpRight",
+		["FootCenter"] = "Center",
+		["FootDownLeft"] = "DownLeft",
+		["FootDownRight"] = "DownRight",
+		["HandUp"] = "HandUp",
+		["HandDown"] = "HandDown",
+		["HandLeft"] = "HandLeft",
+		["HandRight"] = "HandRight",
+	},
+	["kbx"] = {
+		["Key1"] = "KeyWide",
+		["Key2"] = "KeyWide",
+		["Key3"] = "KeyWide",
+		["Key4"] = "KeyWide",
+		["Key5"] = "KeyWide",
+		["Key6"] = "KeyWide",
+		["Key7"] = "KeyWide",
+		["Key8"] = "KeyWide",
+		["Key9"] = "KeyWide",
+		["Key10"] = "KeyWide",
+		["Key11"] = "KeyWide",
+		["Key12"] = "KeyWide",
+		["Key13"] = "KeyWide",
+		["Key14"] = "KeyWide",
+		["Key15"] = "KeyWide",
+		["Key16"] = "KeyWide",
+		["Key17"] = "KeyWide",
+		["Key18"] = "KeyWide",
+		["Key19"] = "KeyWide",
+	},
+	["be-mu"] = {
+		["Key1"] = "KeyWhite",
+		["Key2"] = "KeyBlue",
+		["Key3"] = "KeyWhite",
+		["Key4"] = "KeyBlue",
+		["Key5"] = "KeyWhite",
+		["Key6"] = "KeyBlue",
+		["Key7"] = "KeyWhite",
+		["scratch"] = "Scratch",
+		["scratch up"] = "Scratch",
+		["scratch down"] = "Scratch",
+		["Foot"] = "Foot",
+	},
+	["po-mu"] = {
+		["Left White"] = "BurgerLower",
+		["Left Yellow"] = "BurgerUpper",
+		["Left Green"] = "BurgerLower",
+		["Left Blue"] = "BurgerUpper",
+		["Red"] = "BurgerLower",
+		["Right Blue"] = "BurgerUpper",
+		["Right Green"] = "BurgerLower",
+		["Right Yellow"] = "BurgerUpper",
+		["Right White"] = "BurgerLower",
+	},
+	["kickbox"] = {
+		["DownLeftFoot"] = "DownLeftFoot",
+		["AnyLeftFoot"] = "AnyLeftFoot",
+		["UpLeftFoot"] = "UpLeftFoot",
+		["UpLeftFist"] = "UpLeftFist",
+		["AnyLeftFist"] = "AnyLeftFist",
+		["DownLeftFist"] = "DownLeftFist",
+		["DownRightFist"] = "DownRightFist",
+		["AnyRightFist"] = "AnyRightFist",
+		["UpRightFist"] = "UpRightFist",
+		["UpRightFoot"] = "UpRightFoot",
+		["AnyRightFoot"] = "AnyRightFoot",
+		["DownRightFoot"] = "DownRightFoot",
+	},
+	["gdgf"] = {
+		["Fret 1"] = "Fret",
+		["Fret 2"] = "Fret",
+		["Fret 3"] = "Fret",
+		["Fret 4"] = "Fret",
+		["Fret 5"] = "Fret",
+		["Fret 6"] = "Fret",
+		["open short"] = "OpenShort",
+		["open long"] = "OpenLong",
+		["open six"] = "OpenSix",
+		["wailing"] = "Wailing",
+	},
+	["gddm"] = {
+		["Left Crash"] = "Cymbal",
+		["Hi-Hat"] = "Cymbal",
+		["Hi-Hat Pedal"] = "Pedal",
+		["Snare"] = "Tom",
+		["High Tom"] = "Tom",
+		["Kick"] = "Pedal",
+		["Mid Tom"] = "Tom",
+		["Floor Tom"] = "Tom",
+		["Ride"] = "Cymbal",
+		["Right Crash"] = "Cymbal",
+	},
+	["gh"] = {
+		["Fret 1"] = "Gem",
+		["Fret 2"] = "Gem",
+		["Fret 3"] = "Gem",
+		["Fret 4"] = "Gem",
+		["Fret 5"] = "Gem",
+		["Fret 6"] = "Gem",
+		["Strum"] = "Strum",
+		["Strum Up"] = "Strum",
+		["Strum Down"] = "Strum",
+		["GHKick"] = "GHKick",
+	},
+	["rb"] = {
+		["Snare"] = "Brick",
+		["Tom1"] = "Brick",
+		["Tom2"] = "Brick",
+		["Tom3"] = "Brick",
+		["Kick"] = "RBKick",
+
+		["GHSnare"] = "Brick",
+		["GHCym1"] = "Brick",
+		["GHTom1"] = "Brick",
+		["GHCym2"] = "Brick",
+		["GHTom2"] = "Brick",
+		["GHKick"] = "GHKick",
+	},
+	["taiko"] = {
+		["Main"] = "Taiko",
+	},
+	["bongo"] = {
+		["Main"] = "Bongo",
+	},
+	["stepstage"] = {
+		["Left"] = "StepLeft",
+		["Center"] = "StepCenter",
+		["Right"] = "StepRight",
+	},
+	["boxing"] = {
+		["Receptor"] = "Boxing",
+		["Left Hook"] = "Left Hook",
+		["Left Jab"] = "Left Jab",
+		["Left UpperCut"] = "Left UpperCut",
+		["Right Hook"] = "Right Hook",
+		["Right Jab"] = "Right Jab",
+		["Right UpperCut"] = "Right UpperCut",
+	},
+}
+
+local ButtonRedirChildMeta = {
+	__index = function (table, key, value)
+		return "Fallback"
+	end,
+}
+for cur_k, _ in pairs(ButtonRedirTable) do
+	setmetatable(ButtonRedirTable[cur_k], ButtonRedirChildMeta)
+end
+local ButtonRedirMeta = {
+	__index = function (table, key, value)
+		local dummy = {}
+		setmetatable(dummy, ButtonRedirChildMeta)
+		return dummy
+	end,
+}
+setmetatable(ButtonRedirTable, ButtonRedirMeta)
 
 -- Redirect table for Tap Note/Hold Head
 local TapRedir = {
@@ -630,6 +747,13 @@ local ColumnColorsTable = {
 		["DownRight"] = 16,
 	},
 --]]
+	["piu"] = {
+		["DownLeft"] = 2,
+		["UpLeft"] = 0,
+		["Center"] = 6,
+		["UpRight"] = 0,
+		["DownRight"] = 2,
+	},
 	["para"] = {
 		["Left"] = 12,
 		["UpLeft"] = 12,
@@ -754,16 +878,6 @@ local ColumnColorsTable = {
 		["AnyRightFoot"] = 6,
 		["DownRightFoot"] = 2,
 	},
-	["guitar"] = {
-		["Fret 1"] = 6,
-		["Fret 2"] = 8,
-		["Fret 3"] = 4,
-		["Fret 4"] = 0,
-		["Fret 5"] = 2,
-		["Fret 6"] = 16,
-		["Strum Up"] = 16,
-		["Strum Down"] = 16,
-	},
 	["gdgf"] = {
 		["Fret 1"] = 0,
 		["Fret 2"] = 4,
@@ -776,6 +890,18 @@ local ColumnColorsTable = {
 		["open six"] = 8,
 		["wailing"] = 4,
 	},
+	["gddm"] = {
+		["Left Crash"] = 12,
+		["Hi-Hat"] = 2,
+		["Hi-Hat Pedal"] = 12,
+		["Snare"] = 6,
+		["High Tom"] = 4,
+		["Kick"] = 8,
+		["Mid Tom"] = 0,
+		["Floor Tom"] = 18,
+		["Ride"] = 2,
+		["Right Crash"] = 20,
+	},
 	["gh"] = {
 		["Fret 1"] = 4,
 		["Fret 2"] = 0,
@@ -785,6 +911,7 @@ local ColumnColorsTable = {
 		["Fret 6"] = 10, -- not in original game
 		["Strum Up"] = 8,
 		["Strum Down"] = 8,
+		["GHKick"] = 8,
 	},
 	["rb"] = {
 		["Kick"] = 18,
@@ -800,18 +927,6 @@ local ColumnColorsTable = {
 		["GHCym2"] = 18,
 		["GHTom2"] = 4,
 	},
-	["gddm"] = {
-		["Left Crash"] = 12,
-		["Hi-Hat"] = 2,
-		["Hi-Hat Pedal"] = 12,
-		["Snare"] = 6,
-		["High Tom"] = 4,
-		["Kick"] = 8,
-		["Mid Tom"] = 0,
-		["Floor Tom"] = 18,
-		["Ride"] = 2,
-		["Right Crash"] = 20,
-	},
 	["taiko"] = {
 		["Main"] = 0,
 	},
@@ -824,12 +939,12 @@ local ColumnColorsTable = {
 		["Right"] = 0,
 	},
 	["boxing"] = {
-		["Receptor"]       = 16,
-		["Left Hook"]      = 0,
-		["Left Jab"]       = 0,
-		["Left UpperCut"]  = 0,
-		["Right Hook"]     = 2,
-		["Right Jab"]      = 2,
+		["Receptor"] = 16,
+		["Left Hook"] = 0,
+		["Left Jab"] = 0,
+		["Left UpperCut"] = 0,
+		["Right Hook"] = 2,
+		["Right Jab"] = 2,
 		["Right UpperCut"] = 2,
 	},
 	["lights"] = { -- isn't a game
@@ -1247,7 +1362,12 @@ local ReceptorLineAndGlowTable = {
 	},
 }
 
+-- Old Redir function
 ret.Redir = function (sButton, sElement)
+	return sButton, sElement
+end
+
+local function RedirFunc(sButton, sElement, sGame)
 	-- Instead of separate hold heads, use the tap note graphics.
 	if sElement:find("Hold Head") or sElement:find("Roll Head") or
 	   sElement == "Tap Fake"
@@ -1338,12 +1458,12 @@ ret.Redir = function (sButton, sElement)
 		sElement = "Tap Mine"
 	end
 
-	if game == "taiko" or game == "bongo" then
+	if sGame == "taiko" or sGame == "bongo" then
 		sElement = sElement:gsub("Roll", "Hold")
 		sElement = sElement:gsub("Inactive", "Active")
 	end
 
-	if game == "stepstage" then
+	if sGame == "stepstage" then
 		if sElement:find("Hold") then
 			sElement = sElement:gsub("Inactive", "Active")
 		end
@@ -1353,13 +1473,13 @@ ret.Redir = function (sButton, sElement)
 		end
 	end
 
-	if game == "rb" then
+	if sGame == "rb" then
 		if sButton:find("^GHCym") and sElement == "Tap Note" then
 			sElement = "Tap Cymbal"
 		end
 	end
 
-	sButton = ret.RedirTable[sButton] or "Fallback"
+	sButton = ButtonRedirTable[sGame][sButton]
 
 	return sButton, sElement
 end
@@ -1374,38 +1494,57 @@ local function func()
 	local sElement = Var "Element"
 	local sColor = Var "Color"
 	local sEffect = Var "Effect"
+	local game = GAMESTATE:GetCurrentGame():GetName()
 	local pn = Var "Player" or GAMESTATE:GetMasterPlayerNumber()
 	local sPlayer = pn
 	local sController = Var "Controller"
 
-	if game == "taiko" then
-		ret.DakeExtras.Rhythm = false
-		ret.DakeExtras.Flat = false
-		ret.DakeExtras.ColorMine = false
-		ret.DakeExtras.HoldType = nil
-	elseif game == "bongo" then
-		ret.DakeExtras.Rhythm = false
-		ret.DakeExtras.Flat = false
-		ret.DakeExtras.ColorMine = false
-		ret.DakeExtras.HoldType = nil
-	elseif game == "stepstage" then
-		ret.DakeExtras.Rhythm = false
-		ret.DakeExtras.Flat = false
-		ret.DakeExtras.ColorMine = false
-		ret.DakeExtras.HoldType = nil
+	-- Parameters table for extras
+	-- Rhythm (bood): colored by rhythm
+	-- Flat (bool): colored by column
+	-- ColorMine (bool): mines are colored by rhythm
+	-- HoldType (string): replace hold/roll bodies by specified name
+	local dakeExtras = {
+		["Rhythm"] = game == "dance" or game == "groove" or game == "smx",
+		["Flat"] = not (game == "dance" or game == "groove" or game == "smx"),
+		["ColorMine"] = false,
+		["HoldType"] = game == "smx" and "Diamond" or nil,
+	}
+
+	if ret.DakeExtras then
+		for _k, _v in pairs(ret.DakeExtras) do
+			dakeExtras[_k] = _v
+		end
 	end
 
-	local ColumnColors = ColumnColorsTable[game]
+	if game == "taiko" then
+		dakeExtras.Rhythm = false
+		dakeExtras.Flat = false
+		dakeExtras.ColorMine = false
+		dakeExtras.HoldType = nil
+	elseif game == "bongo" then
+		dakeExtras.Rhythm = false
+		dakeExtras.Flat = false
+		dakeExtras.ColorMine = false
+		dakeExtras.HoldType = nil
+	elseif game == "stepstage" then
+		dakeExtras.Rhythm = false
+		dakeExtras.Flat = false
+		dakeExtras.ColorMine = false
+		dakeExtras.HoldType = nil
+	end
 
 	if GAMESTATE:GetCurrentStyle(pn):GetStyleType() == "StyleType_TwoPlayersSharedSides" then
-		ret.DakeExtras.Rhythm = false
-		ret.DakeExtras.Flat = false
+		dakeExtras.Rhythm = false
+		dakeExtras.Flat = false
 	end
 
 	sPlayer = "PlayerNumber_" .. (sElement:match("^P%d+") or "P1")
 	if sPlayer ~= "PlayerNumber_P1" then
 		sElement = sElement:match("^P%d+ (.*)$")
 	end
+
+	local ColumnColors = ColumnColorsTable[game]
 
 	if GAMESTATE:GetCurrentStyle(pn):GetStepsType() == "StepsType_Kickbox_Human" then
 		if sButton:find("LeftFoot") then
@@ -1479,7 +1618,7 @@ local function func()
 		}
 	end
 
-	local sButtonToLoad, sElementToLoad = ret.Redir(sButton, sElement)
+	local sButtonToLoad, sElementToLoad = RedirFunc(sButton, sElement, game)
 	assert(sButtonToLoad)
 	assert(sElementToLoad)
 
@@ -1589,7 +1728,7 @@ local function func()
 	if sElementToLoad == "Tap Mine" then
 		local color = 0
 
-		if ret.DakeExtras.ColorMine then
+		if dakeExtras.ColorMine then
 			color = RhythmColors[sColor]
 		end
 
@@ -1634,9 +1773,9 @@ local function func()
 		else
 			if GAMESTATE:GetCurrentStyle(pn):GetStyleType() == "StyleType_TwoPlayersSharedSides" then
 				color = RoutineColors[sPlayer]
-			elseif ret.DakeExtras.Rhythm then
+			elseif dakeExtras.Rhythm then
 				color = RhythmColors[sColor]
-			elseif ret.DakeExtras.Flat then
+			elseif dakeExtras.Flat then
 				color = ColumnColors[sButton]
 			end
 		end
@@ -1650,9 +1789,9 @@ local function func()
 		else
 			if GAMESTATE:GetCurrentStyle(pn):GetStyleType() == "StyleType_TwoPlayersSharedSides" then
 				color = RoutineColors[sPlayer]
-			elseif ret.DakeExtras.Rhythm then
+			elseif dakeExtras.Rhythm then
 				color = RhythmColors[sColor]
-			elseif ret.DakeExtras.Flat then
+			elseif dakeExtras.Flat then
 				color = ColumnColors[sButton]
 			end
 		end
@@ -1766,9 +1905,9 @@ local function func()
 		else
 			if GAMESTATE:GetCurrentStyle(pn):GetStyleType() == "StyleType_TwoPlayersSharedSides" then
 				color = RoutineColors[sPlayer]
-			elseif ret.DakeExtras.Rhythm then
+			elseif dakeExtras.Rhythm then
 				color = RhythmColors[sColor]
-			elseif ret.DakeExtras.Flat then
+			elseif dakeExtras.Flat then
 				color = ColumnColors[sButton]
 			end
 		end
@@ -1808,10 +1947,10 @@ local function func()
 		}
 	elseif sElementToLoad:find("^Count .*cap") or sElementToLoad:find("^Count %w+ .*cap") then
 		-- TODO
-		-- t = singleSprite(HoldCapRedir[ret.DakeExtras.HoldType or sButtonToLoad], sElementToLoad:lower())
+		-- t = singleSprite(HoldCapRedir[dakeExtras.HoldType or sButtonToLoad], sElementToLoad:lower())
 	elseif sElementToLoad:find("^Count Body") or sElementToLoad:find("^Count %w+ Body") then
 		-- TODO
-		-- t = singleSprite(HoldBodyRedir[ret.DakeExtras.HoldType or sButtonToLoad], sElementToLoad:lower())
+		-- t = singleSprite(HoldBodyRedir[dakeExtras.HoldType or sButtonToLoad], sElementToLoad:lower())
 	elseif sElementToLoad:find("^Count") then
 		if game == "taiko" then
 			t[#t+1] = singleSprite("_taiko", "count yellow active balloon") .. {
@@ -1857,11 +1996,11 @@ local function func()
 	elseif sElementToLoad:find("^Hold .*cap") or sElementToLoad:find("^Roll .*cap") or
 	       sElementToLoad:find("^Hold %w+ .*cap") or sElementToLoad:find("^Roll %w+ .*cap")
 	then
-		t = singleSprite(HoldCapRedir[ret.DakeExtras.HoldType or sButtonToLoad], sElementToLoad:lower())
+		t = singleSprite(HoldCapRedir[dakeExtras.HoldType or sButtonToLoad], sElementToLoad:lower())
 	elseif sElementToLoad:find("^Hold Body") or sElementToLoad:find("^Roll Body") or
 	       sElementToLoad:find("^Hold %w+ Body") or sElementToLoad:find("^Roll %w+ Body")
 	then
-		t = singleSprite(HoldBodyRedir[ret.DakeExtras.HoldType or sButtonToLoad], sElementToLoad:lower())
+		t = singleSprite(HoldBodyRedir[dakeExtras.HoldType or sButtonToLoad], sElementToLoad:lower())
 	elseif sElementToLoad:find("^Mine .*cap") then
 		local sizeToLoad = zoomValue < 0.7 and "_half" or "_common"
 		t = singleSprite(sizeToLoad, sElementToLoad:lower())
@@ -2226,6 +2365,10 @@ local function func()
 								self:diffuse({1, 1, 1, 1})
 							end
 
+							if isFever then
+								self:diffuse({0, 1, 1, 1})
+							end
+
 							local comboMod = curCombo % 10
 							if curCombo >= 30 then comboMod = 10 end
 
@@ -2264,7 +2407,10 @@ local function func()
 							end
 						end
 
-						if isFever then percent = percent * 2 end
+						if isFever then
+							self:diffuse({0, 1, 1, 1})
+							percent = percent * 2
+						end
 
 						self:settext(percent .. "x")
 					end,
