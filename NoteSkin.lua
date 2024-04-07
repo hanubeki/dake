@@ -2,7 +2,7 @@
 
 local ret = ... or {}
 
--- An pld unused table
+-- An old unused table
 ret.RedirTable =
 {
 }
