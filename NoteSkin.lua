@@ -2179,18 +2179,103 @@ local function func()
 		if game == "gh" and sButton:find("Strum") then
 			local isFever = false
 
-			t[#t+1] = Def.ActorFrame{
-				OnCommand = function (self) self:xy(80, 56) end,
+			t[#t+1] = Def.ActorFrame {
+				OnCommand = function (self) self:xy(0, 56) end,
 				Def.Quad {
 					OnCommand = function (self) self:zoomto(160, 32):diffuse({0, 0, 0, 0.7}) end,
 				},
+				Def.BitmapText {
+					Text = "0",
+					Font = "Common Normal",
+					OnCommand = function (self) self:halign(1):x(72) end,
+					ComboChangedMessageCommand = function (self, params)
+						if params.Player ~= pn then return end
+						self:settext(params.PlayerStageStats:GetScore())
+					end,
+				},
+			}
+
+			t[#t+1] = Def.ActorFrame {
+				OnCommand = function (self) self:xy(-200, -128) end,
 				Def.Quad {
-					OnCommand = function (self) self:zoomto(152, 24):diffuse({0, 0.5, 1, 0.5}):cropright(1) end,
+					OnCommand = function (self) self:y(-16):zoomto(32, 192):diffuse({0, 0, 0, 0.7}) end,
+				},
+				Def.Quad {
+					OnCommand = function (self) self:zoomto(24, 152):diffuse({1, 1, 1, 1}):croptop(1) end,
+					ComboChangedMessageCommand = function (self, params)
+						if params.Player ~= pn then return end
+						local curCombo = params.PlayerStageStats:GetCurrentCombo()
+
+						if params.PlayerStageStats:GetCurrentMissCombo() > 0 then
+							self:diffuse({1, 1, 1, 1}):croptop(1)
+						else
+							if curCombo >= 30 then
+								self:diffuse({1, 0, 1, 1})
+							elseif curCombo >= 20 then
+								self:diffuse({0, 1, 0, 1})
+							elseif curCombo >= 10 then
+								self:diffuse({1, 0.8, 0, 1})
+							else
+								self:diffuse({1, 1, 1, 1})
+							end
+
+							local comboMod = curCombo % 10
+							if curCombo >= 30 then comboMod = 10 end
+
+							self:croptop(1 - comboMod / 10)
+						end
+					end,
+				},
+				Def.BitmapText {
+					Text = "1x",
+					Font = "Common Normal",
+					OnCommand = function (self) self:y(-96):diffuse({1, 1, 1, 1}) end,
+					ComboChangedMessageCommand = function (self, params)
+						if params.Player ~= pn then return end
+						local curCombo = params.PlayerStageStats:GetCurrentCombo()
+						local percent = 1
+
+						if curCombo >= 30 then
+							percent = 4
+						elseif curCombo >= 20 then
+							percent = 3
+						elseif curCombo >= 10 then
+							percent = 2
+						end
+
+						if params.PlayerStageStats:GetCurrentMissCombo() > 0 then
+							self:diffuse({1, 1, 1, 1})
+						else
+							if curCombo >= 30 then
+								self:diffuse({1, 0, 1, 1})
+							elseif curCombo >= 20 then
+								self:diffuse({0, 1, 0, 1})
+							elseif curCombo >= 10 then
+								self:diffuse({1, 0.8, 0, 1})
+							else
+								self:diffuse({1, 1, 1, 1})
+							end
+						end
+
+						if isFever then percent = percent * 2 end
+
+						self:settext(percent .. "x")
+					end,
+				},
+			}
+
+			t[#t+1] = Def.ActorFrame{
+				OnCommand = function (self) self:xy(200, -128) end,
+				Def.Quad {
+					OnCommand = function (self) self:y(-16):zoomto(32, 192):diffuse({0, 0, 0, 0.7}) end,
+				},
+				Def.Quad {
+					OnCommand = function (self) self:zoomto(24, 152):diffuse({0, 1, 1, 1}):croptop(1) end,
 					FeverMessageCommand = function (self, params)
 						if params.pn ~= pn then return end
 						if params.Active then
 							self.Active = true
-							self:linear((self.Amount / 125) * 15):cropright(1)
+							self:linear((self.Amount / 125) * 15):croptop(1)
 						else
 							self.Active = false
 						end
@@ -2198,22 +2283,22 @@ local function func()
 					FeverScoreMessageCommand = function (self, params)
 						if params.pn ~= pn then return end
 						self.Amount = params.Amount
-						self:stoptweening():linear(0.1):cropright(1 - (params.Amount / 125))
+						self:stoptweening():linear(0.1):croptop(1 - (params.Amount / 125))
 						if not self.Active then
 							if params.Amount >= 50 then
-								self:diffuse({0, 0.5, 1, 1})
+								self:diffuse({0, 1, 1, 1})
 							else
-								self:diffuse({0, 0.5, 1, 0.5})
+								self:diffuse({0, 1, 1, 0.5})
 							end
 						else
-							self:stoptweening():linear((self.Amount / 125) * 15):cropright(1)
+							self:stoptweening():linear((self.Amount / 125) * 15):croptop(1)
 						end
 					end,
 				},
 				Def.BitmapText {
-					Text = "FEVER READY!",
+					Text = "GO!",
 					Font = "Common Normal",
-					OnCommand = function (self) self:diffusealpha(0):zoom(0.7) end,
+					OnCommand = function (self) self:y(-96):zoom(0.7):diffusealpha(0) end,
 					FeverMessageCommand = function (self, params)
 						if params.pn ~= pn then return end
 						self.Active = params.Active
@@ -2226,46 +2311,11 @@ local function func()
 						if params.pn ~= pn then return end
 						if not self.Active then
 							if params.Amount >= 50 then
-								self:diffusealpha(1):rainbow():settext("FEVER READY!")
+								self:diffusealpha(1):rainbow():settext("GO!")
 							else
 								self:stopeffect():diffuse({1, 1, 1, 1}):settext(math.floor(params.Amount + 0.5))
 							end
 						end
-					end,
-				},
-			}
-
-			t[#t+1] = Def.ActorFrame {
-				OnCommand = function (self) self:xy(-80, 56) end,
-				Def.Quad {
-					OnCommand = function (self) self:zoomto(160, 32):diffuse({0, 0, 0, 0.7}) end,
-				},
-				Def.BitmapText {
-					Text = "1x",
-					Font = "Common Normal",
-					OnCommand = function (self) self:zoom(0.7):halign(0):x(-72) end,
-					ComboChangedMessageCommand = function (self, params)
-						if params.Player ~= pn then return end
-						local curCombo = params.PlayerStageStats:GetCurrentCombo()
-						local percent = 1
-
-						if curCombo >= 30 then percent = 4
-						elseif curCombo >= 20 then percent = 3
-						elseif curCombo >= 10 then percent = 2
-						end
-
-						if isFever then percent = percent * 2 end
-
-						self:settext(percent .. "x")
-					end,
-				},
-				Def.BitmapText {
-					Text = "0",
-					Font = "Common Normal",
-					OnCommand = function (self) self:zoom(0.7):halign(1):x(72) end,
-					ComboChangedMessageCommand = function (self, params)
-						if params.Player ~= pn then return end
-						self:settext(params.PlayerStageStats:GetScore())
 					end,
 				},
 			}
