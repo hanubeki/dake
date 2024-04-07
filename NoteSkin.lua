@@ -569,7 +569,7 @@ setmetatable(RhythmColors, RhythmColorsMeta)
 local ProgressColors = {18, 8, 2, 8}
 
 -- Color table for column
-local ColumnColors = {
+local ColumnColorsTable = {
 --[[
 	 0: Red
 	 2: Blue
@@ -786,18 +786,6 @@ local ColumnColors = {
 		["Strum Up"] = 8,
 		["Strum Down"] = 8,
 	},
---[[
-	["gh"] = { -- Alternate Color
-		["Fret 1"] = 0,
-		["Fret 2"] = 6,
-		["Fret 3"] = 2,
-		["Fret 4"] = 18
-		["Fret 5"] = 4,
-		["Fret 6"] = 10, -- not in original game
-		["Strum Up"] = 8,
-		["Strum Down"] = 8,
-	},
---]]
 	["rb"] = {
 		["Kick"] = 18,
 		["Snare"] = 0,
@@ -860,8 +848,8 @@ local ColumnColorsChildMeta = {
 		return 16
 	end,
 }
-for cur_k, _ in pairs(ColumnColors) do
-	setmetatable(ColumnColors[cur_k], ColumnColorsChildMeta)
+for cur_k, _ in pairs(ColumnColorsTable) do
+	setmetatable(ColumnColorsTable[cur_k], ColumnColorsChildMeta)
 end
 local ColumnColorsMeta = {
 	__index = function (table, key, value)
@@ -870,7 +858,7 @@ local ColumnColorsMeta = {
 		return dummy
 	end,
 }
-setmetatable(ColumnColors, ColumnColorsMeta)
+setmetatable(ColumnColorsTable, ColumnColorsMeta)
 
 -- Color table for Tap Wail
 local WailColors = {
@@ -1407,6 +1395,8 @@ local function func()
 		ret.DakeExtras.HoldType = nil
 	end
 
+	local ColumnColors = ColumnColorsTable[game]
+
 	if GAMESTATE:GetCurrentStyle(pn):GetStyleType() == "StyleType_TwoPlayersSharedSides" then
 		ret.DakeExtras.Rhythm = false
 		ret.DakeExtras.Flat = false
@@ -1439,6 +1429,23 @@ local function func()
 		end
 		if sButton:find("RightFoot") then
 			sButton = "AnyRightFoot"
+		end
+	end
+
+	if GAMESTATE:GetCurrentStyle(pn):GetStepsType() == "StepsType_Gh_Rhythm" then
+		ColumnColors = { -- Rhythm Colors
+			["Fret 1"] = 0,
+			["Fret 2"] = 6,
+			["Fret 3"] = 2,
+			["Fret 4"] = 18,
+			["Fret 5"] = 4,
+			["Fret 6"] = 10, -- not in original game
+			["GHKick"] = 8,
+		}
+		setmetatable(ColumnColors, ColumnColorsChildMeta)
+
+		if sButton:find("Strum") then
+			sButton = "GHKick"
 		end
 	end
 
@@ -1630,7 +1637,7 @@ local function func()
 			elseif ret.DakeExtras.Rhythm then
 				color = RhythmColors[sColor]
 			elseif ret.DakeExtras.Flat then
-				color = ColumnColors[game][sButton]
+				color = ColumnColors[sButton]
 			end
 		end
 
@@ -1646,7 +1653,7 @@ local function func()
 			elseif ret.DakeExtras.Rhythm then
 				color = RhythmColors[sColor]
 			elseif ret.DakeExtras.Flat then
-				color = ColumnColors[game][sButton]
+				color = ColumnColors[sButton]
 			end
 		end
 
@@ -1678,7 +1685,7 @@ local function func()
 				FeverMissedMessageCommand = GHEffects.FeverMissed,
 			}
 
-			t[#t+1] = feverSprite(sButton:find("Strum") and "_strum" or "_common", "tap star", color, 20) .. {
+			t[#t+1] = feverSprite(sButtonToLoad == "Strum" and "_strum" or sButtonToLoad == "GHKick" and "_ghkick" or "_common", "tap star", color, 20) .. {
 				InitCommand = function (self)
 					GHEffects.StarInit(self, {})
 					self:pause():z(-4):glow({0.5, 1, 1, 1})
@@ -1687,7 +1694,7 @@ local function func()
 				FeverMissedMessageCommand = GHEffects.StarMissed,
 			}
 
-			t[#t+1] = feverSprite(sButton:find("Strum") and "_strum" or "_common", "tap star", color, 20) .. {
+			t[#t+1] = feverSprite(sButtonToLoad == "Strum" and "_strum" or sButtonToLoad == "GHKick" and "_ghkick" or "_common", "tap star", color, 20) .. {
 				InitCommand = function (self)
 					GHEffects.StarInit(self, {})
 					self:pause()
@@ -1762,7 +1769,7 @@ local function func()
 			elseif ret.DakeExtras.Rhythm then
 				color = RhythmColors[sColor]
 			elseif ret.DakeExtras.Flat then
-				color = ColumnColors[game][sButton]
+				color = ColumnColors[sButton]
 			end
 		end
 
