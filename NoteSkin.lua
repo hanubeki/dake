@@ -2520,7 +2520,7 @@ local function func()
 			}
 --]]
 
-			local circleZoom = game == "taiko" and 2 or game == "bongo" and 1.5 or game == "gh" and 1.5 or 1
+			local circleZoom = game == "taiko" and 2 or game == "bongo" and 1.5 or game == "gh" and 1.5 or game == "rb" and 1.5 or 1
 
 			-- Function for circle actor commands
 			local circleCommands = function (actor, color)
