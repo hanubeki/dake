@@ -2295,6 +2295,9 @@ local function func()
 						end
 					end,
 				},
+				Def.Quad {
+					OnCommand = function (self) self:y(15.2):zoomto(24, 2):diffuse({1, 1, 1, 1}) end,
+				},
 				Def.BitmapText {
 					Text = "GO!",
 					Font = "Common Normal",
