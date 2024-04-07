@@ -1366,7 +1366,7 @@ ret.Redir = function (sButton, sElement)
 	end
 
 	if game == "rb" then
-		if sButton:find("GHCym") and sElement == "Tap Note" then
+		if sButton:find("^GHCym") and sElement == "Tap Note" then
 			sElement = "Tap Cymbal"
 		end
 	end
@@ -1622,12 +1622,16 @@ local function func()
 	elseif sElementToLoad == "Tap Cymbal" then
 		local color = 0
 
-		if GAMESTATE:GetCurrentStyle(pn):GetStyleType() == "StyleType_TwoPlayersSharedSides" then
-			color = RoutineColors[sPlayer]
-		elseif ret.DakeExtras.Rhythm then
-			color = RhythmColors[sColor]
-		elseif ret.DakeExtras.Flat then
-			color = ColumnColors[game][sButton]
+		if sButton == "wailing" then
+			color = 4
+		else
+			if GAMESTATE:GetCurrentStyle(pn):GetStyleType() == "StyleType_TwoPlayersSharedSides" then
+				color = RoutineColors[sPlayer]
+			elseif ret.DakeExtras.Rhythm then
+				color = RhythmColors[sColor]
+			elseif ret.DakeExtras.Flat then
+				color = ColumnColors[game][sButton]
+			end
 		end
 
 		t[#t+1] = colorSprite("_common", "tap cymbal", color)
