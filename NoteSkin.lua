@@ -2416,7 +2416,7 @@ local function func()
 				}
 			elseif game ~= "smx" and game ~= "bongo" then
 				if not (sButton:find("Strum") or sButton:find("open") or sButtonToLoad:find("RBKick") or sButtonToLoad:find("GHKick")) then
-					if game == "gh" or game == "rb" then
+					if game == "maniax" or game == "gh" or game == "rb" then
 						t[#t+1] = feverSprite(TapRedir[sButtonToLoad], "receptor colored", ColumnColors[sButton], game == "gh" and 20 or ColumnColors[sButton]) .. {
 							InitCommand = function (self) self:pause():rotationy(rotY):rotationz(rotZ):effectclock("beat"):diffuseramp():effectcolor1({0.8, 0.8, 0.8, 0.75}):effectcolor2({1, 1, 1, 0.75}):effectoffset(0.05) end,
 							NoneCommand = function (self) self:finishtweening():zoom(0.85):diffusealpha(0.7):linear(0.1):diffusealpha(1):zoom(1) end,
