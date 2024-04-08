@@ -13,6 +13,7 @@ Note that some child noteskins are not available for certain gametypes.
 * dake-solo: Notes are colored by beat
 * dake-flat: Notes are colored by columns
 * dake-edit: Mine is colored by rhythm
+* dake-brick: RB style guitar for GH
 * dake-narrowhold: Holds are narrow
 * dake-thinhold: Holds are thin
 * dake-routine: Actually not working

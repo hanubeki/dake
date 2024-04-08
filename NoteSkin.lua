@@ -220,7 +220,6 @@ local ButtonRedirTable =
 		["Strum"] = "Strum",
 		["Strum Up"] = "Strum",
 		["Strum Down"] = "Strum",
-		["GHKick"] = "GHKick",
 	},
 	["rb"] = {
 		["Snare"] = "Brick",
@@ -341,6 +340,7 @@ local TapRedir = {
 	["Strum"] = "_strum",
 
 	["Brick"] = "_brick",
+	["BrickStrum"] = "_brickstrum",
 	["RBKick"] = "_rbkick",
 	["GHKick"] = "_ghkick",
 
@@ -515,6 +515,7 @@ local HoldBodyRedir = {
 	["Strum"] = "_strum",
 
 	["Brick"] = "_thin",
+	["BrickStrum"] = "_strum",
 	["RBKick"] = "_strum",
 	["GHKick"] = "_strum",
 
@@ -593,6 +594,7 @@ local HoldCapRedir = {
 	["Strum"] = "_strum",
 
 	["Brick"] = "_thin",
+	["BrickStrum"] = "_strum",
 	["RBKick"] = "_strum",
 	["GHKick"] = "_strum",
 
@@ -911,7 +913,6 @@ local ColumnColorsTable = {
 		["Fret 6"] = 10, -- not in original game
 		["Strum Up"] = 8,
 		["Strum Down"] = 8,
-		["GHKick"] = 8,
 	},
 	["rb"] = {
 		["Kick"] = 18,
@@ -1367,7 +1368,7 @@ ret.Redir = function (sButton, sElement)
 	return sButton, sElement
 end
 
-local function RedirFunc(sButton, sElement, sGame)
+local function RedirFunc(sButton, sElement, sGame, tRedir)
 	-- Instead of separate hold heads, use the tap note graphics.
 	if sElement:find("Hold Head") or sElement:find("Roll Head") or
 	   sElement == "Tap Fake"
@@ -1479,7 +1480,7 @@ local function RedirFunc(sButton, sElement, sGame)
 		end
 	end
 
-	sButton = ButtonRedirTable[sGame][sButton]
+	sButton = tRedir[sButton]
 
 	return sButton, sElement
 end
@@ -1502,12 +1503,14 @@ local function func()
 	-- Parameters table for extras
 	-- Rhythm (bood): colored by rhythm
 	-- Flat (bool): colored by column
+	-- Brick (bool): use brick instead of gem for gh
 	-- ColorMine (bool): mines are colored by rhythm
 	-- HoldType (string): replace hold/roll bodies by specified name
 	local dakeExtras = {
 		["Rhythm"] = game == "dance" or game == "groove" or game == "smx",
 		["Flat"] = not (game == "dance" or game == "groove" or game == "smx"),
 		["ColorMine"] = false,
+		["Brick"] = false,
 		["HoldType"] = game == "smx" and "Diamond" or nil,
 	}
 
@@ -1521,16 +1524,19 @@ local function func()
 		dakeExtras.Rhythm = false
 		dakeExtras.Flat = false
 		dakeExtras.ColorMine = false
+		dakeExtras.Brick = false
 		dakeExtras.HoldType = nil
 	elseif game == "bongo" then
 		dakeExtras.Rhythm = false
 		dakeExtras.Flat = false
 		dakeExtras.ColorMine = false
+		dakeExtras.Brick = false
 		dakeExtras.HoldType = nil
 	elseif game == "stepstage" then
 		dakeExtras.Rhythm = false
 		dakeExtras.Flat = false
 		dakeExtras.ColorMine = false
+		dakeExtras.Brick = false
 		dakeExtras.HoldType = nil
 	end
 
@@ -1544,6 +1550,7 @@ local function func()
 		sElement = sElement:match("^P%d+ (.*)$")
 	end
 
+	local ButtonRedir = ButtonRedirTable[game]
 	local ColumnColors = ColumnColorsTable[game]
 
 	if GAMESTATE:GetCurrentStyle(pn):GetStepsType() == "StepsType_Kickbox_Human" then
@@ -1572,6 +1579,19 @@ local function func()
 	end
 
 	if GAMESTATE:GetCurrentStyle(pn):GetStepsType() == "StepsType_Gh_Rhythm" then
+		ButtonRedir = {
+			["Fret 1"] = "Gem",
+			["Fret 2"] = "Gem",
+			["Fret 3"] = "Gem",
+			["Fret 4"] = "Gem",
+			["Fret 5"] = "Gem",
+			["Fret 6"] = "Gem",
+			["Strum"] = "GHKick",
+			["Strum Up"] = "GHKick",
+			["Strum Down"] = "GHKick",
+		}
+		setmetatable(ButtonRedir, ButtonRedirChildMeta)
+
 		ColumnColors = { -- Rhythm Colors
 			["Fret 1"] = 0,
 			["Fret 2"] = 6,
@@ -1579,13 +1599,49 @@ local function func()
 			["Fret 4"] = 18,
 			["Fret 5"] = 4,
 			["Fret 6"] = 10, -- not in original game
-			["GHKick"] = 8,
+			["Strum Up"] = 8,
+			["Strum Down"] = 8,
 		}
 		setmetatable(ColumnColors, ColumnColorsChildMeta)
+	end
 
-		if sButton:find("Strum") then
-			sButton = "GHKick"
+	if dakeExtras.Brick and game == "gh" then
+		ButtonRedir = {
+			["Fret 1"] = "Brick",
+			["Fret 2"] = "Brick",
+			["Fret 3"] = "Brick",
+			["Fret 4"] = "Brick",
+			["Fret 5"] = "Brick",
+			["Fret 6"] = "Brick",
+			["Strum"] = "BrickStrum",
+			["Strum Up"] = "BrickStrum",
+			["Strum Down"] = "BrickStrum",
+		}
+		setmetatable(ButtonRedir, ButtonRedirChildMeta)
+
+		ColumnColors = {
+			["Fret 1"] = 4,
+			["Fret 2"] = 0,
+			["Fret 3"] = 6,
+			["Fret 4"] = 2,
+			["Fret 5"] = 18,
+			["Fret 6"] = 10, -- not in original game
+			["Strum Up"] = 18,
+			["Strum Down"] = 18,
+		}
+		if GAMESTATE:GetCurrentStyle(pn):GetStepsType() == "StepsType_Gh_Rhythm" then
+			ColumnColors = {
+				["Fret 1"] = 0,
+				["Fret 2"] = 6,
+				["Fret 3"] = 2,
+				["Fret 4"] = 18,
+				["Fret 5"] = 4,
+				["Fret 6"] = 10, -- not in original game
+				["Strum Up"] = 18,
+				["Strum Down"] = 18,
+			}
 		end
+		setmetatable(ColumnColors, ColumnColorsChildMeta)
 	end
 
 	local bBlank = ret.Blank[sElement];
@@ -1618,7 +1674,7 @@ local function func()
 		}
 	end
 
-	local sButtonToLoad, sElementToLoad = RedirFunc(sButton, sElement, game)
+	local sButtonToLoad, sElementToLoad = RedirFunc(sButton, sElement, game, ButtonRedir)
 	assert(sButtonToLoad)
 	assert(sElementToLoad)
 
@@ -1666,7 +1722,7 @@ local function func()
 		end,
 	}
 
-	if game == "gh" then
+	if game == "gh" and not dakeExtras.Brick then
 		GHEffects.Init = function (self, params)
 			if tonumber(sEffect) > 0 then
 				self:visible(false)
@@ -1723,6 +1779,58 @@ local function func()
 
 	setmetatable(GHEffects, GHEffectsMeta)
 
+	-- Commands for RB effects
+	local RBEffects = {
+		["StarInit"] = function (self, params) self:visible(false) end,
+	}
+	local RBEffectsMeta = {
+		__index = function (table, key, value)
+			return function (self, params) end
+		end,
+	}
+
+	if game == "rb" or (game == "gh" and dakeExtras.Brick) then
+		RBEffects.Init = function (self, params)
+			if tonumber(sEffect) > 0 then
+				self:visible(false)
+			else
+				self:visible(true)
+			end
+		end
+
+		RBEffects.FeverMissed = function (self, params)
+			if params.pn ~= pn then return end
+			if tonumber(sEffect) > 0 then
+				if params.Missed then
+					self:visible(true)
+				else
+					self:visible(false)
+				end
+			end
+		end
+
+		RBEffects.StarInit = function (self, params)
+			if tonumber(sEffect) > 0 then
+				self:visible(true)
+			else
+				self:visible(false)
+			end
+		end
+
+		RBEffects.StarMissed = function (self, params)
+			if params.pn ~= pn then return end
+			if tonumber(sEffect) > 0 then
+				if params.Missed then
+					self:visible(false)
+				else
+					self:visible(true)
+				end
+			end
+		end
+	end
+
+	setmetatable(RBEffects, RBEffectsMeta)
+
 	local t = Def.ActorFrame {}
 
 	if sElementToLoad == "Tap Mine" then
@@ -1765,22 +1873,6 @@ local function func()
 		t[#t+1] = colorSprite("_wailing", "tap wail up", color) .. {
 			InitCommand = function (self) self:rotationz(rotZ) end,
 		}
-	elseif sElementToLoad == "Tap Cymbal" then
-		local color = 0
-
-		if sButton == "wailing" then
-			color = 4
-		else
-			if GAMESTATE:GetCurrentStyle(pn):GetStyleType() == "StyleType_TwoPlayersSharedSides" then
-				color = RoutineColors[sPlayer]
-			elseif dakeExtras.Rhythm then
-				color = RhythmColors[sColor]
-			elseif dakeExtras.Flat then
-				color = ColumnColors[sButton]
-			end
-		end
-
-		t[#t+1] = colorSprite("_common", "tap cymbal", color)
 	elseif sElementToLoad:find("^Tap") then
 		local color = 0
 
@@ -1802,20 +1894,28 @@ local function func()
 			}
 		end
 
+		local texture = TapRedir[sButtonToLoad]
+
+		if sElementToLoad == "Tap Cymbal" then
+			texture = "_common"
+		end
+
 		local tapNote = sElementToLoad:lower()
 
-		if sElementToLoad == "Tap Hopo" then
-			tapNote = "tap note"
-		elseif sElementToLoad == "Tap Taps" then
-			tapNote = "tap note"
+		if game ~= "rb" and not (game == "gh" and dakeExtras.Brick) then
+			if sElementToLoad == "Tap Hopo" then
+				tapNote = "tap note"
+			elseif sElementToLoad == "Tap Taps" then
+				tapNote = "tap note"
+			end
 		end
 
 		if sElementToLoad:find("Red") or sElementToLoad:find("Blue") or sElementToLoad:find("Yellow") then
 			color = 0
 		end
 
-		if game == "gh" then
-			t[#t+1] = feverSprite(TapRedir[sButtonToLoad], tapNote, color, 20) .. {
+		if (game == "gh" and not dakeExtras.Brick) or (game == "rb" or GAMESTATE:GetCurrentStyle(pn):GetStepsType():find("5")) then
+			t[#t+1] = feverSprite(texture, tapNote, color, 20) .. {
 				InitCommand = function (self)
 					GHEffects.Init(self, {})
 					self:pause():rotationy(rotY):rotationz(rotZ)
@@ -1851,8 +1951,33 @@ local function func()
 					InitCommand = function (self) self:z(8) end,
 				}
 			end
+		elseif game == "rb" or (game == "gh" and dakeExtras.Brick) then
+			local tapStar = "tap star"
+
+			if sElementToLoad == "Tap Hopo" then
+				tapStar = "tap hopostar"
+			elseif sElementToLoad == "Tap Taps" then
+				tapStar = "tap tapsstar"
+			elseif sElementToLoad == "Tap Cymbal" then
+				tapStar = "tap cymbalstar"
+			end
+	
+			t[#t+1] = colorSprite(texture, tapNote, color) .. {
+				InitCommand = function (self)
+					RBEffects.Init(self, {})
+					self:rotationy(rotY):rotationz(rotZ)
+				end,
+				FeverMissedMessageCommand = RBEffects.FeverMissed,
+			}
+
+			t[#t+1] = colorSprite(texture, tapStar, color) .. {
+				InitCommand = function (self)
+					RBEffects.StarInit(self, {})
+				end,
+				FeverMissedMessageCommand = RBEffects.StarMissed,
+			}
 		else
-			t[#t+1] = colorSprite(TapRedir[sButtonToLoad], tapNote, color) .. {
+			t[#t+1] = colorSprite(texture, tapNote, color) .. {
 				InitCommand = function (self) self:rotationy(rotY):rotationz(rotZ) end,
 			}
 		end
@@ -2322,7 +2447,7 @@ local function func()
 			end
 		end
 
-		if game == "gh" and (sButton:find("Strum") or sButton == "GHKick") then
+		if game == "gh" and sButton:find("Strum") then
 			local isFever = false
 
 			t[#t+1] = Def.ActorFrame {
