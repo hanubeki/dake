@@ -1391,6 +1391,11 @@ local function RedirFunc(sButton, sElement, sGame, tRedir)
 		sElement = "Tap Yellow"
 	end
 
+	-- Instead of separate hold purples, use the tap purple graphics.
+	if (sElement:find("Hold Purple") or sElement:find("Roll Purple")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
+		sElement = "Tap Purple"
+	end
+
 	-- Instead of separate hold heads, use the tap note graphics.
 	if (sElement:find("Hold BigRed") or sElement:find("Roll BigRed")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
 		sElement = "Tap BigRed"
@@ -1404,6 +1409,11 @@ local function RedirFunc(sButton, sElement, sGame, tRedir)
 	-- Instead of separate hold yellows, use the tap yellow graphics.
 	if (sElement:find("Hold BigYellow") or sElement:find("Roll BigYellow")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
 		sElement = "Tap BigYellow"
+	end
+
+	-- Instead of separate hold purples, use the tap purple graphics.
+	if (sElement:find("Hold BigPurple") or sElement:find("Roll BigPurple")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
+		sElement = "Tap BigPurple"
 	end
 
 	-- Instead of separate hold lefts, use the tap left graphics.
@@ -1433,6 +1443,8 @@ local function RedirFunc(sButton, sElement, sGame, tRedir)
 		elseif sElement:find("Blue") then
 			sElement = "Jump Red"
 		elseif sElement:find("Yellow") then
+			sElement = "Jump Red"
+		elseif sElement:find("Purple") then
 			sElement = "Jump Red"
 		else
 			sElement = "Jump Note"
@@ -1470,7 +1482,7 @@ local function RedirFunc(sButton, sElement, sGame, tRedir)
 		end
 
 		if sElement:find("Roll") then
-			sElement = sElement:gsub(" Red", ""):gsub(" Blue", ""):gsub(" Yellow", "")
+			sElement = sElement:gsub(" Red", ""):gsub(" Blue", ""):gsub(" Yellow", ""):gsub(" Purple", "")
 		end
 	end
 
@@ -1910,7 +1922,7 @@ local function func()
 			end
 		end
 
-		if sElementToLoad:find("Red") or sElementToLoad:find("Blue") or sElementToLoad:find("Yellow") then
+		if sElementToLoad:find("Red") or sElementToLoad:find("Blue") or sElementToLoad:find("Yellow") or sElementToLoad:find("Purple") then
 			color = 0
 		end
 
@@ -2061,6 +2073,9 @@ local function func()
 		elseif sElementToLoad:find("Yellow") then
 			color = 0
 			tapNote = "Tap Yellow"
+		elseif sElementToLoad:find("Purple") then
+			color = 0
+			tapNote = "Tap Purple"
 		end
 
 		t[#t+1] = singleSprite(TapRedir[sButtonToLoad], sElementToLoad:lower()) .. {
