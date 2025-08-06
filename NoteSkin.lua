@@ -2119,9 +2119,9 @@ local function func()
 
 				t[#t+1] = Def.ActorFrame {
 					Name = "Bubble",
-					InitCommand = function (self) self:y(sController == "GameController_1" and -80 or 80) end,
+					InitCommand = function (self) self:y(sController == "GameController_Left" and -80 or 80) end,
 					singleSprite("_taiko", "count yellow active bubble") .. {
-						InitCommand = function (self) self:rotationx(sController == "GameController_1" and 0 or 180) end,
+						InitCommand = function (self) self:rotationx(sController == "GameController_Left" and 0 or 180) end,
 					},
 					Def.BitmapText {
 						Name = "Count",
@@ -2250,13 +2250,13 @@ local function func()
 					local isSingleOrVersus = styleType == "StyleType_OnePlayerOneSide" or styleType == "StyleType_TwoPlayersTwoSides"
 
 					if GAMESTATE:GetCurrentStyle(pn):GetStepsType():find("6") then
-						if isSingleOrVersus or sController == "GameController_2" then
+						if isSingleOrVersus or sController == "GameController_Right" then
 							return iColumn == numColumns - 1
 						else
 							return iColumn == numColumns / 2 - 1
 						end
 					else
-						if isSingleOrVersus or sController == "GameController_1" then
+						if isSingleOrVersus or sController == "GameController_Left" then
 							return iColumn == 0
 						else
 							return iColumn == numColumns / 2
