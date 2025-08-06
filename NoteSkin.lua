@@ -1369,6 +1369,9 @@ ret.Redir = function (sButton, sElement)
 end
 
 local function RedirFunc(sButton, sElement, sGame, tRedir)
+	-- TODO
+	-- sElement = sElement:sub("ScoreCombo", "Hold")
+
 	-- Instead of separate hold heads, use the tap note graphics.
 	if sElement:find("Hold Head") or sElement:find("Roll Head") or
 	   sElement == "Tap Fake"
@@ -1377,62 +1380,62 @@ local function RedirFunc(sButton, sElement, sGame, tRedir)
 	end
 
 	-- Instead of separate hold red, use the tap red graphics.
-	if (sElement:find("Hold Red") or sElement:find("Roll Red")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
+	if (sElement:find("Hold Red") or sElement:find("Roll Red") or sElement:find("ScoreCombo Red")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
 		sElement = "Tap Red"
 	end
 
 	-- Instead of separate hold blues, use the tap blue graphics.
-	if (sElement:find("Hold Blue") or sElement:find("Roll Blue")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
+	if (sElement:find("Hold Blue") or sElement:find("Roll Blue") or sElement:find("ScoreCombo Blue")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
 		sElement = "Tap Blue"
 	end
 
 	-- Instead of separate hold yellows, use the tap yellow graphics.
-	if (sElement:find("Hold Yellow") or sElement:find("Roll Yellow")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
+	if (sElement:find("Hold Yellow") or sElement:find("Roll Yellow") or sElement:find("ScoreCombo Yellow")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
 		sElement = "Tap Yellow"
 	end
 
 	-- Instead of separate hold purples, use the tap purple graphics.
-	if (sElement:find("Hold Purple") or sElement:find("Roll Purple")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
+	if (sElement:find("Hold Purple") or sElement:find("Roll Purple") or sElement:find("ScoreCombo Purple")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
 		sElement = "Tap Purple"
 	end
 
 	-- Instead of separate hold heads, use the tap note graphics.
-	if (sElement:find("Hold BigRed") or sElement:find("Roll BigRed")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
+	if (sElement:find("Hold BigRed") or sElement:find("Roll BigRed") or sElement:find("ScoreCombo BigRed")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
 		sElement = "Tap BigRed"
 	end
 
 	-- Instead of separate hold blues, use the tap blue graphics.
-	if (sElement:find("Hold BigBlue") or sElement:find("Roll BigBlue")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
+	if (sElement:find("Hold BigBlue") or sElement:find("Roll BigBlue") or sElement:find("ScoreCombo BigBlue")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
 		sElement = "Tap BigBlue"
 	end
 
 	-- Instead of separate hold yellows, use the tap yellow graphics.
-	if (sElement:find("Hold BigYellow") or sElement:find("Roll BigYellow")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
+	if (sElement:find("Hold BigYellow") or sElement:find("Roll BigYellow") or sElement:find("ScoreCombo BigYellow")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
 		sElement = "Tap BigYellow"
 	end
 
 	-- Instead of separate hold purples, use the tap purple graphics.
-	if (sElement:find("Hold BigPurple") or sElement:find("Roll BigPurple")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
+	if (sElement:find("Hold BigPurple") or sElement:find("Roll BigPurple") or sElement:find("ScoreCombo BigPurple")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
 		sElement = "Tap BigPurple"
 	end
 
 	-- Instead of separate hold lefts, use the tap left graphics.
-	if (sElement:find("Hold Left") or sElement:find("Roll Left")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
+	if (sElement:find("Hold Left") or sElement:find("Roll Left") or sElement:find("ScoreCombo Left")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
 		sElement = "Tap Left"
 	end
 
 	-- Instead of separate hold rights, use the tap right graphics.
-	if (sElement:find("Hold Right") or sElement:find("Roll Right")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
+	if (sElement:find("Hold Right") or sElement:find("Roll Right") or sElement:find("ScoreCombo Right")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
 		sElement = "Tap Right"
 	end
 
 	-- Instead of separate hold centers, use the tap center graphics.
-	if (sElement:find("Hold Center") or sElement:find("Roll Center")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
+	if (sElement:find("Hold Center") or sElement:find("Roll Center") or sElement:find("ScoreCombo Center")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
 		sElement = "Tap Center"
 	end
 
 	-- Instead of separate hold claps, use the tap clap graphics.
-	if (sElement:find("Hold Clap") or sElement:find("Roll Clap")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
+	if (sElement:find("Hold Clap") or sElement:find("Roll Clap") or sElement:find("ScoreCombo Clap")) and not (sElement:find(" .*cap") or sElement:find(" Body") or sElement:find(" .*Tail")) then
 		sElement = "Tap Clap"
 	end
 
@@ -1472,7 +1475,7 @@ local function RedirFunc(sButton, sElement, sGame, tRedir)
 	end
 
 	if sGame == "taiko" or sGame == "bongo" then
-		sElement = sElement:gsub("Roll", "Hold")
+		sElement = sElement:gsub("Roll", "Hold"):gsub("ScoreCombo", "Hold")
 		sElement = sElement:gsub("Inactive", "Active")
 	end
 
@@ -1667,6 +1670,12 @@ local function func()
 	end
 
 	if game == "taiko" then
+--[[
+		-- TODO: Fix ScoreCombo Topcap
+		if sElement == "ScoreCombo BigYellow Inactive" or sElement == "ScoreCombo Yellow Inactive" then
+			bBlank = true
+		end
+]]
 		if sElement:find("^Count") and (sElement:find(" .*cap") or sElement:find(" Body")) then
 			bBlank = true
 		end
@@ -2133,12 +2142,12 @@ local function func()
 		else
 			-- TODO
 		end
-	elseif sElementToLoad:find("^Hold .*cap") or sElementToLoad:find("^Roll .*cap") or
-	       sElementToLoad:find("^Hold %w+ .*cap") or sElementToLoad:find("^Roll %w+ .*cap")
+	elseif sElementToLoad:find("^Hold .*cap") or sElementToLoad:find("^Roll .*cap") or sElementToLoad:find("^ScoreCombo .*cap") or
+	       sElementToLoad:find("^Hold %w+ .*cap") or sElementToLoad:find("^Roll %w+ .*cap") or sElementToLoad:find("^ScoreCombo %w+ .*cap")
 	then
 		t = singleSprite(HoldCapRedir[dakeExtras.HoldType or sButtonToLoad], sElementToLoad:lower())
-	elseif sElementToLoad:find("^Hold Body") or sElementToLoad:find("^Roll Body") or
-	       sElementToLoad:find("^Hold %w+ Body") or sElementToLoad:find("^Roll %w+ Body")
+	elseif sElementToLoad:find("^Hold Body") or sElementToLoad:find("^Roll Body") or sElementToLoad:find("^ScoreCombo Body") or
+	       sElementToLoad:find("^Hold %w+ Body") or sElementToLoad:find("^Roll %w+ Body")or sElementToLoad:find("ScoreCombo %w+ Body")
 	then
 		t = singleSprite(HoldBodyRedir[dakeExtras.HoldType or sButtonToLoad], sElementToLoad:lower())
 	elseif sElementToLoad:find("^Mine .*cap") then
@@ -2149,8 +2158,6 @@ local function func()
 		t = singleSprite(sizeToLoad, sElementToLoad:lower())
 	elseif sElementToLoad == "Receptor" then
 		if game == "taiko" then
-			local taikoLaser = nil
-
 			local taikoLaserColors = {
 				["Taiko Left Outside"] = {0.25, 0.75, 1, 0.5},
 				["Taiko Right Outside"] = {0.25, 0.75, 1, 0.5},
@@ -2158,18 +2165,10 @@ local function func()
 				["Taiko Right Inside"] = {1, 0.75, 0.5, 0.5},
 			}
 
-			local taikoLaserInput = function (event)
-				if ToEnumShortString(event.type) == "FirstPress" and event.PlayerNumber == pn then
-					if taikoLaserColors[event.button] then
-						taikoLaser:GetChild("Laser"):finishtweening():diffuse(taikoLaserColors[event.button]):queuecommand("Push")
-					end
-				end
-			end
-
 			t[#t+1] = Def.ActorFrame {
-				OnCommand = function (self)
-					taikoLaser = self
-					SCREENMAN:GetTopScreen():AddInputCallback(taikoLaserInput)
+				DrumHitMessageCommand=function(self, param)
+					if not param.button or pn ~= param.Player then return end
+					self:GetChild("Laser"):finishtweening():diffuse(taikoLaserColors[param.button]):queuecommand("Push")
 				end,
 				Def.Quad {
 					Name = "Laser",
@@ -2178,8 +2177,6 @@ local function func()
 				},
 			}
 		elseif game == "bongo" then
-			local bongoLaser = nil
-
 			-- TODO: Bongo Center {1, 0, 0.5, 0.5}
 			local bongoLaserColors = {
 				["Bongo Left"] = {1, 0.9, 0, 0.5},
@@ -2187,20 +2184,14 @@ local function func()
 				["Bongo Clap"] = {0, 0.9, 1, 0.5},
 			}
 
-			local bongoLaserInput = function (event)
-				if ToEnumShortString(event.type) == "FirstPress" and event.PlayerNumber == pn then
-					if bongoLaserColors[event.button] then
-						bongoLaser:GetChild("Laser Upper"):finishtweening():diffuse(bongoLaserColors[event.button]):diffusealpha(0):diffuselowerleft(bongoLaserColors[event.button]):queuecommand("Push")
-						bongoLaser:GetChild("Laser Middle"):finishtweening():diffuse(bongoLaserColors[event.button]):diffusealpha(0):diffuseleftedge(bongoLaserColors[event.button]):queuecommand("Push")
-						bongoLaser:GetChild("Laser Lower"):finishtweening():diffuse(bongoLaserColors[event.button]):diffusealpha(0):diffuseupperleft(bongoLaserColors[event.button]):queuecommand("Push")
-					end
-				end
-			end
-
 			t[#t+1] = Def.ActorFrame {
-				OnCommand = function (self)
-					bongoLaser = self
-					SCREENMAN:GetTopScreen():AddInputCallback(bongoLaserInput)
+				DrumHitMessageCommand=function(self, param)
+					if not param.button or pn ~= param.Player then return end
+					if bongoLaserColors[param.button] then
+						self:GetChild("Laser Upper"):finishtweening():diffuse(bongoLaserColors[param.button]):diffusealpha(0):diffuselowerleft(bongoLaserColors[param.button]):queuecommand("Push")
+						self:GetChild("Laser Middle"):finishtweening():diffuse(bongoLaserColors[param.button]):diffusealpha(0):diffuseleftedge(bongoLaserColors[param.button]):queuecommand("Push")
+						self:GetChild("Laser Lower"):finishtweening():diffuse(bongoLaserColors[param.button]):diffusealpha(0):diffuseupperleft(bongoLaserColors[param.button]):queuecommand("Push")
+					end
 				end,
 				Def.Quad {
 					Name = "Laser Upper",
@@ -2653,8 +2644,6 @@ local function func()
 		end
 
 		if game == "taiko" then
-			local taikoDrum = nil
-
 			local taikoDrumColors = {
 				["Taiko Left Outside"] = {0, 0.5, 1, 1},
 				["Taiko Right Outside"] = {0, 0.5, 1, 1},
@@ -2662,18 +2651,10 @@ local function func()
 				["Taiko Right Inside"] = {1, 0, 0, 1},
 			}
 
-			local taikoDrumInput = function (event)
-				if ToEnumShortString(event.type) == "FirstPress" and event.PlayerNumber == pn then
-					if taikoDrum:GetChild("Taiko Drum"):GetChild(event.button) then
-						taikoDrum:GetChild("Taiko Drum"):GetChild(event.button):finishtweening():queuecommand("Push")
-					end
-				end
-			end
-
 			t[#t+1] = Def.ActorFrame {
-				OnCommand = function (self)
-					taikoDrum = self
-					SCREENMAN:GetTopScreen():AddInputCallback(taikoDrumInput)
+				DrumHitMessageCommand=function(self, param)
+					if not param.button or pn ~= param.Player then return end
+					self:GetChild("Taiko Drum"):GetChild(param.button):stoptweening():queuecommand("Push")
 				end,
 				Def.ActorFrame {
 					Name = "Taiko Drum",
@@ -2708,26 +2689,16 @@ local function func()
 				},
 			}
 		elseif game == "bongo" then
-			local bongoDrum = nil
-
 			local bongoDrumColors = {
 				["Bongo Left"] = {1, 0.9, 0, 1},
 				["Bongo Right"] = {1, 0, 0, 1},
 				["Bongo Clap"] = {0, 0.9, 1, 1},
 			}
 
-			local bongoDrumInput = function (event)
-				if ToEnumShortString(event.type) == "FirstPress" and event.PlayerNumber == pn then
-					if bongoDrum:GetChild("Bongo Drum"):GetChild(event.button) then
-						bongoDrum:GetChild("Bongo Drum"):GetChild(event.button):finishtweening():queuecommand("Push")
-					end
-				end
-			end
-
 			t[#t+1] = Def.ActorFrame {
-				OnCommand = function (self)
-					bongoDrum = self
-					SCREENMAN:GetTopScreen():AddInputCallback(bongoDrumInput)
+				DrumHitMessageCommand=function(self, param)
+					if not param.button or pn ~= param.Player then return end
+					self:GetChild("Bongo Drum"):GetChild(param.button):stoptweening():queuecommand("Push")
 				end,
 				Def.ActorFrame {
 					Name = "Bongo Drum",
